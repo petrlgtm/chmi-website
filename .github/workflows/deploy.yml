@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Build
+        run: pnpm run build
+        working-directory: frontend
+        env:
+          VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID || '730sqy7i' }}
+          VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
+          VITE_SANITY_API_VERSION: ${{ vars.VITE_SANITY_API_VERSION || '2024-01-01' }}
+          VITE_FORMSPREE_CONTACT: ${{ vars.VITE_FORMSPREE_CONTACT || 'xplaceholder' }}
+          VITE_FORMSPREE_PRAYER: ${{ vars.VITE_FORMSPREE_PRAYER || 'xplaceholder' }}
+          VITE_FORMSPREE_NEWSLETTER: ${{ vars.VITE_FORMSPREE_NEWSLETTER || 'xplaceholder' }}
+          VITE_FORMSPREE_EVENT_REG: ${{ vars.VITE_FORMSPREE_EVENT_REG || 'xplaceholder' }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

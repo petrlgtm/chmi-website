@@ -1,0 +1,17 @@
+export const statementOfFaith: string[] = [
+  "The Scriptures are Inspired by God and declare His design and plan for mankind.",
+  "There is only One True God\u2013revealed in three persons\u2026Father, Son, and Holy Spirit (commonly known as the Trinity).",
+  "In the Deity of the Lord Jesus Christ. As God\u2019s son Jesus was both human and divine.",
+  "Though originally good, Man Willingly Fell to Sin\u2013ushering evil and death, both physical and spiritual, into the world.",
+  "Every Person Can Have Restored Fellowship with God Through \u2018Salvation\u2019 (trusting Christ, through faith and repentance, to be our personal Savior) and the practice of two ordinances\u2014Water Baptism by Immersion and Holy Communion (the Lord\u2019s Supper).",
+  "The Baptism in the Holy Spirit is a Special Experience Following Salvation that empowers believers for witnessing and effective service.",
+  "The Initial Physical Evidence of the Baptism in the Holy Spirit is \u2018Speaking in Tongues,\u2019 as experienced on the Day of Pentecost.",
+  "Sanctification Initially Occurs at Salvation and is a progressive lifelong process of separating from evil as believers continually draw closer to God.",
+  "The Church has a Mission to seek and save all who are lost in sin. The Church is the Body of Christ and consists of the people who have accepted God\u2019s offer of redemption.",
+  "A Divinely Called and Scripturally Ordained fivefold ministry of Apostle, Prophet, Teacher, Pastor and Evangelist serves the Church.",
+  "Divine Healing of the Sick is a Privilege for Christians Today and is provided for in Christ\u2019s atonement.",
+  "In The Blessed Hope\u2014When Jesus Raptures His Church Before His Return to Earth.",
+  "In The Millennial Reign of Christ when Jesus returns with His saints at His second coming.",
+  "A Final Judgment Will Take Place for those who have rejected Christ.",
+  "We look forward to the perfect New Heavens and a New Earth that Christ is preparing for all who have accepted Him.",
+];
