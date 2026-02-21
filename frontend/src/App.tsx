@@ -25,7 +25,7 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter basename="/christheartMinistrieswebsitegg">
+    <BrowserRouter basename="/chmi-website">
       <ScrollToTop />
       <ScrollProgress />
       <Navbar />
