@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import type { Sermon } from "../types";
 import { sermons as fallbackSermons } from "../data/sermons";
 
-const API_KEY = "AIzaSyC2t9DEzAq25lPQvTZPFnfRTK8zb-KwV28";
+const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
 const CHANNEL_ID = "UCPrWoYShjSnfSxgkbOk-PiQ";
 const PAGE_SIZE = 10;
 

@@ -48,6 +48,7 @@ jobs:
           VITE_FORMSPREE_PRAYER: ${{ vars.VITE_FORMSPREE_PRAYER || 'xplaceholder' }}
           VITE_FORMSPREE_NEWSLETTER: ${{ vars.VITE_FORMSPREE_NEWSLETTER || 'xplaceholder' }}
           VITE_FORMSPREE_EVENT_REG: ${{ vars.VITE_FORMSPREE_EVENT_REG || 'xplaceholder' }}
+          VITE_YOUTUBE_API_KEY: ${{ secrets.VITE_YOUTUBE_API_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
