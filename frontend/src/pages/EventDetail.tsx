@@ -7,6 +7,9 @@ import { getCountdownText } from "../utils/eventDate";
 import { submitFormspree } from "../lib/formspree";
 import { ALL_IMAGES } from "../utils/imageFallbacks";
 
+/** Fallback poster when Sanity image is missing */
+const EVENT_POSTER_FALLBACK = ALL_IMAGES[0];
+
 // 4 gallery fallback images — diverse church photography
 const GALLERY_FALLBACKS = [ALL_IMAGES[4], ALL_IMAGES[9], ALL_IMAGES[13], ALL_IMAGES[16]];
 
@@ -125,7 +128,7 @@ export default function EventDetail() {
             aspectRatio: "16/7", background: "var(--black-900)"
           }}>
             <img
-              src={event.image}
+              src={event.image || EVENT_POSTER_FALLBACK}
               alt={`${event.name} poster`}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               loading="eager"

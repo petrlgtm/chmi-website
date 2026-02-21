@@ -1,6 +1,40 @@
 import type { PortableTextReactComponents } from "@portabletext/react";
+import { urlFor } from "./sanity";
 
 export const portableTextComponents: Partial<PortableTextReactComponents> = {
+  types: {
+    image: ({ value }) => {
+      if (!value?.asset) return null;
+      const url = urlFor(value).width(820).auto("format").quality(80).url();
+      return (
+        <figure style={{ margin: "2rem 0" }}>
+          <img
+            src={url}
+            alt={value.alt || ""}
+            style={{
+              width: "100%",
+              height: "auto",
+              borderRadius: "var(--radius-xl)",
+              display: "block",
+            }}
+            loading="lazy"
+          />
+          {value.alt && (
+            <figcaption
+              style={{
+                textAlign: "center",
+                fontSize: "0.85rem",
+                color: "var(--text-light)",
+                marginTop: "0.5rem",
+              }}
+            >
+              {value.alt}
+            </figcaption>
+          )}
+        </figure>
+      );
+    },
+  },
   block: {
     h2: ({ children }) => (
       <h2 style={{ marginTop: "2rem", marginBottom: "0.75rem" }}>{children}</h2>

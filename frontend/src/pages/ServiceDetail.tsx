@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Clock, BookOpen, ArrowRight, Sparkles, MapPin, Church, Phone, Search, Users } from "lucide-react";
 import { useSanityServices } from "../hooks/useSanityServices";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { ALL_IMAGES } from "../utils/imageFallbacks";
 
 
 export default function ServiceDetail() {
@@ -80,7 +81,7 @@ export default function ServiceDetail() {
               marginBottom: "3rem", boxShadow: "var(--shadow-2xl)"
             }}>
               <img
-                src={service.heroImage}
+                src={service.heroImage || ALL_IMAGES[0]}
                 alt={service.title}
                 style={{ width: "100%", height: "auto", display: "block" }}
                 loading="lazy"

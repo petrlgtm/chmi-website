@@ -5,6 +5,7 @@ import { categories } from "../data/blogPosts";
 import { useSanityBlogPosts } from "../hooks/useSanityBlogPosts";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useHeroStyle } from "../context/SiteImagesContext";
+import { ALL_IMAGES } from "../utils/imageFallbacks";
 
 export default function Blog() {
   const { data: posts } = useSanityBlogPosts();
@@ -77,7 +78,7 @@ export default function Blog() {
               <Link to={`/blog/${filtered[0].id}`} className="blog-featured-link">
                 <div className="blog-featured blog-featured-spaced">
                   <div className="blog-featured-image">
-                    <img src={filtered[0].image} alt={filtered[0].title} />
+                    <img src={filtered[0].image || ALL_IMAGES[0]} alt={filtered[0].title} />
                   </div>
                   <div className="blog-featured-body">
                     <div className="blog-featured-badges">
@@ -111,7 +112,7 @@ export default function Blog() {
               <Link key={post.id} to={`/blog/${post.id}`} className="blog-card-link">
                 <article className="blog-card">
                   <div className="blog-card-image">
-                    <img src={post.image} alt={post.title} loading="lazy" />
+                    <img src={post.image || ALL_IMAGES[0]} alt={post.title} loading="lazy" />
                   </div>
                   <div className="blog-card-body">
                     <div className="blog-card-badges">

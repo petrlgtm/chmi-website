@@ -4,6 +4,7 @@ import { Clock, MapPin, ArrowRight, Calendar, Sparkles, Tag, Download, Star, Fil
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useHeroStyle } from "../context/SiteImagesContext";
 import { getUpcomingEvents, getCountdownText, parseEventDate } from "../utils/eventDate";
+import { ALL_IMAGES } from "../utils/imageFallbacks";
 import type { ChurchEvent } from "../types";
 
 const MONTHS = [
@@ -262,7 +263,7 @@ export default function Events() {
                           {/* Thumbnail */}
                           <div className="evt-card-thumb">
                             <img
-                              src={event.image}
+                              src={event.image || ALL_IMAGES[i % ALL_IMAGES.length]}
                               alt={event.name}
                               loading={i < 4 ? "eager" : "lazy"}
                               decoding="async"

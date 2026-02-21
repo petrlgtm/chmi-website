@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, User, Tag, Clock, ArrowRight } from "lucide-react"
 import { PortableText } from "@portabletext/react";
 import { useSanityBlogPosts, useSanityBlogPost } from "../hooks/useSanityBlogPosts";
 import { portableTextComponents } from "../lib/portableTextComponents";
+import { ALL_IMAGES } from "../utils/imageFallbacks";
 
 export default function BlogDetail() {
   const { id } = useParams<{ id: string }>();
@@ -59,7 +60,7 @@ export default function BlogDetail() {
         <div className="container" style={{ maxWidth: "820px" }}>
           {/* Featured image */}
           <div className="blog-detail-image">
-            <img src={post.image} alt={post.title} />
+            <img src={post.image || ALL_IMAGES[0]} alt={post.title} />
             <div className="blog-detail-image-overlay" />
             <span className="badge badge-purple blog-detail-category">
               <Tag size={11} /> {post.category}
