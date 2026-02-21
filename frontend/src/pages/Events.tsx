@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, MapPin, ArrowRight, Calendar, Sparkles, Tag, Download, Star, Filter } from "lucide-react";
 import { useSanityEvents } from "../hooks/useSanityEvents";
+import { useHeroStyle } from "../context/SiteImagesContext";
 import { getUpcomingEvents, getCountdownText, parseEventDate } from "../utils/eventDate";
 import type { ChurchEvent } from "../types";
 
@@ -88,6 +89,7 @@ export default function Events() {
   const allUpcoming = useMemo(() => getUpcomingEvents(events), [events]);
   const [selectedMonth, setSelectedMonth] = useState("All Months");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const heroStyle = useHeroStyle("heroEvents");
 
   const filteredEvents = useMemo(() => {
     let filtered = allUpcoming;
@@ -141,7 +143,7 @@ export default function Events() {
 
   return (
     <>
-      <section className="page-hero-xl hero-events">
+      <section className="page-hero-xl hero-events" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Sparkles size={14} /> CHMI Calendar 2026

@@ -19,9 +19,13 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Photo',
+      title: 'Pastor Photo',
       type: 'image',
       options: {hotspot: true},
+      description: 'Headshot/portrait shown on the branch detail page. Recommended: 1:1 square, at least 400×400px.',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'e.g. "Pastor John Doe"'}),
+      ],
     }),
     defineField({
       name: 'phone',

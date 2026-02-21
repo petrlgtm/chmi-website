@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Search, Play, X, ExternalLink, ChevronDown, Headphones, Video, Mic } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
+import { useHeroStyle } from "../context/SiteImagesContext";
 
 const PAGE_SIZE = 12;
 
@@ -33,6 +34,7 @@ function formatDate(dateStr: string) {
 }
 
 export default function Sermons() {
+  const heroStyle = useHeroStyle("heroSermons");
   const { sermons, loading, error } = useYouTubeVideos();
   const [search, setSearch] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -81,7 +83,7 @@ export default function Sermons() {
 
   return (
     <>
-      <section className="page-hero-xl hero-sermons">
+      <section className="page-hero-xl hero-sermons" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Mic size={14} /> Listen & Learn

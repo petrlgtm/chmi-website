@@ -1,6 +1,7 @@
 import { Heart, BookOpen, Globe, Users, Flame } from "lucide-react";
 import { useSanityFaith } from "../hooks/useSanityFaith";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useHeroStyle } from "../context/SiteImagesContext";
 import OptimizedImage from "../components/OptimizedImage";
 import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
 
@@ -31,10 +32,11 @@ export default function About() {
   const faithRef = useScrollAnimation<HTMLDivElement>();
   const galleryRef = useScrollAnimation<HTMLDivElement>();
   const timelineRef = useScrollAnimation<HTMLDivElement>();
+  const heroStyle = useHeroStyle("heroAbout");
 
   return (
     <>
-      <section className="page-hero-xl hero-about">
+      <section className="page-hero-xl hero-about" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Globe size={14} /> Since 2007

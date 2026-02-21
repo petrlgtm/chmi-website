@@ -51,9 +51,13 @@ export default defineType({
     }),
     defineField({
       name: 'featuredImage',
-      title: 'Featured Image',
+      title: 'Blog Featured Image',
       type: 'image',
       options: {hotspot: true},
+      description: 'Thumbnail shown on blog cards and the banner on the full article page. Recommended: 16:9, at least 1200×675px.',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'Describe the image for accessibility'}),
+      ],
     }),
     defineField({
       name: 'publishedAt',

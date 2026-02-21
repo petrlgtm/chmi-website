@@ -30,9 +30,13 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Photo',
+      title: 'Leader Portrait Photo',
       type: 'image',
       options: {hotspot: true},
+      description: 'Portrait photo shown on the About/Leadership section. Recommended: 3:4 portrait, at least 600×800px.',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'e.g. "Apostle Isaiah Mbuga preaching"'}),
+      ],
     }),
     defineField({
       name: 'order',

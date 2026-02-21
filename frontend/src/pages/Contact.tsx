@@ -2,12 +2,14 @@ import { useState, lazy, Suspense } from "react";
 import { MapPin, Phone, Mail, Clock, CheckCircle, Send, MessageCircle, Facebook, Youtube, Instagram } from "lucide-react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { submitFormspree } from "../lib/formspree";
+import { useHeroStyle } from "../context/SiteImagesContext";
 
 const LocationMap = lazy(() => import("../components/LocationMap"));
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const heroStyle = useHeroStyle("heroContact");
   const formRef = useScrollAnimation<HTMLDivElement>();
   const mapRef = useScrollAnimation<HTMLDivElement>();
 
@@ -28,7 +30,7 @@ export default function Contact() {
 
   return (
     <>
-      <section className="page-hero-xl hero-contact">
+      <section className="page-hero-xl hero-contact" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <MessageCircle size={14} /> We'd Love to Hear From You

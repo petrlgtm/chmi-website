@@ -33,9 +33,13 @@ export default defineType({
     }),
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Service Hero Image',
       type: 'image',
       options: {hotspot: true},
+      description: 'Banner image shown at the top of the service detail page. Recommended: 16:9 landscape, at least 1200×675px.',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'Describe the image for accessibility'}),
+      ],
     }),
     defineField({
       name: 'schedules',

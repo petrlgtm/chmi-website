@@ -10,6 +10,7 @@ import organizationInfo from './organizationInfo'
 import leadership from './leadership'
 import giveCategory from './giveCategory'
 import testimonial from './testimonial'
+import siteImages from './siteImages'
 
 export const schemaTypes = [
   // Content types
@@ -27,4 +28,5 @@ export const schemaTypes = [
   leadership,
   giveCategory,
   testimonial,
+  siteImages,
 ]

@@ -48,9 +48,13 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Event Image',
+      title: 'Event Poster / Banner',
       type: 'image',
       options: {hotspot: true},
+      description: 'Main event image shown on event cards, marquee, and detail page hero. Recommended: 16:9 landscape, at least 1200×675px.',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'Describe the image for accessibility'}),
+      ],
     }),
     defineField({
       name: 'tagline',

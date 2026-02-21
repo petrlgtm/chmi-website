@@ -21,11 +21,13 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Resources from "./pages/Resources";
 import ScrollToTop from "./components/ScrollToTop";
+import { SiteImagesProvider } from "./context/SiteImagesContext";
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter basename="/chmi-website">
+      <SiteImagesProvider>
       <ScrollToTop />
       <ScrollProgress />
       <Navbar />
@@ -53,6 +55,7 @@ function App() {
       <PrayerRequestModal />
       <NearbyBranchPrompt onDismiss={() => {}} />
       <EventPromoPopup />
+      </SiteImagesProvider>
     </BrowserRouter>
   );
 }

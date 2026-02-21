@@ -23,6 +23,14 @@ export default defineConfig({
                   .schemaType('organizationInfo')
                   .documentId('organizationInfo'),
               ),
+            S.listItem()
+              .title('Site Images')
+              .child(
+                S.document()
+                  .schemaType('siteImages')
+                  .documentId('siteImages')
+                  .title('Site Images — Page Backgrounds & Galleries'),
+              ),
             S.divider(),
             S.listItem()
               .title('Branches')

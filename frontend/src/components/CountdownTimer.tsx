@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { MapPin, Wifi } from "lucide-react";
+import { MapPin, Wifi, Calendar } from "lucide-react";
+import type { ChurchEvent } from "../types";
+import { getActiveEvent, getNextUpcomingEvent } from "../utils/eventDate";
 
 interface ServiceLink {
   label: string;
@@ -19,6 +21,14 @@ interface Service {
   overnight?: boolean; // service spans midnight into next day
   links?: ServiceLink[]; // clickable platform links (online services)
 }
+
+type ActiveItem =
+  | { kind: "service"; service: Service }
+  | { kind: "event"; event: ChurchEvent };
+
+type NextItem =
+  | { kind: "service"; time: Date; service: Service }
+  | { kind: "event"; time: Date; event: ChurchEvent };
 
 const SERVICES: Service[] = [
   // ── Daily Early Morning ───────────────────────────────────────────
@@ -150,6 +160,34 @@ function getNextService(): { time: Date; service: Service } {
   return { time: fb, service: SERVICES[2] };
 }
 
+/**
+ * Determine what's currently active: event wins ties over service.
+ */
+function getActiveItem(events: ChurchEvent[]): ActiveItem | null {
+  const activeEvent = getActiveEvent(events);
+  if (activeEvent) return { kind: "event", event: activeEvent };
+
+  const activeSvc = getActiveService();
+  if (activeSvc) return { kind: "service", service: activeSvc };
+
+  return null;
+}
+
+/**
+ * Determine what comes next: compare next service vs next event.
+ * Event wins on tie (<=).
+ */
+function getNextItem(events: ChurchEvent[]): NextItem {
+  const nextSvc = getNextService();
+  const nextEvt = getNextUpcomingEvent(events);
+
+  if (nextEvt && nextEvt.time <= nextSvc.time) {
+    return { kind: "event", time: nextEvt.time, event: nextEvt.event };
+  }
+
+  return { kind: "service", time: nextSvc.time, service: nextSvc.service };
+}
+
 /** Renders the location — plain text or clickable platform links. */
 function LocationDisplay({ svc, className }: { svc: Service; className: string }) {
   const icon = svc.platform === "online" ? <Wifi size={11} /> : <MapPin size={11} />;
@@ -183,17 +221,21 @@ function LocationDisplay({ svc, className }: { svc: Service; className: string }
   );
 }
 
-export default function CountdownTimer() {
-  const [active, setActive] = useState<Service | null>(null);
-  const [next, setNext] = useState(() => getNextService());
+interface CountdownTimerProps {
+  events?: ChurchEvent[];
+}
+
+export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
+  const [active, setActive] = useState<ActiveItem | null>(null);
+  const [next, setNext] = useState<NextItem>(() => getNextItem(events));
   const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const tick = () => {
-      const activeSvc = getActiveService();
-      setActive(activeSvc);
-      if (!activeSvc) {
-        const nxt = getNextService();
+      const activeItem = getActiveItem(events);
+      setActive(activeItem);
+      if (!activeItem) {
+        const nxt = getNextItem(events);
         setNext(nxt);
         const diff = Math.max(0, nxt.time.getTime() - Date.now());
         setTime({
@@ -207,10 +249,27 @@ export default function CountdownTimer() {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [events]);
 
   /* ── LIVE state ─────────────────────────────────────────────────── */
   if (active) {
+    if (active.kind === "event") {
+      return (
+        <div className="countdown-timer countdown-live">
+          <div className="live-indicator">
+            <span className="live-dot" />
+            <span className="live-badge">EVENT LIVE</span>
+          </div>
+          <div className="live-service-name">{active.event.name}</div>
+          <div className="live-location">
+            <MapPin size={11} />
+            <span>{active.event.location}</span>
+          </div>
+          <p className="live-tagline">Event is ON — Join us now!</p>
+        </div>
+      );
+    }
+
     return (
       <div className="countdown-timer countdown-live">
         <div className="live-indicator">
@@ -218,27 +277,37 @@ export default function CountdownTimer() {
           <span className="live-badge">LIVE NOW</span>
         </div>
         <div className="live-service-name">
-          {active.name}
-          {active.session && <span className="live-session"> · {active.session}</span>}
+          {active.service.name}
+          {active.service.session && <span className="live-session"> · {active.service.session}</span>}
         </div>
-        <LocationDisplay svc={active} className="live-location" />
+        <LocationDisplay svc={active.service} className="live-location" />
         <p className="live-tagline">Service is ON — Join us now!</p>
       </div>
     );
   }
 
   /* ── Countdown state ─────────────────────────────────────────────── */
+  const isEvent = next.kind === "event";
+  const label = isEvent ? "Next Event" : "Next Service";
+  const name = isEvent ? next.event.name : next.service.name;
+  const session = isEvent ? null : next.service.session;
+
   return (
     <div className="countdown-timer">
-      <div className="countdown-next-label">Next Service</div>
+      <div className="countdown-next-label">{label}</div>
       <div className="countdown-service-info">
         <span className="countdown-service-name">
-          {next.service.name}
-          {next.service.session && (
-            <span className="countdown-session"> · {next.service.session}</span>
-          )}
+          {name}
+          {session && <span className="countdown-session"> · {session}</span>}
         </span>
-        <LocationDisplay svc={next.service} className="countdown-location" />
+        {isEvent ? (
+          <div className="countdown-location">
+            <Calendar size={11} />
+            <span>{next.event.location}</span>
+          </div>
+        ) : (
+          <LocationDisplay svc={next.service} className="countdown-location" />
+        )}
       </div>
       <div className="countdown-units">
         {[

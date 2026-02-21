@@ -4,6 +4,7 @@ import { Calendar, User, Tag, ArrowRight, Rss, Search } from "lucide-react";
 import { categories } from "../data/blogPosts";
 import { useSanityBlogPosts } from "../hooks/useSanityBlogPosts";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useHeroStyle } from "../context/SiteImagesContext";
 
 export default function Blog() {
   const { data: posts } = useSanityBlogPosts();
@@ -11,6 +12,7 @@ export default function Blog() {
   const [category, setCategory] = useState("All");
   const featuredRef = useScrollAnimation<HTMLDivElement>();
   const gridRef = useScrollAnimation<HTMLDivElement>();
+  const heroStyle = useHeroStyle("heroBlog");
 
   const filtered = posts.filter((p) => {
     const matchCat = category === "All" || p.category === category;
@@ -26,7 +28,7 @@ export default function Blog() {
 
   return (
     <>
-      <section className="page-hero-xl hero-blog">
+      <section className="page-hero-xl hero-blog" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Rss size={14} /> The Written Word

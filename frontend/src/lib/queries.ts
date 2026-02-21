@@ -135,3 +135,18 @@ export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(order asc) 
   branch,
   order
 }`;
+
+export const SITE_IMAGES_QUERY = `*[_type == "siteImages" && _id == "siteImages"][0] {
+  "heroHome": heroHome.asset->url,
+  "heroAbout": heroAbout.asset->url,
+  "heroBlog": heroBlog.asset->url,
+  "heroEvents": heroEvents.asset->url,
+  "heroSermons": heroSermons.asset->url,
+  "heroGive": heroGive.asset->url,
+  "heroResources": heroResources.asset->url,
+  "heroContact": heroContact.asset->url,
+  "heroBranches": heroBranches.asset->url,
+  "serviceCards": serviceCards[]{ "url": asset->url, label, alt },
+  "aboutGallery": aboutGallery[]{ "url": asset->url, alt },
+  "giveImpact": giveImpact[]{ "url": asset->url, alt }
+}`;

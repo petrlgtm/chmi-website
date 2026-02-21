@@ -10,6 +10,7 @@ import { getUpcomingEvents, getCountdownText } from "../utils/eventDate";
 import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useCursorGlow } from "../hooks/useCursorGlow";
+import { useSiteImages } from "../context/SiteImagesContext";
 import ParticleField from "../components/ParticleField";
 import CountdownTimer from "../components/CountdownTimer";
 import TestimonialCarousel from "../components/TestimonialCarousel";
@@ -109,15 +110,18 @@ export default function Home() {
   const { sermons, loading } = useYouTubeVideos();
   const latestSermon = sermons[0] ?? null;
   const { data: events } = useSanityEvents();
+  const siteImages = useSiteImages();
+
+  const heroHomeBg = siteImages?.heroHome || `${import.meta.env.BASE_URL}images/hero-bg.jpg`;
 
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "preload";
     link.as = "image";
-    link.href = `${import.meta.env.BASE_URL}images/hero-bg.jpg`;
+    link.href = heroHomeBg;
     document.head.appendChild(link);
     return () => { document.head.removeChild(link); };
-  }, []);
+  }, [heroHomeBg]);
 
   const upcomingEvents = getUpcomingEvents(events);
 
@@ -126,7 +130,7 @@ export default function Home() {
       <SectionNav sections={sections} />
 
       {/* Hero */}
-      <section className="hero cursor-glow" id="hero" ref={cursorGlowRef} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/hero-bg.jpg)` }}>
+      <section className="hero cursor-glow" id="hero" ref={cursorGlowRef} style={{ backgroundImage: `url(${heroHomeBg})` }}>
         <div className="hero-gradient-overlay" />
         <ParticleField />
         <div className="hero-decor hero-decor-1" />
@@ -163,7 +167,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="hero-animate hero-animate-delay-4" style={{ marginTop: "2rem" }}>
-              <CountdownTimer />
+              <CountdownTimer events={events} />
             </div>
           </div>
 

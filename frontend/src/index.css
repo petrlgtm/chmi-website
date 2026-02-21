@@ -2548,39 +2548,39 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   background: linear-gradient(135deg, #000000 0%, #1f0530 25%, #4d0b7a 55%, #30064d 80%, #0a0a0a 100%);
 }
 .hero-branches::before {
-  background-image: url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=1400&q=60&auto=format');
+  background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=1400&q=60&auto=format'));
   opacity: 0.32;
 }
 
 .hero-events {
   background: linear-gradient(135deg, #0a0a0a 0%, #30064d 30%, #7a17bd 55%, #1f0530 80%, #000000 100%);
 }
-.hero-events::before { background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=50&auto=format'); }
+.hero-events::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=50&auto=format')); }
 
 .hero-about {
   background: linear-gradient(135deg, #000000 0%, #1f0530 20%, #63109a 50%, #30064d 75%, #0a0a0a 100%);
 }
-.hero-about::before { background-image: url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&q=50&auto=format'); }
+.hero-about::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=1200&q=50&auto=format')); }
 
 .hero-sermons {
   background: linear-gradient(135deg, #000000 0%, #141414 20%, #30064d 50%, #4d0b7a 70%, #0a0a0a 100%);
 }
-.hero-sermons::before { background-image: url('https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1200&q=50&auto=format'); }
+.hero-sermons::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1200&q=50&auto=format')); }
 
 .hero-give {
   background: linear-gradient(135deg, #0a0a0a 0%, #30064d 20%, #b45309 50%, #d97706 65%, #1f0530 85%, #000000 100%);
 }
-.hero-give::before { background-image: url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&q=50&auto=format'); }
+.hero-give::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&q=50&auto=format')); }
 
 .hero-resources {
   background: linear-gradient(135deg, #0a0a0a 0%, #1f0530 25%, #63109a 50%, #b45309 75%, #0a0a0a 100%);
 }
-.hero-resources::before { background-image: url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1200&q=50&auto=format'); }
+.hero-resources::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1200&q=50&auto=format')); }
 
 .hero-contact {
   background: linear-gradient(135deg, #000000 0%, #1f0530 30%, #4d0b7a 55%, #30064d 80%, #0a0a0a 100%);
 }
-.hero-contact::before { background-image: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1200&q=50&auto=format'); }
+.hero-contact::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1200&q=50&auto=format')); }
 
 @media (max-width: 768px) {
   .page-hero-xl { min-height: 40vh; padding: 7rem 1.5rem 3.5rem; }
@@ -5527,7 +5527,7 @@ html.dark .about-core-pill {
 .hero-blog {
   background: linear-gradient(135deg, #0a0a0a 0%, #1f0530 25%, #4d0b7a 50%, #30064d 75%, #0a0a0a 100%);
 }
-.hero-blog::before { background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1200&q=50&auto=format'); }
+.hero-blog::before { background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1200&q=50&auto=format')); }
 
 .blog-featured-spaced { margin-bottom: 3rem; }
 .blog-filter-chips { margin: 0; }

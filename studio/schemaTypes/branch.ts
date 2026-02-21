@@ -77,9 +77,18 @@ export default defineType({
     }),
     defineField({
       name: 'images',
-      title: 'Branch Images',
+      title: 'Branch Gallery Photos',
       type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}],
+      description: 'Photos of the branch building, congregation, and activities. Shown on the branch detail page. Recommended: 16:9 landscape.',
+      of: [
+        {
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({name: 'alt', type: 'string', title: 'Alt Text', description: 'Describe this photo'}),
+          ],
+        },
+      ],
     }),
   ],
   preview: {

@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useCallback, useEffect, lazy, Suspense } fro
 import { Link, useNavigate } from "react-router-dom";
 import { MapPin, Phone, Mail, ArrowRight, Church, Search, Filter, Wifi, Globe } from "lucide-react";
 import { useSanityBranches } from "../hooks/useSanityBranches";
+import { useHeroStyle } from "../context/SiteImagesContext";
 
 /** Country flag emoji for non-Uganda branches */
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -46,6 +47,7 @@ export default function Branches() {
   const { data: branches } = useSanityBranches();
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const heroStyle = useHeroStyle("heroBranches");
   const [cityFilter, setCityFilter] = useState("");
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,7 @@ export default function Branches() {
 
   return (
     <>
-      <section className="page-hero-xl hero-branches">
+      <section className="page-hero-xl hero-branches" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Church size={14} /> Our Branch Network

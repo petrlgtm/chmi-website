@@ -1,6 +1,7 @@
 import { BookOpen, ExternalLink } from "lucide-react";
 import { ALL_IMAGES, APOSTLE_ISAIAH } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useHeroStyle } from "../context/SiteImagesContext";
 
 interface Resource {
   id: string;
@@ -76,6 +77,7 @@ const mediaLinks = [
 ];
 
 export default function Resources() {
+  const heroStyle = useHeroStyle("heroResources");
   const booksRef = useScrollAnimation<HTMLDivElement>();
   const mediaRef = useScrollAnimation<HTMLDivElement>();
 
@@ -88,7 +90,7 @@ export default function Resources() {
 
   return (
     <>
-      <section className="page-hero-xl hero-resources">
+      <section className="page-hero-xl hero-resources" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <BookOpen size={14} /> Resources

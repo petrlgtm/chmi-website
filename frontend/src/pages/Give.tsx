@@ -4,6 +4,7 @@ import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useSanityGiveCategories } from "../hooks/useSanityGiveCategories";
 import { resolveIcon } from "../lib/iconResolver";
 import Card3D from "../components/Card3D";
+import { useHeroStyle } from "../context/SiteImagesContext";
 import { IMAGES } from "../utils/imageFallbacks";
 
 const impactItems = [
@@ -25,6 +26,7 @@ const impactItems = [
 ];
 
 export default function Give() {
+  const heroStyle = useHeroStyle("heroGive");
   const { data: givingOptions } = useSanityGiveCategories();
   const gridRef = useScrollAnimation<HTMLDivElement>();
   const scriptureRef = useScrollAnimation<HTMLDivElement>();
@@ -38,7 +40,7 @@ export default function Give() {
 
   return (
     <>
-      <section className="page-hero-xl hero-give">
+      <section className="page-hero-xl hero-give" style={heroStyle}>
         <div className="container">
           <div className="hero-tag hero-animate hero-animate-delay-1">
             <Heart size={14} /> Generosity
