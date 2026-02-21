@@ -17,9 +17,11 @@ export default function EventPromoPopup() {
     // Don't show if user dismissed this event already today
     const dismissed = localStorage.getItem(DISMISS_KEY);
     if (dismissed) {
-      const { eventId, timestamp } = JSON.parse(dismissed);
-      const hoursSince = (Date.now() - timestamp) / (1000 * 60 * 60);
-      if (eventId === promoEvent.id && hoursSince < 24) return;
+      try {
+        const { eventId, timestamp } = JSON.parse(dismissed);
+        const hoursSince = (Date.now() - timestamp) / (1000 * 60 * 60);
+        if (eventId === promoEvent.id && hoursSince < 24) return;
+      } catch { /* corrupted storage — re-show popup */ }
     }
 
     // Show after 15 seconds as a gentle reminder

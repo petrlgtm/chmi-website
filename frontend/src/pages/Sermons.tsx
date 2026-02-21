@@ -28,7 +28,9 @@ function getCategory(title: string): string {
 }
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString("en-US", {
     year: "numeric", month: "short", day: "numeric",
   });
 }
@@ -49,7 +51,10 @@ export default function Sermons() {
   }, [sermons]);
 
   const years = useMemo(() => {
-    const ys = new Set(sermons.map((s) => new Date(s.date).getFullYear().toString()));
+    const ys = new Set(sermons.map((s) => {
+      const d = new Date(s.date);
+      return isNaN(d.getTime()) ? "" : d.getFullYear().toString();
+    }).filter(Boolean));
     return Array.from(ys).sort().reverse();
   }, [sermons]);
 

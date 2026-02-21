@@ -328,7 +328,7 @@ export default function Home() {
                     className="event-marquee-card"
                   >
                     <div className="event-marquee-img">
-                      <img src={event.image} alt={event.name} loading="lazy" />
+                      <img src={event.image || ALL_IMAGES[i % ALL_IMAGES.length]} alt={event.name} loading="lazy" />
                       <div className="event-marquee-overlay" />
                       <span className="event-marquee-date">{event.date}</span>
                     </div>

@@ -13,6 +13,7 @@ export default function OptimizedImage({
   ...props
 }: Props) {
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function OptimizedImage({
       className="opt-img-wrap"
       style={aspectRatio ? { aspectRatio } : undefined}
     >
-      {!loaded && <div className="skeleton opt-img-skeleton" />}
+      {!loaded && !errored && <div className="skeleton opt-img-skeleton" />}
       <img
         ref={imgRef}
         className={className}
@@ -44,6 +45,10 @@ export default function OptimizedImage({
         onLoad={(e) => {
           setLoaded(true);
           onLoad?.(e);
+        }}
+        onError={() => {
+          setErrored(true);
+          setLoaded(true);
         }}
         {...props}
       />

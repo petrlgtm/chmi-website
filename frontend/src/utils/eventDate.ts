@@ -3,6 +3,9 @@ import type { ChurchEvent } from "../types";
 const MONTHS: Record<string, number> = {
   january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
   july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
+  // Abbreviations
+  jan: 0, feb: 1, mar: 2, apr: 3, jun: 5,
+  jul: 6, aug: 7, sep: 8, sept: 8, oct: 9, nov: 10, dec: 11,
 };
 
 /**
@@ -13,9 +16,12 @@ const MONTHS: Record<string, number> = {
 export function parseEventDate(dateStr: string): Date | null {
   const lower = dateStr.toLowerCase();
 
-  // Find month name
+  // Find month name — match longest first so "february" beats "feb"
   let monthNum: number | null = null;
-  for (const [name, num] of Object.entries(MONTHS)) {
+  const sortedMonths = Object.entries(MONTHS).sort(
+    (a, b) => b[0].length - a[0].length,
+  );
+  for (const [name, num] of sortedMonths) {
     if (lower.includes(name)) { monthNum = num; break; }
   }
   if (monthNum === null) return null;
@@ -33,25 +39,40 @@ export function parseEventDate(dateStr: string): Date | null {
 }
 
 /**
- * Parse the end date from a range date string like "8th–10th May 2026".
+ * Parse the end date from a range date string.
+ * Handles same-month ("8th–10th May 2026") and cross-month ("28th May – 2nd June 2026").
  * If no range, returns the same date as parseEventDate.
  */
 export function parseEventEndDate(dateStr: string): Date | null {
   const startDate = parseEventDate(dateStr);
   if (!startDate) return null;
 
-  // Match range patterns: "8th–10th", "8th-10th", "8–10"
+  // Match range pattern: "8th–10th", "8th-10th", "8–10", "28th May – 2nd June"
   const rangeMatch = dateStr.match(
-    /\b\d{1,2}(?:st|nd|rd|th)?\s*[–\-]\s*(\d{1,2})(?:st|nd|rd|th)?\b/
+    /\b\d{1,2}(?:st|nd|rd|th)?\s*(?:\w+\s+)?\s*[–\-]\s*(\d{1,2})(?:st|nd|rd|th)?\s*(.*)/i,
   );
 
   if (rangeMatch) {
     const endDay = parseInt(rangeMatch[1], 10);
-    return new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      endDay,
+    const afterEnd = rangeMatch[2] || "";
+
+    // Check if there's a different month name after the dash (cross-month range)
+    const lower = afterEnd.toLowerCase();
+    const sortedMonths = Object.entries(MONTHS).sort(
+      (a, b) => b[0].length - a[0].length,
     );
+    let endMonth = startDate.getMonth();
+    for (const [name, num] of sortedMonths) {
+      if (lower.includes(name)) { endMonth = num; break; }
+    }
+
+    // If end month is before start month, it wraps to next year
+    let endYear = startDate.getFullYear();
+    if (endMonth < startDate.getMonth()) {
+      endYear += 1;
+    }
+
+    return new Date(endYear, endMonth, endDay);
   }
 
   // No range — end date is same as start date
@@ -105,7 +126,7 @@ function parseEventEndTime(
 /** Check if event date is in the future (including the event's last day). */
 export function isUpcoming(event: ChurchEvent): boolean {
   const endDate = parseEventEndDate(event.date);
-  if (!endDate) return true; // if unparseable, keep it
+  if (!endDate) return false; // unparseable dates are excluded
   // Event stays visible through end-of-day on its last day
   const eventEnd = new Date(
     endDate.getFullYear(),

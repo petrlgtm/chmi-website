@@ -40,9 +40,9 @@ export function useSanitySiteImages() {
 
     async function load() {
       try {
-        const result = await sanityClient.fetch<SiteImages | null>(SITE_IMAGES_QUERY);
+        const result = await sanityClient.fetch<Partial<SiteImages> | null>(SITE_IMAGES_QUERY);
         if (cancelled || !result) return;
-        setData(result);
+        setData({ ...EMPTY, ...result });
       } catch (err) {
         console.warn("Site images fetch failed, using CSS defaults:", err);
       }

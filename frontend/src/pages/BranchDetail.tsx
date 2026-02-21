@@ -61,7 +61,7 @@ export default function BranchDetail() {
         <div className="container">
           {/* Branch Gallery */}
           <div className="branch-gallery" style={{ marginBottom: "2.5rem" }}>
-            {(branch.images.length > 0 ? branch.images : IMAGES.branches).map((img, i) => (
+            {(branch.images?.length > 0 ? branch.images : IMAGES.branches).map((img, i) => (
               <div key={i} className="branch-gallery-item">
                 <OptimizedImage src={img} alt={`${branch.name} - Photo ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} aspectRatio="16/9" />
               </div>
