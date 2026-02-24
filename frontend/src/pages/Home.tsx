@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
 import { useSanityEvents } from "../hooks/useSanityEvents";
+import { useSanityLeadership } from "../hooks/useSanityLeadership";
 import { getUpcomingEvents, getCountdownText } from "../utils/eventDate";
 import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
@@ -110,9 +111,19 @@ export default function Home() {
   const { sermons, loading } = useYouTubeVideos();
   const latestSermon = sermons[0] ?? null;
   const { data: events } = useSanityEvents();
+  const { data: leadership } = useSanityLeadership();
   const siteImages = useSiteImages();
 
   const heroHomeBg = siteImages?.heroHome || `${import.meta.env.BASE_URL}images/hero-bg.jpg`;
+
+  // Merge CMS service card images into static service data
+  const serviceCardMap = new Map(
+    (siteImages?.serviceCards ?? []).map((c) => [c.label, c.url]),
+  );
+  const servicesData = SERVICES_DATA.map((s) => ({
+    ...s,
+    bgImg: serviceCardMap.get(s.title) || s.bgImg,
+  }));
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -213,17 +224,17 @@ export default function Home() {
           <div className="mission-grid animate-on-scroll" ref={leadershipRef}>
             <div className="mission-image image-reveal">
               <OptimizedImage
-                src={IMAGES.leadership}
-                alt="Apostle Isaiah & Rev. Deborah Mbuga"
+                src={leadership.image || IMAGES.leadership}
+                alt={leadership.heading || "Apostle Isaiah & Rev. Deborah Mbuga"}
                 loading="eager"
                 aspectRatio="4/3"
               />
             </div>
             <div className="mission-text">
               <span className="section-label">Leadership</span>
-              <h2>Apostle Isaiah &amp; Rev. Deborah Mbuga</h2>
+              <h2>{leadership.heading || "Apostle Isaiah & Rev. Deborah Mbuga"}</h2>
               <p style={{ fontStyle: "italic", color: "var(--text-light)", marginBottom: "1rem", fontWeight: 500 }}>
-                General Overseers, Christ's Heart Ministries International
+                {leadership.subtitle || "General Overseers, Christ's Heart Ministries International"}
               </p>
               <p>
                 A father and mentor to many, Apostle Isaiah is passionate about teaching and preaching
@@ -267,7 +278,7 @@ export default function Home() {
             </div>
           </AnimatedSection>
           <div className="services-grid-v2 animate-on-scroll" ref={servicesRef}>
-            {SERVICES_DATA.map((service) => (
+            {servicesData.map((service) => (
               <Link
                 key={service.title}
                 to={`/services/${service.id}`}
