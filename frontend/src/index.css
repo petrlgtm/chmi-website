@@ -3834,7 +3834,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 .events-marquee::after  { right: 0; background: linear-gradient(to left,  var(--bg-alt), transparent); }
 .events-marquee-track {
   display: flex; gap: 1.5rem; width: max-content;
-  animation: events-marquee-scroll 38s linear infinite;
+  animation: events-marquee-scroll 60s linear infinite;
   padding: 0.5rem 0 1rem;
 }
 .events-marquee:hover .events-marquee-track { animation-play-state: paused; }
