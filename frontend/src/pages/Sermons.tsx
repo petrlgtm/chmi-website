@@ -37,7 +37,7 @@ function formatDate(dateStr: string) {
 
 export default function Sermons() {
   const heroStyle = useHeroStyle("heroSermons");
-  const { sermons, loading, error } = useYouTubeVideos();
+  const { sermons, loading, error, loadMore, hasMore: apiHasMore, loadingMore } = useYouTubeVideos();
   const [search, setSearch] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -71,7 +71,7 @@ export default function Sermons() {
     }), [sermons, search, activeCategory, activeYear]);
 
   const displayedSermons = filtered.slice(0, visibleCount);
-  const hasMore = visibleCount < filtered.length;
+  const hasMore = visibleCount < filtered.length || apiHasMore;
   const featured = sermons[0];
 
   function switchMode(mode: MediaMode) {
@@ -392,14 +392,20 @@ export default function Sermons() {
               {filtered.length > 0 && (
                 <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
                   <p style={{ fontSize: "0.82rem", color: "var(--text-light)", marginBottom: "1rem" }}>
-                    Showing {displayedSermons.length} of {filtered.length} sermons
+                    Showing {displayedSermons.length} of {filtered.length}{apiHasMore ? "+" : ""} sermons
                   </p>
                   {hasMore && (
                     <button
                       className="btn btn-primary"
-                      onClick={() => setVisibleCount((p) => p + PAGE_SIZE)}
+                      disabled={loadingMore}
+                      onClick={() => {
+                        setVisibleCount((p) => p + PAGE_SIZE);
+                        if (visibleCount + PAGE_SIZE >= filtered.length && apiHasMore) {
+                          loadMore();
+                        }
+                      }}
                     >
-                      <ChevronDown size={16} /> Show More
+                      <ChevronDown size={16} /> {loadingMore ? "Loading..." : "Show More"}
                     </button>
                   )}
                 </div>

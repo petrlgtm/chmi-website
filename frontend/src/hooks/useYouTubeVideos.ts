@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { Sermon } from "../types";
 import { sermons as fallbackSermons } from "../data/sermons";
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
 const CHANNEL_ID = "UCPrWoYShjSnfSxgkbOk-PiQ";
-const PAGE_SIZE = 10;
+const BATCH_SIZE = 50;
 
 interface YouTubeSnippet {
   title: string;
@@ -58,16 +58,15 @@ export function useYouTubeVideos() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const playlistId = useRef<string | null>(null);
-  const nextPage = useRef<string | null>(null);
-  const done = useRef(false);
+  const uploadsId = useRef<string | null>(null);
+  const nextPageToken = useRef<string | null>(null);
+  const hasMore = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function fetchFirstBatch() {
+    async function fetchFirst() {
       try {
-        // Get the uploads playlist ID
         const channelRes = await fetch(
           `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`
         );
@@ -75,14 +74,13 @@ export function useYouTubeVideos() {
 
         if (channelData.error) throw new Error(channelData.error.message);
 
-        const uploadsId =
+        const uid =
           channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-        if (!uploadsId) throw new Error("Could not find uploads playlist");
+        if (!uid) throw new Error("Could not find uploads playlist");
 
-        playlistId.current = uploadsId;
+        uploadsId.current = uid;
 
-        // Fetch first small batch
-        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=${PAGE_SIZE}&key=${API_KEY}`;
+        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uid}&maxResults=${BATCH_SIZE}&key=${API_KEY}`;
         const res = await fetch(url);
         const data: YouTubeResponse = await res.json();
 
@@ -90,16 +88,11 @@ export function useYouTubeVideos() {
         if (cancelled) return;
 
         const videos = (data.items || []).map(mapItem).filter(Boolean) as Sermon[];
-        nextPage.current = data.nextPageToken || null;
-        if (!data.nextPageToken) done.current = true;
+        nextPageToken.current = data.nextPageToken || null;
+        hasMore.current = !!data.nextPageToken;
 
         setSermons(videos);
         setLoading(false);
-
-        // Automatically keep loading the rest in background
-        if (data.nextPageToken) {
-          loadRest(uploadsId, data.nextPageToken, videos, cancelled);
-        }
       } catch (err) {
         if (cancelled) return;
         console.warn("YouTube API unavailable, using fallback data:", err);
@@ -109,43 +102,39 @@ export function useYouTubeVideos() {
       }
     }
 
-    async function loadRest(
-      uploadsId: string,
-      pageToken: string,
-      existing: Sermon[],
-      wasCancelled: boolean
-    ) {
-      let token: string | null = pageToken;
-      let all = [...existing];
-
-      while (token && !wasCancelled) {
-        setLoadingMore(true);
-        try {
-          const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=${PAGE_SIZE}&pageToken=${token}&key=${API_KEY}`;
-          const res = await fetch(url);
-          const data: YouTubeResponse = await res.json();
-
-          if (data.error) break;
-
-          const batch = (data.items || []).map(mapItem).filter(Boolean) as Sermon[];
-          all = [...all, ...batch];
-          token = data.nextPageToken || null;
-
-          // Update state after each batch so videos appear one by one
-          setSermons([...all]);
-        } catch {
-          break;
-        }
-      }
-
-      done.current = true;
-      nextPage.current = null;
-      setLoadingMore(false);
-    }
-
-    fetchFirstBatch();
+    fetchFirst();
     return () => { cancelled = true; };
   }, []);
 
-  return { sermons, loading, loadingMore, error };
+  const loadMore = useCallback(async () => {
+    if (!uploadsId.current || !nextPageToken.current || loadingMore) return;
+
+    setLoadingMore(true);
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId.current}&maxResults=${BATCH_SIZE}&pageToken=${nextPageToken.current}&key=${API_KEY}`;
+      const res = await fetch(url);
+      const data: YouTubeResponse = await res.json();
+
+      if (data.error) throw new Error(data.error.message);
+
+      const batch = (data.items || []).map(mapItem).filter(Boolean) as Sermon[];
+      nextPageToken.current = data.nextPageToken || null;
+      hasMore.current = !!data.nextPageToken;
+
+      setSermons((prev) => [...prev, ...batch]);
+    } catch {
+      hasMore.current = false;
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore]);
+
+  return {
+    sermons,
+    loading,
+    loadingMore,
+    error,
+    loadMore,
+    hasMore: hasMore.current,
+  };
 }

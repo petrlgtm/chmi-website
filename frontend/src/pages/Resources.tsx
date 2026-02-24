@@ -86,7 +86,7 @@ export default function Resources() {
   const booksRef = useScrollAnimation<HTMLDivElement>();
   const mediaRef = useScrollAnimation<HTMLDivElement>();
   const { resources: sanityResources, mediaChannels: sanityMedia } = useSanityResources();
-  const { songs, loading: songsLoading, error: songsError } = useYouTubeSongs();
+  const { songs, loading: songsLoading, error: songsError, loadMore: loadMoreSongs, hasMore: songsApiHasMore, loadingMore: songsLoadingMore } = useYouTubeSongs();
   const songsRef = useScrollAnimation<HTMLDivElement>(0.15, !songsLoading && !songsError);
   const { currentSong, play } = usePlayer();
 
@@ -103,7 +103,7 @@ export default function Resources() {
       s.description.toLowerCase().includes(songsSearch.toLowerCase())
   );
   const displayedSongs = filteredSongs.slice(0, visibleSongs);
-  const hasMoreSongs = visibleSongs < filteredSongs.length;
+  const hasMoreSongs = visibleSongs < filteredSongs.length || songsApiHasMore;
 
   const formatPrice = (price: number) =>
     `UGX ${price.toLocaleString()}`;
@@ -341,14 +341,20 @@ export default function Resources() {
                       marginBottom: "1rem",
                     }}
                   >
-                    Showing {displayedSongs.length} of {filteredSongs.length} songs
+                    Showing {displayedSongs.length} of {filteredSongs.length}{songsApiHasMore ? "+" : ""} songs
                   </p>
                   {hasMoreSongs && (
                     <button
                       className="btn btn-primary"
-                      onClick={() => setVisibleSongs((p) => p + SONGS_PAGE_SIZE)}
+                      disabled={songsLoadingMore}
+                      onClick={() => {
+                        setVisibleSongs((p) => p + SONGS_PAGE_SIZE);
+                        if (visibleSongs + SONGS_PAGE_SIZE >= filteredSongs.length && songsApiHasMore) {
+                          loadMoreSongs();
+                        }
+                      }}
                     >
-                      <ChevronDown size={16} /> Show More
+                      <ChevronDown size={16} /> {songsLoadingMore ? "Loading..." : "Show More"}
                     </button>
                   )}
                 </div>

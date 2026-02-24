@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import type { Song } from "../types";
 import { songs as fallbackSongs } from "../data/songs";
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
 const CHANNEL_ID = "UCjvusRmkIPyBw2gEf7fnrWQ";
-const PAGE_SIZE = 10;
+const BATCH_SIZE = 50;
 
 interface YouTubeSnippet {
   title: string;
@@ -57,14 +57,15 @@ export function useYouTubeSongs() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const done = useRef(false);
+  const uploadsId = useRef<string | null>(null);
+  const nextPageToken = useRef<string | null>(null);
+  const hasMore = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function fetchFirstBatch() {
+    async function fetchFirst() {
       try {
-        // Get the uploads playlist ID
         const channelRes = await fetch(
           `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`
         );
@@ -72,12 +73,13 @@ export function useYouTubeSongs() {
 
         if (channelData.error) throw new Error(channelData.error.message);
 
-        const uploadsId =
+        const uid =
           channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-        if (!uploadsId) throw new Error("Could not find uploads playlist");
+        if (!uid) throw new Error("Could not find uploads playlist");
 
-        // Fetch first batch
-        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=${PAGE_SIZE}&key=${API_KEY}`;
+        uploadsId.current = uid;
+
+        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uid}&maxResults=${BATCH_SIZE}&key=${API_KEY}`;
         const res = await fetch(url);
         const data: YouTubeResponse = await res.json();
 
@@ -85,16 +87,11 @@ export function useYouTubeSongs() {
         if (cancelled) return;
 
         const videos = (data.items || []).map(mapItem).filter(Boolean) as Song[];
+        nextPageToken.current = data.nextPageToken || null;
+        hasMore.current = !!data.nextPageToken;
 
         setSongs(videos);
         setLoading(false);
-
-        // Load rest in background
-        if (data.nextPageToken) {
-          loadRest(uploadsId, data.nextPageToken, videos, cancelled);
-        } else {
-          done.current = true;
-        }
       } catch (err) {
         if (cancelled) return;
         console.warn("YouTube Songs API unavailable, using fallback data:", err);
@@ -104,43 +101,39 @@ export function useYouTubeSongs() {
       }
     }
 
-    async function loadRest(
-      uploadsId: string,
-      pageToken: string,
-      existing: Song[],
-      wasCancelled: boolean
-    ) {
-      let token: string | null = pageToken;
-      let all = [...existing];
-
-      while (token && !wasCancelled) {
-        setLoadingMore(true);
-        try {
-          const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId}&maxResults=${PAGE_SIZE}&pageToken=${token}&key=${API_KEY}`;
-          const res = await fetch(url);
-          const data: YouTubeResponse = await res.json();
-
-          if (data.error) break;
-
-          const batch = (data.items || []).map(mapItem).filter(Boolean) as Song[];
-          all = [...all, ...batch];
-          token = data.nextPageToken || null;
-
-          setSongs([...all]);
-        } catch {
-          break;
-        }
-      }
-
-      done.current = true;
-      setLoadingMore(false);
-    }
-
-    fetchFirstBatch();
-    return () => {
-      cancelled = true;
-    };
+    fetchFirst();
+    return () => { cancelled = true; };
   }, []);
 
-  return { songs, loading, loadingMore, error };
+  const loadMore = useCallback(async () => {
+    if (!uploadsId.current || !nextPageToken.current || loadingMore) return;
+
+    setLoadingMore(true);
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsId.current}&maxResults=${BATCH_SIZE}&pageToken=${nextPageToken.current}&key=${API_KEY}`;
+      const res = await fetch(url);
+      const data: YouTubeResponse = await res.json();
+
+      if (data.error) throw new Error(data.error.message);
+
+      const batch = (data.items || []).map(mapItem).filter(Boolean) as Song[];
+      nextPageToken.current = data.nextPageToken || null;
+      hasMore.current = !!data.nextPageToken;
+
+      setSongs((prev) => [...prev, ...batch]);
+    } catch {
+      hasMore.current = false;
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore]);
+
+  return {
+    songs,
+    loading,
+    loadingMore,
+    error,
+    loadMore,
+    hasMore: hasMore.current,
+  };
 }
