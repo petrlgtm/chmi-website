@@ -152,7 +152,6 @@ html.dark .section:nth-child(even) { background: var(--bg-alt); }
 html.dark .card,
 html.dark .sermon-card,
 html.dark .blog-card,
-html.dark .resource-card,
 html.dark .event-card { background: #1a1a1a; border-color: rgba(255,255,255,0.06); }
 html.dark .event-card-body h3 { color: #f0f0f0; }
 html.dark .blog-card-body h3 { color: #f0f0f0; }
@@ -5692,6 +5691,25 @@ html.dark .resource-card-price { color: var(--gold-400); }
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 2rem;
 }
+/* Featured first book card spans full width as horizontal layout */
+@media (min-width: 640px) {
+  .resource-grid { grid-template-columns: repeat(2, 1fr); }
+  .resource-grid .resource-card:first-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+  }
+  .resource-grid .resource-card:first-child .resource-card-image img {
+    height: 100%; object-fit: cover;
+  }
+}
+@media (min-width: 960px) {
+  .resource-grid { grid-template-columns: repeat(3, 1fr); }
+  .resource-grid .resource-card:first-child {
+    grid-column: 1 / 3;
+    grid-template-columns: 300px 1fr;
+  }
+}
 
 /* ─── MEDIA CHANNEL CARDS ──────────────────────────────────── */
 
@@ -5775,15 +5793,19 @@ html.dark .blog-search-input:focus {
   box-shadow: 0 0 0 3px rgba(168,62,245,0.15);
 }
 
-/* ─── RESOURCE CARD DARK MODE ──────────────────────────────── */
-html.dark .resource-card-image { background: #1e1e1e; }
-html.dark .resource-card-title { color: #f0f0f0; }
-html.dark .resource-card:hover .resource-card-title { color: var(--purple-300); }
-html.dark .resource-card-author { color: var(--purple-400); }
-html.dark .resource-card-desc { color: var(--text-light); }
-html.dark .resource-card-meta { color: rgba(255,255,255,0.6); }
+/* ─── RESOURCE CARD DARK MODE — keep cards white ─────────── */
+html.dark .resource-card {
+  background: #ffffff; border-color: rgba(0,0,0,0.08);
+}
+html.dark .resource-card-image { background: var(--gray-100); }
+html.dark .resource-card-title { color: var(--gray-900); }
+html.dark .resource-card:hover .resource-card-title { color: var(--primary); }
+html.dark .resource-card-author { color: var(--primary); }
+html.dark .resource-card-desc { color: var(--gray-600); }
+html.dark .resource-card-meta { color: var(--gray-500); }
+html.dark .resource-card-price { color: var(--primary); }
 html.dark .resource-card-image::after {
-  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 50%);
+  background: linear-gradient(to top, rgba(0,0,0,0.3), transparent 50%);
 }
 
 /* ─── MEDIA CHANNEL DARK (already on dark bg, minor tweaks) ── */
