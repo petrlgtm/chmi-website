@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, Heart, Send, CheckCircle } from "lucide-react";
-import { submitFormspree } from "../lib/formspree";
+import { submitWeb3Form } from "../lib/web3forms";
 
 export default function PrayerRequestModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +14,7 @@ export default function PrayerRequestModal() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    await submitFormspree("prayer", {
+    await submitWeb3Form("prayer", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
       request: formData.get("request") as string,

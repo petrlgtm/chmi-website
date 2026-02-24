@@ -126,7 +126,7 @@ html.dark .navbar-links a.active { color: var(--purple-400); background: rgba(16
 html.dark .navbar-site-name { color: #ffffff; }
 html.dark .navbar-social-link { color: #555; }
 html.dark .navbar-social-link:hover { color: var(--purple-400); background: rgba(168,62,245,0.12); }
-html.dark .navbar-icon-btn { color: #888; }
+html.dark .navbar-icon-btn { color: #b0b0b0; }
 html.dark .navbar-icon-btn:hover { color: var(--purple-400); background: rgba(168,62,245,0.12); }
 html.dark .dropdown-menu {
   background: #1c1c1c; border-color: rgba(255,255,255,0.08);
@@ -141,9 +141,9 @@ html.dark .mobile-panel-header { border-bottom-color: rgba(255,255,255,0.08); }
 html.dark .mobile-nav-link { color: #c4c4c4; }
 html.dark .mobile-nav-link:hover { background: rgba(168,62,245,0.12); color: var(--purple-300); }
 html.dark .mobile-nav-link.active { background: rgba(168,62,245,0.15); color: var(--purple-300); }
-html.dark .mobile-close { color: #888; }
-html.dark .mobile-close:hover { background: rgba(255,255,255,0.08); color: #ccc; }
-html.dark .mobile-subnav-link { color: #999; }
+html.dark .mobile-close { color: #b0b0b0; }
+html.dark .mobile-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
+html.dark .mobile-subnav-link { color: #b3b3b3; }
 html.dark .mobile-subnav-link:hover { background: rgba(168,62,245,0.1); color: var(--purple-300); }
 
 /* Dark: cards & sections */
@@ -218,7 +218,7 @@ html.dark .event-card-lg-content p { color: var(--text-light); }
 html.dark .branch-info-card { background: #1a1a1a; border-color: rgba(255,255,255,0.06); }
 html.dark .impact-bar { background: rgba(255,255,255,0.08); }
 html.dark .modal-content { background: #1a1a1a; }
-html.dark .modal-close { background: #2a2a2a; color: #aaa; }
+html.dark .modal-close { background: #2a2a2a; color: #d0d0d0; }
 html.dark .modal-close:hover { background: #333; color: #fff; }
 html.dark .services-section { background: #161616; }
 html.dark .stats-bar { background: #111; }
@@ -554,7 +554,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
   color: var(--gray-700);
 }
 .btn-outline:hover { background: var(--gray-100); border-color: var(--gray-400); color: var(--gray-900); transform: translateY(-2px); }
-html.dark .btn-outline { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.75); }
+html.dark .btn-outline { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
 html.dark .btn-outline:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.38); color: #fff; }
 
 /* Focus styles */
@@ -1131,7 +1131,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 .bc-flag { font-size: 1rem; line-height: 1; }
 
 .bc-location {
-  font-size: 0.72rem; color: rgba(255,255,255,0.45);
+  font-size: 0.72rem; color: rgba(255,255,255,0.65);
   margin: 0; font-family: var(--font-mono);
   text-transform: uppercase; letter-spacing: 0.07em;
 }
@@ -1607,14 +1607,14 @@ html.dark .sermon-card { background: #1a1a1a; border-color: rgba(255,255,255,0.0
 html.dark .sermon-card:hover { border-color: var(--purple-400); }
 html.dark .sermon-card-title { color: #f0f0f0; }
 html.dark .sermon-card-category { color: var(--purple-400); }
-html.dark .sermon-card-date { color: rgba(255,255,255,0.4); }
+html.dark .sermon-card-date { color: rgba(255,255,255,0.6); }
 html.dark .sermons-search-input { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
 html.dark .sermons-mode-seg { background: #1a1a1a; border-color: rgba(255,255,255,0.1); }
-html.dark .sermons-mode-seg-btn:not(.active) { color: rgba(255,255,255,0.5); }
+html.dark .sermons-mode-seg-btn:not(.active) { color: rgba(255,255,255,0.7); }
 html.dark .sermons-mode-seg-btn:not(.active):hover { background: rgba(124,58,237,0.15); color: var(--purple-300); }
-html.dark .sermons-pill { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+html.dark .sermons-pill { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
 html.dark .sermons-pill:not(.active):hover { border-color: var(--purple-400); color: var(--purple-300); }
-html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
+html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
 
 /* =========================== */
 /* SONGS GRID (Resources page) */
@@ -1761,10 +1761,10 @@ html.dark .song-card { background: #1a1a1a; border-color: rgba(255,255,255,0.07)
 html.dark .song-card:hover { border-color: var(--purple-400); }
 html.dark .song-card-title { color: #f0f0f0; }
 html.dark .song-card-artist { color: var(--purple-400); }
-html.dark .song-card-date { color: rgba(255,255,255,0.4); }
+html.dark .song-card-date { color: rgba(255,255,255,0.6); }
 html.dark .songs-search-input { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
-html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
-html.dark .songs-count { color: rgba(255,255,255,0.4); }
+html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+html.dark .songs-count { color: rgba(255,255,255,0.6); }
 
 /* ===================== */
 /* GIVING LIST           */
@@ -2701,7 +2701,7 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 /* ── Meta row (location, platform links) ── */
 .cd-meta {
   display: flex; align-items: center; gap: 0.35rem; justify-content: center;
-  font-size: 0.75rem; color: rgba(255,255,255,0.45);
+  font-size: 0.75rem; color: rgba(255,255,255,0.65);
   margin-bottom: 1rem;
 }
 .cd--live .cd-meta { color: #4ade80; }
@@ -2744,7 +2744,7 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 /* ── Tagline ── */
 .cd-tagline {
   text-align: center; font-size: 0.78rem; font-style: italic;
-  color: rgba(255,255,255,0.4); margin: 0.75rem 0 0;
+  color: rgba(255,255,255,0.65); margin: 0.75rem 0 0;
   font-family: var(--font-display);
 }
 
@@ -3662,7 +3662,7 @@ html.dark .events-filters {
 }
 html.dark .events-filter-pill {
   background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.75);
 }
 html.dark .events-filter-pill:hover {
   background: rgba(147,51,234,0.15); border-color: rgba(147,51,234,0.3);
@@ -3696,8 +3696,8 @@ html.dark .evt-card--major:hover {
 }
 html.dark .evt-card-title { color: #f0f0f0; }
 html.dark .evt-tag--date { background: rgba(147,51,234,0.15); color: var(--purple-300); }
-html.dark .evt-tag--cat { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
-html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
+html.dark .evt-tag--cat { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+html.dark .evt-card-meta span { color: rgba(255,255,255,0.6); }
 
 @media (max-width: 768px) {
   .events-filters { padding: 0.85rem; }
@@ -4126,7 +4126,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   width: 26px; height: 26px; border-radius: 50%;
   background: rgba(255,255,255,0.07); border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.5); transition: background 0.2s;
+  color: rgba(255,255,255,0.8); transition: background 0.2s;
 }
 .event-reminder-close:hover { background: rgba(255,255,255,0.14); color: #fff; }
 .event-reminder-header {
@@ -4151,7 +4151,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 .event-reminder-category {
   display: inline-block; font-size: 0.62rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.08em;
-  color: rgba(212,175,55,0.7); margin-bottom: 0.3rem;
+  color: #d4af37; margin-bottom: 0.3rem;
 }
 .event-reminder-body h4 {
   font-family: var(--font-heading); font-size: 1.1rem;
@@ -4160,7 +4160,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 .event-reminder-meta { display: flex; flex-direction: column; gap: 0.28rem; }
 .event-reminder-meta span {
   display: inline-flex; align-items: center; gap: 0.35rem;
-  font-size: 0.76rem; color: rgba(255,255,255,0.5);
+  font-size: 0.76rem; color: rgba(255,255,255,0.75);
 }
 .event-reminder-footer {
   display: flex; align-items: center; gap: 0.5rem;
@@ -4176,10 +4176,10 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 .event-reminder-btn:hover { opacity: 0.85; }
 .event-reminder-dismiss {
   background: none; border: none; cursor: pointer;
-  font-size: 0.76rem; color: rgba(255,255,255,0.35);
+  font-size: 0.76rem; color: rgba(255,255,255,0.65);
   padding: 0.45rem 0.5rem; transition: color 0.2s;
 }
-.event-reminder-dismiss:hover { color: rgba(255,255,255,0.65); }
+.event-reminder-dismiss:hover { color: rgba(255,255,255,0.85); }
 @keyframes reminderSlideIn {
   from { opacity: 0; transform: translateX(20px) translateY(8px); }
   to { opacity: 1; transform: translateX(0) translateY(0); }
@@ -4261,11 +4261,11 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 }
 .nearby-prompt-btn-loc:hover { background: rgba(255,255,255,0.18); }
 .nearby-prompt-skip {
-  background: none; border: none; color: rgba(255,255,255,0.4);
+  background: none; border: none; color: rgba(255,255,255,0.7);
   font-size: 0.8rem; cursor: pointer; text-align: center; padding: 0.5rem;
   transition: color 0.2s;
 }
-.nearby-prompt-skip:hover { color: rgba(255,255,255,0.7); }
+.nearby-prompt-skip:hover { color: rgba(255,255,255,0.9); }
 
 /* Branch search */
 .nearby-prompt-search { margin-bottom: 0.75rem; }
@@ -4274,7 +4274,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   border-radius: var(--radius-lg); background: rgba(255,255,255,0.07);
   color: #fff; font-size: 0.9rem; transition: border-color 0.2s;
 }
-.nearby-prompt-search input::placeholder { color: rgba(255,255,255,0.35); }
+.nearby-prompt-search input::placeholder { color: rgba(255,255,255,0.5); }
 .nearby-prompt-search input:focus { outline: none; border-color: var(--gold-500); }
 
 /* Branch list */
@@ -4291,9 +4291,9 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 }
 .nearby-prompt-list-item:hover { background: rgba(122,23,189,0.2); }
 .nearby-prompt-list-name { display: block; font-weight: 600; font-size: 0.9rem; }
-.nearby-prompt-list-city { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.nearby-prompt-list-city { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.7); }
 .nearby-prompt-list-empty {
-  text-align: center; padding: 1.5rem; color: rgba(255,255,255,0.4); font-size: 0.85rem;
+  text-align: center; padding: 1.5rem; color: rgba(255,255,255,0.65); font-size: 0.85rem;
 }
 
 /* Back button */
@@ -5741,8 +5741,8 @@ html.dark .resource-card-price { color: var(--gold-400); }
 html.dark .blog-card-title { color: #f0f0f0; }
 html.dark .blog-card:hover .blog-card-title { color: var(--purple-300); }
 html.dark .blog-card-excerpt { color: var(--text-light); }
-html.dark .blog-card-date { color: rgba(255,255,255,0.4); }
-html.dark .blog-card-author { color: rgba(255,255,255,0.4); }
+html.dark .blog-card-date { color: rgba(255,255,255,0.6); }
+html.dark .blog-card-author { color: rgba(255,255,255,0.6); }
 html.dark .blog-card-readtime { color: var(--purple-400); }
 html.dark .blog-card-image { background: #1e1e1e; }
 html.dark .blog-card-image::after {
@@ -5751,7 +5751,7 @@ html.dark .blog-card-image::after {
 html.dark .blog-featured-title { color: #f0f0f0; }
 html.dark .blog-featured:hover .blog-featured-title { color: var(--purple-300); }
 html.dark .blog-featured-excerpt { color: var(--text-light); }
-html.dark .blog-featured-author { color: rgba(255,255,255,0.45); }
+html.dark .blog-featured-author { color: rgba(255,255,255,0.65); }
 html.dark .blog-featured-readtime { color: var(--purple-400); }
 html.dark .blog-featured-image { background: #1e1e1e; }
 html.dark .blog-featured-body { color: var(--text); }
@@ -5769,7 +5769,7 @@ html.dark .resource-card-title { color: #f0f0f0; }
 html.dark .resource-card:hover .resource-card-title { color: var(--purple-300); }
 html.dark .resource-card-author { color: var(--purple-400); }
 html.dark .resource-card-desc { color: var(--text-light); }
-html.dark .resource-card-meta { color: rgba(255,255,255,0.4); }
+html.dark .resource-card-meta { color: rgba(255,255,255,0.6); }
 html.dark .resource-card-image::after {
   background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 50%);
 }
@@ -6039,7 +6039,7 @@ html.dark .branch-stats-bar {
   border-color: rgba(168,62,245,0.15);
 }
 html.dark .branch-stat-number { color: var(--purple-300); }
-html.dark .branch-stat-label { color: rgba(255,255,255,0.45); }
+html.dark .branch-stat-label { color: rgba(255,255,255,0.65); }
 html.dark .branch-stat-divider { background: rgba(255,255,255,0.08); }
 html.dark .branch-contact-icon {
   background: rgba(168,62,245,0.12); color: var(--purple-300);

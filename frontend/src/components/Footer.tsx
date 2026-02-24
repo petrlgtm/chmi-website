@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Youtube, Radio, Facebook, Instagram, Twitter, Send, Tv, BookOpen } from "lucide-react";
-import { submitFormspree } from "../lib/formspree";
+import { submitWeb3Form } from "../lib/web3forms";
 import logo02 from "../../../logos/CHMI Logos-02.png";
 
 export default function Footer() {
@@ -11,7 +11,7 @@ export default function Footer() {
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      await submitFormspree("newsletter", { email });
+      await submitWeb3Form("newsletter", { email });
       setSubscribed(true);
       setEmail("");
     }

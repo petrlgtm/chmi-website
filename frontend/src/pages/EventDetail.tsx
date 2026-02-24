@@ -4,7 +4,7 @@ import { Calendar, Clock, MapPin, ArrowLeft, CheckCircle, Users, ArrowRight, Spa
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useSanityBranches } from "../hooks/useSanityBranches";
 import { getCountdownText } from "../utils/eventDate";
-import { submitFormspree } from "../lib/formspree";
+import { submitWeb3Form } from "../lib/web3forms";
 import { eventFallbackImage, eventGalleryFallback } from "../utils/imageFallbacks";
 
 export default function EventDetail() {
@@ -52,7 +52,7 @@ export default function EventDetail() {
     setSubmitting(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
-    await submitFormspree("eventReg", {
+    await submitWeb3Form("eventReg", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
       phone: formData.get("phone") as string,

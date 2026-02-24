@@ -1,7 +1,7 @@
 import { useState, lazy, Suspense } from "react";
 import { MapPin, Phone, Mail, Clock, CheckCircle, Send, MessageCircle, Facebook, Youtube, Instagram } from "lucide-react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
-import { submitFormspree } from "../lib/formspree";
+import { submitWeb3Form } from "../lib/web3forms";
 import { useHeroStyle } from "../context/SiteImagesContext";
 
 const LocationMap = lazy(() => import("../components/LocationMap"));
@@ -18,7 +18,7 @@ export default function Contact() {
     setSubmitting(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
-    await submitFormspree("contact", {
+    await submitWeb3Form("contact", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
       subject: formData.get("subject") as string,
