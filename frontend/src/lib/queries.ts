@@ -110,14 +110,19 @@ export const ORGANIZATION_INFO_QUERY = `*[_type == "organizationInfo"][0] {
   socialLinks
 }`;
 
-export const LEADERSHIP_QUERY = `*[_type == "leadership"] | order(order asc) {
-  _id,
-  name,
-  title,
-  role,
+export const LEADERSHIP_QUERY = `*[_type == "leadership" && _id == "leadership"][0] {
+  heading,
+  subtitle,
   bio,
   "image": image.asset->url,
-  order
+  "leaders": leaders[] {
+    _key,
+    name,
+    title,
+    role,
+    bio,
+    "image": image.asset->url
+  }
 }`;
 
 export const GIVE_CATEGORIES_QUERY = `*[_type == "giveCategory"] | order(order asc) {

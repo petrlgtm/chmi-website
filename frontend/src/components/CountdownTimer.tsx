@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MapPin, Wifi, Calendar } from "lucide-react";
+import { MapPin, Wifi, Calendar, Tv, Video } from "lucide-react";
 import type { ChurchEvent } from "../types";
 import { getActiveEvent, getNextUpcomingEvent } from "../utils/eventDate";
 
@@ -19,7 +19,16 @@ interface Service {
   location: string;
   platform?: "online";
   overnight?: boolean; // service spans midnight into next day
+  lastFridayOnly?: boolean; // only on the last Friday of the month
   links?: ServiceLink[]; // clickable platform links (online services)
+}
+
+/** Check if a given date falls on the last Friday of its month. */
+function isLastFridayOfMonth(date: Date): boolean {
+  if (date.getDay() !== 5) return false;
+  const nextFriday = new Date(date);
+  nextFriday.setDate(nextFriday.getDate() + 7);
+  return nextFriday.getMonth() !== date.getMonth();
 }
 
 type ActiveItem =
@@ -37,7 +46,11 @@ const SERVICES: Service[] = [
     days: [1, 2, 3, 4, 5],
     startHour: 5, startMinute: 0,
     endHour: 6, endMinute: 0,
-    location: "All Locations",
+    location: "Microsoft Teams",
+    platform: "online",
+    links: [
+      { label: "Teams", url: "https://teams.microsoft.com/l/meetup-join/19%3ameeting_Yjc2Y2U1YjQtNzIwZS00OGFjLWI1NzQtMGQ1MGVjMjliYjcz%40thread.v2/0?context=%7b%22Tid%22%3a%228777e3a2-49f7-4829-9006-72c50d1737ec%22%2c%22Oid%22%3a%22f5c44872-87c9-4947-917b-650a53c15b45%22%7d" },
+    ],
   },
   // ── Sunday Services ───────────────────────────────────────────────
   {
@@ -47,6 +60,9 @@ const SERVICES: Service[] = [
     startHour: 7, startMinute: 0,
     endHour: 8, endMinute: 30,
     location: "All Branches",
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
   {
     name: "Sunday Service",
@@ -55,6 +71,9 @@ const SERVICES: Service[] = [
     startHour: 9, startMinute: 0,
     endHour: 10, endMinute: 30,
     location: "All Branches",
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
   {
     name: "Sunday Service",
@@ -63,6 +82,9 @@ const SERVICES: Service[] = [
     startHour: 11, startMinute: 0,
     endHour: 12, endMinute: 30,
     location: "All Branches",
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
   {
     name: "Sunday Service",
@@ -71,6 +93,9 @@ const SERVICES: Service[] = [
     startHour: 16, startMinute: 0,
     endHour: 17, endMinute: 30,
     location: "All Branches",
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
   // ── Lunch Hour (Weekdays, Kampala only) ───────────────────────────
   {
@@ -79,6 +104,9 @@ const SERVICES: Service[] = [
     startHour: 12, startMinute: 45,
     endHour: 13, endMinute: 45,
     location: "Kampala Branch",
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
   // ── Home Cells (Monday only) ──────────────────────────────────────
   {
@@ -101,14 +129,18 @@ const SERVICES: Service[] = [
       { label: "TikTok", url: "https://www.tiktok.com/@christsheartmin" },
     ],
   },
-  // ── Overnight Prayer — Fri 10pm → Sat 5am ────────────────────────
+  // ── Overnight Prayer — Last Friday 6pm → Sat 5am (Mukono) ────────
   {
     name: "Overnight Prayer",
     days: [5], // Friday start
-    startHour: 22, startMinute: 0,
+    startHour: 18, startMinute: 0,
     endHour: 5, endMinute: 0,   // ends Saturday morning
-    location: "All Branches",
+    location: "Mukono Branch",
     overnight: true,
+    lastFridayOnly: true,
+    links: [
+      { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
+    ],
   },
 ];
 
@@ -123,10 +155,21 @@ function getActiveService(): Service | null {
       const startMin = svc.startHour * 60 + svc.startMinute;
       const endMin = svc.endHour * 60 + svc.endMinute;
       const prevDay = (day + 6) % 7;
-      if (svc.days.includes(day) && totalMin >= startMin) return svc;
-      if (svc.days.includes(prevDay) && totalMin < endMin) return svc;
+      // Started tonight
+      if (svc.days.includes(day) && totalMin >= startMin) {
+        if (svc.lastFridayOnly && !isLastFridayOfMonth(now)) continue;
+        return svc;
+      }
+      // Carried over from last night
+      if (svc.days.includes(prevDay) && totalMin < endMin) {
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (svc.lastFridayOnly && !isLastFridayOfMonth(yesterday)) continue;
+        return svc;
+      }
     } else {
       if (!svc.days.includes(day)) continue;
+      if (svc.lastFridayOnly && !isLastFridayOfMonth(now)) continue;
       const startMin = svc.startHour * 60 + svc.startMinute;
       const endMin = svc.endHour * 60 + svc.endMinute;
       if (totalMin >= startMin && totalMin < endMin) return svc;
@@ -138,7 +181,8 @@ function getActiveService(): Service | null {
 /** Returns the next upcoming service and its start time. */
 function getNextService(): { time: Date; service: Service } {
   const now = new Date();
-  for (let offset = 0; offset < 8; offset++) {
+  // Look up to 35 days ahead to find the next last-Friday service
+  for (let offset = 0; offset < 35; offset++) {
     const check = new Date(now);
     check.setDate(check.getDate() + offset);
     const dayOfWeek = check.getDay();
@@ -146,6 +190,7 @@ function getNextService(): { time: Date; service: Service } {
 
     for (const svc of SERVICES) {
       if (!svc.days.includes(dayOfWeek)) continue;
+      if (svc.lastFridayOnly && !isLastFridayOfMonth(check)) continue;
       const t = new Date(check);
       t.setHours(svc.startHour, svc.startMinute, 0, 0);
       if (t > now && (!earliest || t < earliest.time)) {
@@ -270,6 +315,8 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
       );
     }
 
+    const hasStream = active.service.links && active.service.links.length > 0;
+
     return (
       <div className="countdown-timer countdown-live">
         <div className="live-indicator">
@@ -281,7 +328,27 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
           {active.service.session && <span className="live-session"> · {active.service.session}</span>}
         </div>
         <LocationDisplay svc={active.service} className="live-location" />
-        <p className="live-tagline">Service is ON — Join us now!</p>
+        {hasStream ? (
+          <div className="live-watch-links">
+            {active.service.links!.map((lnk) => {
+              const isTeams = lnk.url.includes("teams.microsoft.com");
+              return (
+                <a
+                  key={lnk.url}
+                  href={lnk.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`live-watch-btn${isTeams ? " live-watch-btn-teams" : ""}`}
+                >
+                  {isTeams ? <Video size={14} /> : <Tv size={14} />}
+                  {isTeams ? "Join Now" : "Watch Now"}
+                </a>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="live-tagline">Service is ON — Join us now!</p>
+        )}
       </div>
     );
   }
@@ -311,15 +378,18 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
       </div>
       <div className="countdown-units">
         {[
-          { val: time.days,    label: "Days"  },
-          { val: time.hours,   label: "Hours" },
-          { val: time.minutes, label: "Min"   },
-          { val: time.seconds, label: "Sec"   },
-        ].map((unit) => (
-          <div key={unit.label} className="countdown-unit">
-            <span className="countdown-value">{String(unit.val).padStart(2, "0")}</span>
-            <span className="countdown-unit-label">{unit.label}</span>
-          </div>
+          { val: time.days,    label: "Days"    },
+          { val: time.hours,   label: "Hours"   },
+          { val: time.minutes, label: "Minutes" },
+          { val: time.seconds, label: "Seconds" },
+        ].map((unit, i) => (
+          <span key={unit.label} style={{ display: "contents" }}>
+            {i > 0 && <span className="countdown-colon">:</span>}
+            <div className="countdown-unit">
+              <span className="countdown-value">{String(unit.val).padStart(2, "0")}</span>
+              <span className="countdown-unit-label">{unit.label}</span>
+            </div>
+          </span>
         ))}
       </div>
     </div>

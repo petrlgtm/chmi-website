@@ -457,6 +457,12 @@ select:focus-visible {
   border-radius: var(--radius-sm); transition: var(--transition-fast);
 }
 .dropdown-menu a:hover { background: var(--purple-50); }
+.dropdown-view-all {
+  border-top: 1px solid var(--gray-100); margin-top: 0.35rem; padding-top: 0.65rem !important;
+  font-weight: 600; color: var(--primary) !important; font-size: 0.8rem !important;
+  text-align: center;
+}
+html.dark .dropdown-view-all { border-top-color: rgba(255,255,255,0.08); color: var(--purple-300) !important; }
 
 .mobile-toggle { display: none; background: none; padding: 0.5rem; color: var(--gray-700); border: none; cursor: pointer; }
 .mobile-overlay {
@@ -593,6 +599,12 @@ select:focus-visible {
 }
 .mobile-subnav-link:hover { background: var(--purple-50); color: var(--primary); }
 .mobile-subnav-link:hover::before { background: var(--primary); }
+.mobile-subnav-viewall {
+  font-weight: 600; color: var(--primary) !important;
+  border-top: 1px solid var(--gray-100); margin-top: 0.25rem; padding-top: 0.65rem;
+}
+.mobile-subnav-viewall::before { display: none; }
+html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-top-color: rgba(255,255,255,0.08); }
 
 /* Give Button */
 .mobile-give-btn {
@@ -1990,6 +2002,31 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
   text-align: center; font-size: 0.8rem; font-style: italic;
   color: rgba(255,255,255,0.5); margin: 0; font-family: var(--font-display);
 }
+.live-watch-links {
+  display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 0.85rem;
+}
+.live-watch-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 1.1rem; border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #fff; font-size: 0.78rem; font-weight: 700;
+  text-decoration: none; letter-spacing: 0.02em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(220, 38, 38, 0.4);
+}
+.live-watch-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
+}
+.live-watch-btn svg { flex-shrink: 0; }
+.live-watch-btn-teams {
+  background: linear-gradient(135deg, #5b5fc7, #4b4fbf);
+  box-shadow: 0 2px 12px rgba(91, 95, 199, 0.4);
+}
+.live-watch-btn-teams:hover {
+  box-shadow: 0 4px 20px rgba(91, 95, 199, 0.6);
+}
 
 /* ── Countdown state ── */
 .countdown-next-label {
@@ -2013,17 +2050,29 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
   display: inline-flex; align-items: center; gap: 0.35rem;
   font-size: 0.75rem; color: rgba(255,255,255,0.5);
 }
-.countdown-units { display: flex; gap: 0.85rem; justify-content: center; }
-.countdown-unit { text-align: center; min-width: 58px; }
+.countdown-units { display: flex; gap: 0.6rem; justify-content: center; }
+.countdown-unit {
+  text-align: center; min-width: 62px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 0.5rem 0.6rem;
+  position: relative;
+}
 .countdown-value {
   display: block; font-family: var(--font-mono);
   font-size: 2rem; font-weight: 700; color: #ffffff; line-height: 1;
   text-shadow: 0 0 12px rgba(245,158,11,0.4);
 }
 .countdown-unit-label {
-  display: block; font-size: 0.65rem; text-transform: uppercase;
-  letter-spacing: 0.12em; color: rgba(255,255,255,0.65);
-  font-family: var(--font-mono); margin-top: 0.35rem;
+  display: block; font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--gold-400);
+  font-family: var(--font-mono); margin-top: 0.45rem;
+  font-weight: 600;
+}
+.countdown-colon {
+  font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700;
+  color: rgba(255,255,255,0.3); align-self: center; padding-bottom: 0.8rem;
 }
 
 /* Countdown dark mode overrides */
@@ -3190,10 +3239,12 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
 
 /* Countdown timer — prevent overflow on narrow screens */
 @media (max-width: 480px) {
-  .countdown-units { flex-wrap: wrap; justify-content: center; }
-  .countdown-unit { min-width: 50px; }
-  .countdown-value { font-size: 1.5rem; }
-  .countdown-timer { padding: 1.25rem 1rem; }
+  .countdown-units { flex-wrap: nowrap; gap: 0.35rem; }
+  .countdown-unit { min-width: 48px; padding: 0.55rem 0.35rem 0.45rem; }
+  .countdown-value { font-size: 1.35rem; }
+  .countdown-unit-label { font-size: 0.5rem; letter-spacing: 0.08em; }
+  .countdown-colon { font-size: 1.1rem; padding-bottom: 0.6rem; }
+  .countdown-timer { padding: 1.25rem 0.85rem; min-width: unset; }
 }
 
 /* Give hero stats — flex wrap on mobile */
@@ -5543,3 +5594,74 @@ html.dark .about-core-pill {
   text-align: center; padding: 4rem; color: var(--text-light);
 }
 .blog-empty svg { opacity: 0.3; margin-bottom: 1rem; }
+
+/* =============================================================
+   LARGE DESKTOP BREAKPOINTS
+   ============================================================= */
+
+/* ── 1280px+ — Standard large desktop ── */
+@media (min-width: 1280px) {
+  :root { --container-max: 1240px; }
+  .container { padding: 0 2rem; }
+  .section { padding: 7rem 0; }
+  .section-header h2 { font-size: 3rem; }
+  .page-hero-xl { min-height: 55vh; padding: 9rem 2rem 6rem; }
+  .page-hero-xl h1 { font-size: 4.25rem; }
+  .branches-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .sermons-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .photo-gallery { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+}
+
+/* ── 1440px+ — Large desktop / external monitor ── */
+@media (min-width: 1440px) {
+  :root { --container-max: 1360px; }
+  .container { padding: 0 2.5rem; }
+  .section { padding: 8rem 0; }
+  .section-header h2 { font-size: 3.25rem; }
+  .section-header p { max-width: 700px; font-size: 1.15rem; }
+  .page-hero-xl { min-height: 55vh; padding: 10rem 2.5rem 6.5rem; }
+  .page-hero-xl h1 { font-size: 4.5rem; }
+  .page-hero-xl p { max-width: 720px; font-size: 1.25rem; }
+  .hero-content { gap: 5rem; padding: 9rem 2.5rem 8rem; }
+  .hero-text h1 { font-size: 4rem; }
+  .stats-inner { gap: 2rem; }
+  .branches-grid { gap: 2.25rem; }
+  .featured-events-grid { gap: 2.5rem; }
+  .footer-grid { gap: 4rem; }
+  .mission-grid { gap: 5rem; }
+  .feature-row { gap: 6rem; }
+}
+
+/* ── 1680px+ — Large external monitor ── */
+@media (min-width: 1680px) {
+  :root { --container-max: 1500px; }
+  .container { padding: 0 3rem; }
+  .branches-grid { grid-template-columns: repeat(4, 1fr); }
+  .featured-events-grid { grid-template-columns: repeat(4, 1fr); }
+  .impact-grid { grid-template-columns: repeat(4, 1fr); }
+  .give-impact-grid { grid-template-columns: repeat(4, 1fr); }
+  .services-grid-v2 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── 1920px+ — Full HD / wide monitor ── */
+@media (min-width: 1920px) {
+  :root { --container-max: 1600px; }
+  .container { padding: 0 3.5rem; }
+  .section { padding: 9rem 0; }
+  .section-header h2 { font-size: 3.5rem; }
+  .page-hero-xl { min-height: 50vh; padding: 11rem 3rem 7rem; }
+  .page-hero-xl h1 { font-size: 5rem; }
+  .hero-content { padding: 10rem 3rem 9rem; }
+  .hero-text h1 { font-size: 4.5rem; }
+  .sermons-grid { grid-template-columns: repeat(5, 1fr); }
+  .photo-gallery { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* ── 2560px+ — QHD / ultrawide ── */
+@media (min-width: 2560px) {
+  :root { --container-max: 1800px; }
+  .container { padding: 0 4rem; }
+  .section-header h2 { font-size: 3.75rem; }
+  .page-hero-xl h1 { font-size: 5.5rem; }
+  .hero-text h1 { font-size: 5rem; }
+}

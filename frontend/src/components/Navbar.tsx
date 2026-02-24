@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown, Home, MapPin, Calendar, Users, BookOpen, Mail, He
 import logo01 from "../../../logos/CHMI Logos-01.png";
 import { APOSTLE_ISAIAH } from "../utils/imageFallbacks";
 import { events } from "../data/events";
+import { getUpcomingEvents } from "../utils/eventDate";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -48,6 +49,7 @@ export default function Navbar() {
 
   const [eventsExpanded, setEventsExpanded] = useState(false);
   const isActive = (path: string) => location.pathname === path;
+  const nearbyEvents = getUpcomingEvents(events).slice(0, 4);
 
   const navItems = [
     { path: "/", label: "Home", icon: Home },
@@ -80,9 +82,10 @@ export default function Navbar() {
                   Events <ChevronDown size={14} />
                 </Link>
                 <div className="dropdown-menu">
-                  {events.map((e) => (
+                  {nearbyEvents.map((e) => (
                     <Link key={e.id} to={`/events/${e.id}`}>{e.name}</Link>
                   ))}
+                  <Link to="/events" className="dropdown-view-all">View All Events</Link>
                 </div>
               </div>
               <Link to="/about" className={isActive("/about") ? "active" : ""}>About</Link>
@@ -198,14 +201,14 @@ export default function Navbar() {
                         <ChevronRight size={16} className={`mobile-expand-arrow ${eventsExpanded ? "expanded" : ""}`} />
                       </button>
                       <div className={`mobile-subnav ${eventsExpanded ? "open" : ""}`}>
-                        <Link to={item.path} className="mobile-subnav-link">
-                          All Events
-                        </Link>
-                        {events.map((e) => (
+                        {nearbyEvents.map((e) => (
                           <Link key={e.id} to={`/events/${e.id}`} className="mobile-subnav-link">
                             {e.name}
                           </Link>
                         ))}
+                        <Link to={item.path} className="mobile-subnav-link mobile-subnav-viewall">
+                          View All Events
+                        </Link>
                       </div>
                     </>
                   ) : (

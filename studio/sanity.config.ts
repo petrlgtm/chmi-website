@@ -62,8 +62,12 @@ export default defineConfig({
             S.divider(),
             S.listItem()
               .title('Leadership')
-              .schemaType('leadership')
-              .child(S.documentTypeList('leadership').title('Leadership')),
+              .child(
+                S.document()
+                  .schemaType('leadership')
+                  .documentId('leadership')
+                  .title('Leadership — General Overseers'),
+              ),
             S.listItem()
               .title('Statement of Faith')
               .schemaType('statementOfFaith')
