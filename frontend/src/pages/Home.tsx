@@ -337,27 +337,62 @@ export default function Home() {
                     to={`/events/${event.id}`}
                     key={`${event.id}-${i}`}
                     className="event-marquee-card"
+                    aria-label={`${event.name} — ${event.date}`}
                   >
+                    {/* Full-bleed background image */}
                     <div className="event-marquee-img">
-                      <img src={event.image || ALL_IMAGES[i % ALL_IMAGES.length]} alt={event.name} loading="lazy" />
-                      <div className="event-marquee-overlay" />
-                      <span className="event-marquee-date">{event.date}</span>
+                      <img
+                        src={event.image || ALL_IMAGES[i % ALL_IMAGES.length]}
+                        alt=""
+                        loading="lazy"
+                      />
                     </div>
-                    <div className="event-marquee-body">
+
+                    {/* Cinematic gradient overlay */}
+                    <div className="event-marquee-overlay" aria-hidden="true" />
+
+                    {/* Top badges: date left, category right */}
+                    <div className="event-marquee-badges">
+                      <span className="event-marquee-date">{event.date}</span>
                       <span className="event-marquee-cat">{event.category}</span>
+                    </div>
+
+                    {/* Bottom content */}
+                    <div className="event-marquee-body">
                       <h4>{event.name}</h4>
-                      <p>{event.tagline}</p>
+                      {event.tagline && <p>{event.tagline}</p>}
+
+                      {/* Meta: location + time */}
+                      <div className="event-marquee-meta">
+                        {event.location && (
+                          <span className="event-marquee-meta-item">
+                            <MapPin size={10} aria-hidden="true" />
+                            {event.location.length > 22
+                              ? event.location.slice(0, 22) + "…"
+                              : event.location}
+                          </span>
+                        )}
+                        {event.time && (
+                          <span className="event-marquee-meta-item">
+                            <Clock size={10} aria-hidden="true" />
+                            {event.time}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Countdown */}
                       {countdown && (
-                        <span style={{
-                          display: "inline-block", marginTop: "0.6rem",
-                          fontSize: "0.7rem", fontWeight: 700,
-                          color: "var(--gold-500)", fontFamily: "var(--font-mono)",
-                          textTransform: "uppercase", letterSpacing: "0.05em"
-                        }}>
-                          ⏳ {countdown}
+                        <span className="event-marquee-countdown">
+                          <Calendar size={10} aria-hidden="true" />
+                          {countdown}
                         </span>
                       )}
                     </div>
+
+                    {/* Hover CTA arrow */}
+                    <span className="event-marquee-cta" aria-hidden="true">
+                      <ArrowRight size={14} />
+                    </span>
                   </Link>
                 );
               })}
