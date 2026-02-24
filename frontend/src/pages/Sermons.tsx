@@ -109,7 +109,7 @@ export default function Sermons() {
 
       {/* Featured Sermon */}
       {featured && !loading && (
-        <section className="section" style={{ background: "var(--bg-alt)" }}>
+        <section id="latest" className="section" style={{ background: "var(--bg-alt)" }}>
           <div className="container" style={{ maxWidth: "900px" }}>
             <div className="section-header">
               <span className="section-label">Latest Message</span>

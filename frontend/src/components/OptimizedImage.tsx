@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 interface Props extends React.ImgHTMLAttributes<HTMLImageElement> {
   aspectRatio?: string;
@@ -16,12 +16,6 @@ export default function OptimizedImage({
   const [errored, setErrored] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
-      setLoaded(true);
-    }
-  }, []);
-
   return (
     <div
       className="opt-img-wrap"
@@ -29,7 +23,12 @@ export default function OptimizedImage({
     >
       {!loaded && !errored && <div className="skeleton opt-img-skeleton" />}
       <img
-        ref={imgRef}
+        ref={(node) => {
+          (imgRef as React.MutableRefObject<HTMLImageElement | null>).current = node;
+          if (node?.complete && node.naturalWidth > 0) {
+            setLoaded(true);
+          }
+        }}
         className={className}
         style={{
           width: "100%",

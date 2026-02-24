@@ -30,35 +30,35 @@ function App() {
   return (
     <BrowserRouter basename="/chmi-website">
       <SiteImagesProvider>
-      <PlayerProvider>
-      <ScrollToTop />
-      <ScrollProgress />
-      <Navbar />
-      <main id="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/branches" element={<Branches />} />
-          <Route path="/branches/:id" element={<BranchDetail />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<EventDetail />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/sermons" element={<Sermons />} />
-          <Route path="/give" element={<Give />} />
-          <Route path="/services/:id" element={<ServiceDetail />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
-      <BackToTop />
-      <PrayerRequestModal />
-      <NearbyBranchPrompt onDismiss={() => {}} />
-      <EventPromoPopup />
-      <MiniPlayer />
-      </PlayerProvider>
+        <PlayerProvider>
+          <ScrollToTop />
+          <ScrollProgress />
+          <Navbar />
+          <main id="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/branches" element={<Branches />} />
+              <Route path="/branches/:id" element={<BranchDetail />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/events/:id" element={<EventDetail />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/sermons" element={<Sermons />} />
+              <Route path="/give" element={<Give />} />
+              <Route path="/services/:id" element={<ServiceDetail />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogDetail />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          <Footer />
+          <BackToTop />
+          <PrayerRequestModal />
+          <NearbyBranchPrompt onDismiss={() => {}} />
+          <EventPromoPopup />
+          <MiniPlayer />
+        </PlayerProvider>
       </SiteImagesProvider>
     </BrowserRouter>
   );

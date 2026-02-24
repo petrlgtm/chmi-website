@@ -1,8 +1,8 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 import type { Song } from "../types";
 
-interface PlayerContextValue {
+export interface PlayerContextValue {
   currentSong: Song | null;
   isExpanded: boolean;
   play: (song: Song) => void;
@@ -10,7 +10,8 @@ interface PlayerContextValue {
   toggleExpanded: () => void;
 }
 
-const PlayerContext = createContext<PlayerContextValue | null>(null);
+// eslint-disable-next-line react-refresh/only-export-components
+export const PlayerContext = createContext<PlayerContextValue | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
@@ -51,10 +52,4 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       {children}
     </PlayerContext.Provider>
   );
-}
-
-export function usePlayer() {
-  const ctx = useContext(PlayerContext);
-  if (!ctx) throw new Error("usePlayer must be used within PlayerProvider");
-  return ctx;
 }

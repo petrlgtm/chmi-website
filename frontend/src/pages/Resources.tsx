@@ -5,7 +5,7 @@ import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useHeroStyle } from "../context/SiteImagesContext";
 import { useSanityResources } from "../hooks/useSanityResources";
 import { useYouTubeSongs } from "../hooks/useYouTubeSongs";
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../hooks/usePlayer";
 import type { ResourceItem, MediaChannel } from "../hooks/useSanityResources";
 
 const DEFAULT_ORDER_URL =
@@ -169,7 +169,7 @@ export default function Resources() {
       </section>
 
       {/* Songs — Watch, Listen & Connect */}
-      <section className="about-timeline-section">
+      <section className="about-timeline-section" id="songs">
         <div className="container">
           <div className="section-header">
             <span className="section-label resources-media-label">Music</span>

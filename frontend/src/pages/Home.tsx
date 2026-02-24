@@ -170,11 +170,11 @@ export default function Home() {
               spirituality in Uganda and throughout Africa, with a broad international presence.
             </p>
             <div className="hero-buttons hero-animate hero-animate-delay-4">
-              <Link to="/branches" className="btn btn-gold">
-                <MapPin size={18} /> Find a Church
+              <Link to="/sermons#latest" className="btn btn-gold">
+                <Play size={18} /> Sermons
               </Link>
-              <Link to="/about" className="btn btn-white">
-                Learn More <ArrowRight size={18} />
+              <Link to="/resources#songs" className="btn btn-white">
+                <Headphones size={18} /> Songs
               </Link>
             </div>
             <div className="hero-animate hero-animate-delay-4 mt-4">

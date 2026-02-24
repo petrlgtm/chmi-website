@@ -1,5 +1,5 @@
 import { ChevronUp, ChevronDown, X } from "lucide-react";
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../hooks/usePlayer";
 
 export default function MiniPlayer() {
   const { currentSong, isExpanded, stop, toggleExpanded } = usePlayer();
