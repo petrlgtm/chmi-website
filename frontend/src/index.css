@@ -3823,7 +3823,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 /* ===================== */
 .events-marquee {
   position: relative; overflow: hidden; width: 100%;
-  padding: 1.5rem 0 2rem;
+  padding: 2rem 0 3rem;
 }
 .events-marquee::before,
 .events-marquee::after {
@@ -3833,14 +3833,28 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 .events-marquee::before { left: 0; background: linear-gradient(to right, var(--bg-alt), transparent); }
 .events-marquee::after  { right: 0; background: linear-gradient(to left,  var(--bg-alt), transparent); }
 .events-marquee-track {
-  display: flex; gap: 1.5rem; width: max-content;
-  animation: events-marquee-scroll 60s linear infinite;
-  padding: 0.5rem 0 1rem;
+  display: flex; gap: 2rem; width: max-content;
+  align-items: flex-start;
+  animation: events-marquee-scroll 90s linear infinite;
+  padding: 1rem 0 2rem;
 }
 .events-marquee:hover .events-marquee-track { animation-play-state: paused; }
 @keyframes events-marquee-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+/* Staggered wave — every other card shifts down */
+.events-marquee-track .event-marquee-card:nth-child(even) {
+  transform: translateY(40px);
+}
+.events-marquee-track .event-marquee-card:nth-child(even):hover {
+  transform: translateY(30px) scale(1.012);
+}
+.events-marquee-track .event-marquee-card:nth-child(3n) {
+  transform: translateY(20px);
+}
+.events-marquee-track .event-marquee-card:nth-child(3n):hover {
+  transform: translateY(10px) scale(1.012);
 }
 /* ── Premium editorial event marquee card ── */
 .event-marquee-card {
@@ -3872,8 +3886,10 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   z-index: 5;
 }
 
-.event-marquee-card:hover {
+.events-marquee-track .event-marquee-card:nth-child(odd):hover {
   transform: translateY(-10px) scale(1.012);
+}
+.event-marquee-card:hover {
   box-shadow: 0 32px 72px rgba(0,0,0,0.45), 0 0 0 1px rgba(251,191,36,0.12);
 }
 .event-marquee-card:hover::after { opacity: 1; }
