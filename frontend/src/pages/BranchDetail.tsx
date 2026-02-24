@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, ArrowLeft, Quote, Church, Users, X } from "lucide-react";
 import { useSanityBranches } from "../hooks/useSanityBranches";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { services as allServices } from "../data/services";
 import OptimizedImage from "../components/OptimizedImage";
 
 import { IMAGES } from "../utils/imageFallbacks";
@@ -117,10 +118,62 @@ export default function BranchDetail() {
               {/* Services */}
               <div className="branch-info-card">
                 <h3>Service Times</h3>
-                <div className="branch-service-box">
-                  <Clock size={20} />
-                  <p>{branch.services}</p>
-                </div>
+                {(() => {
+                  const branchSchedules: { title: string; id: string; times: string }[] = [];
+                  for (const svc of allServices) {
+                    if (svc.isOnline) {
+                      const time = svc.schedule[0]
+                        ? `${svc.schedule[0].day}: ${svc.schedule[0].time}`
+                        : svc.shortDesc;
+                      branchSchedules.push({ title: svc.title, id: svc.id, times: time });
+                      continue;
+                    }
+                    const entry = svc.branchSchedules.find((bs) => bs.branchId === branch.id);
+                    if (entry) {
+                      branchSchedules.push({ title: svc.title, id: svc.id, times: entry.times });
+                    }
+                  }
+
+                  if (branch.services) {
+                    return (
+                      <div className="branch-service-box">
+                        <Clock size={20} />
+                        <p>{branch.services}</p>
+                      </div>
+                    );
+                  }
+
+                  if (branchSchedules.length === 0) {
+                    return (
+                      <p style={{ color: "var(--text-light)", lineHeight: 1.6 }}>
+                        Contact this branch for specific service times.
+                      </p>
+                    );
+                  }
+
+                  return (
+                    <div className="branch-schedule-list">
+                      {branchSchedules.map((svc) => (
+                        <Link
+                          key={svc.id}
+                          to={`/services/${svc.id}`}
+                          className="branch-schedule-item"
+                        >
+                          <Clock size={16} />
+                          <div>
+                            <strong>{svc.title}</strong>
+                            <span>{svc.times}</span>
+                          </div>
+                        </Link>
+                      ))}
+                      {branchSchedules.every((s) => s.id === "night-services") && (
+                        <p style={{ color: "var(--text-light)", fontSize: "0.85rem", marginTop: "0.5rem", lineHeight: 1.5 }}>
+                          Contact this branch for in-person service times.
+                        </p>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             </div>
 

@@ -84,9 +84,9 @@ export default function Resources() {
   const heroStyle = useHeroStyle("heroResources");
   const booksRef = useScrollAnimation<HTMLDivElement>();
   const mediaRef = useScrollAnimation<HTMLDivElement>();
-  const songsRef = useScrollAnimation<HTMLDivElement>();
   const { resources: sanityResources, mediaChannels: sanityMedia } = useSanityResources();
   const { songs, loading: songsLoading, error: songsError } = useYouTubeSongs();
+  const songsRef = useScrollAnimation<HTMLDivElement>(0.15, !songsLoading && !songsError);
 
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [songsSearch, setSongsSearch] = useState("");

@@ -39,18 +39,18 @@ function findNearest(lat: number, lng: number, count = 3): { branch: Branch; dis
 function getServicesForBranch(branchId: string) {
   const matched: { id: string; title: string; times: string }[] = [];
   for (const svc of services) {
+    // Night Services is online-only — always show it for every branch
+    if (svc.isOnline) {
+      const time = svc.schedule[0]
+        ? `${svc.schedule[0].day}: ${svc.schedule[0].time}`
+        : svc.shortDesc;
+      matched.push({ id: svc.id, title: svc.title, times: time });
+      continue;
+    }
     const entry = svc.branchSchedules.find((bs) => bs.branchId === branchId);
     if (entry) {
       matched.push({ id: svc.id, title: svc.title, times: entry.times });
     }
-  }
-  // If no specific branch schedules found, show general service info
-  if (matched.length === 0) {
-    return services.slice(0, 4).map((svc) => ({
-      id: svc.id,
-      title: svc.title,
-      times: svc.shortDesc,
-    }));
   }
   return matched;
 }
@@ -308,6 +308,11 @@ export default function NearbyBranchPrompt({ onDismiss }: { onDismiss?: () => vo
                     </Link>
                   );
                 })}
+                {branchServices.every((svc) => svc.id === "night-services") && (
+                  <p style={{ fontSize: "0.78rem", color: "var(--text-light)", margin: "0.5rem 0 0", lineHeight: 1.5 }}>
+                    Contact your branch for specific in-person service times.
+                  </p>
+                )}
               </div>
             )}
 

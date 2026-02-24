@@ -319,88 +319,127 @@ export default function Home() {
           </AnimatedSection>
         </div>
 
-        {upcomingEvents.length > 0 ? (
-          <div className="events-marquee">
-            <div className="events-marquee-track">
-              {[...upcomingEvents, ...upcomingEvents].map((event, i) => {
-                const countdown = getCountdownText(event);
-                return (
-                  <Link
-                    to={`/events/${event.id}`}
-                    key={`${event.id}-${i}`}
-                    className="event-marquee-card"
-                    aria-label={`${event.name} — ${event.date}`}
-                  >
-                    {/* Full-bleed background image */}
-                    <div className="event-marquee-img">
-                      <img
-                        src={event.image || ALL_IMAGES[i % ALL_IMAGES.length]}
-                        alt=""
-                        loading="lazy"
-                      />
-                    </div>
+        {(() => {
+          if (upcomingEvents.length === 0) {
+            return (
+              <div className="home-events-empty">
+                <p>Check back soon for upcoming events.</p>
+              </div>
+            );
+          }
 
-                    {/* Cinematic gradient overlay */}
-                    <div className="event-marquee-overlay" aria-hidden="true" />
+          const featured = upcomingEvents[0];
+          const listEvents = upcomingEvents.slice(1, 4);
+          const featuredCountdown = getCountdownText(featured);
+          const isSingle = listEvents.length === 0;
 
-                    {/* Top badges: date left, category right */}
-                    <div className="event-marquee-badges">
-                      <span className="event-marquee-date">{event.date}</span>
-                      <span className="event-marquee-cat">{event.category}</span>
-                    </div>
+          return (
+            <>
+              <div className={`home-events-layout${isSingle ? " home-events-layout--single" : ""}`}>
+                {/* Featured card */}
+                <Link
+                  to={`/events/${featured.id}`}
+                  className="home-evt-featured"
+                  aria-label={`${featured.name} — ${featured.date}`}
+                >
+                  <div className="home-evt-featured-img">
+                    <img
+                      src={featured.image || ALL_IMAGES[0]}
+                      alt=""
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="home-evt-featured-overlay" aria-hidden="true" />
 
-                    {/* Bottom content */}
-                    <div className="event-marquee-body">
-                      <h4>{event.name}</h4>
-                      {event.tagline && <p>{event.tagline}</p>}
+                  <div className="home-evt-featured-badges">
+                    <span className="badge-date">{featured.date}</span>
+                    <span className="badge-cat">{featured.category}</span>
+                  </div>
 
-                      {/* Meta: location + time */}
-                      <div className="event-marquee-meta">
-                        {event.location && (
-                          <span className="event-marquee-meta-item">
-                            <MapPin size={10} aria-hidden="true" />
-                            {event.location.length > 22
-                              ? event.location.slice(0, 22) + "…"
-                              : event.location}
-                          </span>
-                        )}
-                        {event.time && (
-                          <span className="event-marquee-meta-item">
-                            <Clock size={10} aria-hidden="true" />
-                            {event.time}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Countdown */}
-                      {countdown && (
-                        <span className="event-marquee-countdown">
-                          <Calendar size={10} aria-hidden="true" />
-                          {countdown}
+                  <div className="home-evt-featured-body">
+                    {featuredCountdown && (
+                      <span className="home-evt-featured-countdown">
+                        <Calendar size={11} aria-hidden="true" />
+                        {featuredCountdown}
+                      </span>
+                    )}
+                    <h3>{featured.name}</h3>
+                    {featured.tagline && <p className="tagline">{featured.tagline}</p>}
+                    <div className="meta">
+                      {featured.location && (
+                        <span>
+                          <MapPin size={12} aria-hidden="true" />
+                          {featured.location}
+                        </span>
+                      )}
+                      {featured.time && (
+                        <span>
+                          <Clock size={12} aria-hidden="true" />
+                          {featured.time}
                         </span>
                       )}
                     </div>
-
-                    {/* Hover CTA arrow */}
-                    <span className="event-marquee-cta" aria-hidden="true">
-                      <ArrowRight size={14} />
+                    <span className="home-evt-featured-cta">
+                      View Details <ArrowRight size={13} />
                     </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ) : (
-          <div className="container" style={{ textAlign: "center", padding: "3rem 0", color: "var(--text-light)" }}>
-            <p>Check back soon for upcoming events.</p>
-          </div>
-        )}
+                  </div>
+                </Link>
 
-        <div className="container" style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Link to="/events" className="btn btn-primary">
-            View All Events <ArrowRight size={16} />
-          </Link>
-        </div>
+                {/* Upcoming list */}
+                {listEvents.length > 0 && (
+                  <div className="home-evt-list">
+                    {listEvents.map((evt, i) => {
+                      const cd = getCountdownText(evt);
+                      return (
+                        <Link
+                          to={`/events/${evt.id}`}
+                          key={evt.id}
+                          className="home-evt-list-item"
+                          aria-label={`${evt.name} — ${evt.date}`}
+                        >
+                          <div className="home-evt-list-thumb">
+                            <img
+                              src={evt.image || ALL_IMAGES[(i + 1) % ALL_IMAGES.length]}
+                              alt=""
+                              loading="lazy"
+                            />
+                            {cd && (
+                              <span className="home-evt-list-countdown">{cd}</span>
+                            )}
+                          </div>
+                          <div className="home-evt-list-info">
+                            <span className="home-evt-list-name">{evt.name}</span>
+                            <span className="home-evt-list-date">
+                              <Calendar size={11} aria-hidden="true" />
+                              {evt.date}
+                            </span>
+                            {evt.location && (
+                              <span className="home-evt-list-location">
+                                <MapPin size={11} aria-hidden="true" />
+                                {evt.location}
+                              </span>
+                            )}
+                          </div>
+                          <span className="home-evt-list-arrow" aria-hidden="true">
+                            <ArrowRight size={14} />
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {upcomingEvents.length > 4 && (
+                <div className="home-events-cta">
+                  <Link to="/events" className="btn btn-primary">
+                    View All Events <ArrowRight size={16} />
+                  </Link>
+                </div>
+              )}
+            </>
+          );
+        })()}
       </section>
 
       {/* Latest Sermon */}

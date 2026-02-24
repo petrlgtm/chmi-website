@@ -1975,6 +1975,353 @@ html.dark .events-heading-accent { color: var(--gold-400); }
   .events-heading { font-size: 2rem; }
 }
 
+/* =============================== */
+/* HOME EVENTS — FEATURED + LIST   */
+/* =============================== */
+.home-events-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.home-events-layout--single {
+  grid-template-columns: 1fr;
+  max-width: 680px;
+}
+
+/* ── Featured card ── */
+.home-evt-featured {
+  position: relative;
+  min-height: 420px;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid transparent;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.home-evt-featured:hover {
+  border-color: var(--gold-500);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.18);
+}
+
+.home-evt-featured-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.home-evt-featured-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.home-evt-featured:hover .home-evt-featured-img img {
+  transform: scale(1.04);
+}
+
+.home-evt-featured-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+  pointer-events: none;
+}
+
+.home-evt-featured-badges {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.home-evt-featured-badges .badge-date {
+  background: var(--gold-500);
+  color: #000;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3em 0.7em;
+  border-radius: var(--radius-md);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.home-evt-featured-badges .badge-cat {
+  background: var(--purple-700);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.3em 0.7em;
+  border-radius: var(--radius-md);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.home-evt-featured-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.75rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.home-evt-featured-body h3 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  color: #fff;
+}
+.home-evt-featured-body .tagline {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.4;
+}
+.home-evt-featured-body .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
+.home-evt-featured-body .meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.home-evt-featured-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  padding: 0.3em 0.7em;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--gold-300);
+  width: fit-content;
+  margin-top: 0.35rem;
+}
+
+.home-evt-featured-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-top: 0.75rem;
+  padding: 0.55em 1.2em;
+  border-radius: var(--radius-lg);
+  background: var(--gold-500);
+  color: #000;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  width: fit-content;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.home-evt-featured:hover .home-evt-featured-cta {
+  background: var(--gold-400);
+  transform: translateX(2px);
+}
+
+/* ── List panel ── */
+.home-evt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.home-evt-list-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem;
+  border-radius: var(--radius-xl);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px solid var(--gray-200);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.home-evt-list-item:hover {
+  border-color: var(--purple-400);
+  box-shadow: 0 4px 16px rgba(122, 23, 189, 0.1);
+  transform: translateY(-2px);
+}
+
+.home-evt-list-thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.home-evt-list-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.home-evt-list-countdown {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  color: var(--gold-300);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.2em 0;
+  letter-spacing: 0.03em;
+}
+
+.home-evt-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.home-evt-list-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-evt-list-date {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+.home-evt-list-location {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-evt-list-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-500);
+  flex-shrink: 0;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.home-evt-list-item:hover .home-evt-list-arrow {
+  background: var(--purple-600);
+  color: #fff;
+}
+
+/* ── View All CTA ── */
+.home-events-cta {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0 1.5rem;
+}
+
+/* ── Empty state ── */
+.home-events-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text-light);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .home-events-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .home-evt-featured {
+    min-height: 360px;
+  }
+  .home-evt-list-item {
+    grid-template-columns: 72px 1fr auto;
+  }
+}
+@media (max-width: 480px) {
+  .home-evt-featured {
+    min-height: 300px;
+  }
+  .home-evt-featured-body h3 {
+    font-size: 1.2rem;
+  }
+  .home-evt-featured-body {
+    padding: 1.25rem 1rem 1.15rem;
+  }
+  .home-evt-list-item {
+    grid-template-columns: 64px 1fr auto;
+    gap: 0.75rem;
+    padding: 0.7rem;
+  }
+  .home-evt-list-thumb {
+    width: 64px;
+    height: 64px;
+  }
+  .home-evt-list-name { font-size: 0.85rem; }
+}
+
+/* ── Dark mode ── */
+html.dark .home-evt-list-item {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+html.dark .home-evt-list-item:hover {
+  border-color: var(--purple-500);
+  box-shadow: 0 4px 16px rgba(122, 23, 189, 0.2);
+}
+html.dark .home-evt-list-name { color: #f0f0f0; }
+html.dark .home-evt-list-date,
+html.dark .home-evt-list-location { color: rgba(255, 255, 255, 0.55); }
+html.dark .home-evt-list-arrow {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+html.dark .home-evt-list-item:hover .home-evt-list-arrow {
+  background: var(--purple-600);
+  color: #fff;
+}
+
 /* ===================== */
 /* HISTORY MOSAIC        */
 /* ===================== */
@@ -5607,6 +5954,57 @@ html.dark .media-channel-card:hover { background: rgba(255,255,255,0.08); }
 .branch-service-box p {
   color: var(--gray-600); line-height: 1.7; margin: 0;
 }
+
+/* ─── BRANCH SCHEDULE LIST ─────────────────────────────────── */
+.branch-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.branch-schedule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--purple-50);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px solid transparent;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.branch-schedule-item:hover {
+  border-color: var(--purple-300);
+  background: var(--purple-100);
+}
+.branch-schedule-item svg {
+  color: var(--primary);
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+.branch-schedule-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.branch-schedule-item strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+.branch-schedule-item span {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+html.dark .branch-schedule-item {
+  background: rgba(168, 62, 245, 0.08);
+}
+html.dark .branch-schedule-item:hover {
+  background: rgba(168, 62, 245, 0.14);
+  border-color: var(--purple-600);
+}
+html.dark .branch-schedule-item strong { color: #f0f0f0; }
 
 /* ─── BRANCH GALLERY HOVER ─────────────────────────────────── */
 .branch-gallery-item {

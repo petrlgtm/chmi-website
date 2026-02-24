@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
 
 export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
-  threshold = 0.15
+  threshold = 0.15,
+  ready = true
 ) {
   const ref = useRef<T>(null);
 
   useEffect(() => {
+    if (!ready) return;
     const el = ref.current;
     if (!el) return;
 
@@ -21,7 +23,7 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, ready]);
 
   return ref;
 }
