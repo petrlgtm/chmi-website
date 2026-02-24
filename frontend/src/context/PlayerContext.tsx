@@ -19,10 +19,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const play = useCallback((item: PlayableItem) => {
     setCurrentItem((prev) => {
-      if (prev?.id === item.id) return prev;
+      if (prev?.id === item.id && prev?.mode === item.mode) return prev;
       return item;
     });
-    setIsExpanded(false);
+    setIsExpanded(item.mode === "video");
   }, []);
 
   const stop = useCallback(() => {

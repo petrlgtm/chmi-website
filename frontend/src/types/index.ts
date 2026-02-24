@@ -69,4 +69,5 @@ export interface PlayableItem {
   videoId: string;
   thumbnail: string;
   thumbnailHigh?: string;
+  mode?: "video" | "audio";
 }

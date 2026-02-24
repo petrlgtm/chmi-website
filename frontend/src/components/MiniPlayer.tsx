@@ -1,10 +1,12 @@
-import { ChevronUp, ChevronDown, X } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Video, Headphones } from "lucide-react";
 import { usePlayer } from "../hooks/usePlayer";
 
 export default function MiniPlayer() {
   const { currentItem, isExpanded, stop, toggleExpanded } = usePlayer();
 
   if (!currentItem) return null;
+
+  const isAudio = currentItem.mode === "audio";
 
   return (
     <div className="mini-player" role="region" aria-label="Media player">
@@ -30,7 +32,10 @@ export default function MiniPlayer() {
         />
         <div className="mini-player-info">
           <span className="mini-player-title">{currentItem.title}</span>
-          <span className="mini-player-artist">{currentItem.subtitle}</span>
+          <span className="mini-player-artist">
+            {isAudio ? <Headphones size={11} /> : <Video size={11} />}
+            {" "}{currentItem.subtitle}
+          </span>
         </div>
         <div className="mini-player-controls">
           <button

@@ -75,12 +75,12 @@ export default function Branches() {
   }, [branches]);
 
   const filtered = useMemo(() => {
+    const terms = search.toLowerCase().trim().split(/\s+/).filter(Boolean);
     return branches.filter((b) => {
-      const matchSearch =
-        !search ||
-        b.name.toLowerCase().includes(search.toLowerCase()) ||
-        b.city.toLowerCase().includes(search.toLowerCase()) ||
-        b.address.toLowerCase().includes(search.toLowerCase());
+      const country = getCountryLabel(b.city);
+      const pastor = b.pastors?.[0]?.name ?? "";
+      const haystack = `${b.name} ${b.city} ${b.address} ${country} ${pastor}`.toLowerCase();
+      const matchSearch = terms.length === 0 || terms.every((term) => haystack.includes(term));
       const matchCity = !cityFilter || b.city === cityFilter;
       return matchSearch && matchCity;
     });

@@ -172,7 +172,7 @@ export default function Resources() {
       </section>
 
       {/* Songs — Watch, Listen & Connect */}
-      <section className="about-timeline-section" id="songs">
+      <section className="about-timeline-section songs-section" id="songs">
         <div className="container">
           <div className="section-header">
             <span className="section-label resources-media-label">Music</span>

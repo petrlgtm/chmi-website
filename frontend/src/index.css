@@ -283,6 +283,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 .skip-link:focus { top: 1rem; }
 
 .container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-px); }
+section[id] { scroll-margin-top: 5.5rem; }
 .section { padding: var(--section-py) 0; background: var(--bg); }
 
 .section-header { text-align: center; margin-bottom: var(--section-header-mb); }
@@ -1425,29 +1426,41 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   margin-bottom: 1.25rem; flex-wrap: wrap;
 }
 .sermons-search-wrap {
-  position: relative; flex: 1; min-width: 200px;
+  position: relative; flex: 0 1 auto; width: 280px; max-width: 100%;
 }
 .sermons-search-icon {
-  position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
-  color: var(--gray-400); pointer-events: none;
+  position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+  color: var(--primary); background: var(--purple-50);
+  padding: 0.4rem; border-radius: var(--radius-md);
+  pointer-events: none; transition: all 0.3s ease;
+}
+.sermons-search-wrap:focus-within .sermons-search-icon {
+  background: var(--primary); color: var(--white);
+  box-shadow: 0 2px 8px rgba(124,58,237,0.3);
 }
 .sermons-search-input {
-  width: 100%; padding: 0.65rem 2.75rem 0.65rem 2.5rem;
-  border: 1px solid var(--gray-200); border-radius: var(--radius-full);
-  font-size: 0.9rem; background: var(--white); color: var(--text);
-  transition: var(--transition);
+  width: 100%; padding: 0.85rem 3rem 0.85rem 3.25rem;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-2xl);
+  font-size: 0.95rem; background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--text); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
+.sermons-search-input::placeholder { color: var(--gray-400); transition: color 0.3s; }
 .sermons-search-input:focus {
   outline: none; border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.1), 0 4px 16px rgba(124,58,237,0.06);
+  background: rgba(255,255,255,0.98);
 }
+.sermons-search-input:focus::placeholder { color: var(--gray-300); }
 .sermons-search-clear {
-  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer;
-  color: var(--gray-400); display: flex; align-items: center;
-  padding: 0.2rem;
+  position: absolute; right: 0.65rem; top: 50%; transform: translateY(-50%);
+  background: var(--gray-100); border: none; cursor: pointer;
+  color: var(--gray-500); display: flex; align-items: center;
+  padding: 0.35rem; border-radius: var(--radius-full);
+  transition: all 0.2s ease;
 }
-.sermons-search-clear:hover { color: var(--primary); }
+.sermons-search-clear:hover { background: var(--purple-100); color: var(--primary); }
 
 /* Segmented video/audio */
 .sermons-mode-seg {
@@ -1566,6 +1579,20 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   opacity: 1; transform: translateY(0);
 }
 
+/* ── Inline video close button ── */
+.sermon-inline-close {
+  position: absolute; top: 8px; right: 8px; z-index: 10;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(0,0,0,0.7); color: #fff;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px);
+}
+.sermon-inline-close:hover {
+  background: rgba(220,38,38,0.85); transform: scale(1.1);
+}
+
 /* ── Card metadata ── */
 .sermon-card-meta {
   padding: 0.85rem 1rem 1rem;
@@ -1613,13 +1640,33 @@ html.dark .sermon-card:hover { border-color: var(--purple-400); }
 html.dark .sermon-card-title { color: #f0f0f0; }
 html.dark .sermon-card-category { color: var(--purple-400); }
 html.dark .sermon-card-date { color: rgba(255,255,255,0.6); }
-html.dark .sermons-search-input { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
+html.dark .sermons-search-input { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
+html.dark .sermons-search-input::placeholder { color: rgba(255,255,255,0.3); }
+html.dark .sermons-search-input:focus { border-color: var(--purple-400); background: rgba(255,255,255,0.1); box-shadow: 0 0 0 4px rgba(168,62,245,0.15), 0 4px 16px rgba(168,62,245,0.08); }
+html.dark .sermons-search-icon { background: rgba(168,62,245,0.15); color: var(--purple-300); }
+html.dark .sermons-search-wrap:focus-within .sermons-search-icon { background: var(--purple-400); color: #fff; }
+html.dark .sermons-search-clear { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+html.dark .sermons-search-clear:hover { background: rgba(168,62,245,0.2); color: var(--purple-300); }
 html.dark .sermons-mode-seg { background: #1a1a1a; border-color: rgba(255,255,255,0.1); }
 html.dark .sermons-mode-seg-btn:not(.active) { color: rgba(255,255,255,0.7); }
 html.dark .sermons-mode-seg-btn:not(.active):hover { background: rgba(124,58,237,0.15); color: var(--purple-300); }
 html.dark .sermons-pill { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
 html.dark .sermons-pill:not(.active):hover { border-color: var(--purple-400); color: var(--purple-300); }
 html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+
+/* =========================== */
+/* SONGS SECTION BACKGROUND    */
+/* =========================== */
+.songs-section {
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d1b69 30%, #1e3a5f 65%, #0f172a 100%);
+}
+.songs-section::before {
+  background-image:
+    radial-gradient(ellipse 600px 300px at 15% 20%, rgba(168,85,247,0.12), transparent),
+    radial-gradient(ellipse 500px 250px at 80% 70%, rgba(251,191,36,0.08), transparent),
+    radial-gradient(ellipse 400px 200px at 50% 50%, rgba(59,130,246,0.06), transparent),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='15' cy='15' r='1' fill='%23fff' opacity='.04'/%3E%3Ccircle cx='45' cy='45' r='1' fill='%23fff' opacity='.03'/%3E%3Ccircle cx='45' cy='15' r='0.5' fill='%23fff' opacity='.03'/%3E%3C/g%3E%3C/svg%3E");
+}
 
 /* =========================== */
 /* SONGS GRID (Resources page) */
@@ -1629,29 +1676,41 @@ html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(25
   margin-bottom: 1.5rem; flex-wrap: wrap;
 }
 .songs-search-wrap {
-  position: relative; flex: 1; min-width: 200px;
+  position: relative; flex: 0 1 auto; width: 280px; max-width: 100%;
 }
 .songs-search-icon {
-  position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
-  color: var(--gray-400); pointer-events: none;
+  position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+  color: var(--gold-400); background: rgba(251,191,36,0.15);
+  padding: 0.4rem; border-radius: var(--radius-md);
+  pointer-events: none; transition: all 0.3s ease;
+}
+.songs-search-wrap:focus-within .songs-search-icon {
+  background: var(--gold-400); color: var(--black);
+  box-shadow: 0 2px 8px rgba(251,191,36,0.3);
 }
 .songs-search-input {
-  width: 100%; padding: 0.65rem 2.75rem 0.65rem 2.5rem;
-  border: 1px solid var(--gray-200); border-radius: var(--radius-full);
-  font-size: 0.9rem; background: var(--white); color: var(--text);
-  transition: var(--transition);
+  width: 100%; padding: 0.85rem 3rem 0.85rem 3.25rem;
+  border: 1.5px solid rgba(255,255,255,0.12); border-radius: var(--radius-2xl);
+  font-size: 0.95rem; background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--text-inverse); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
+.songs-search-input::placeholder { color: rgba(255,255,255,0.35); transition: color 0.3s; }
 .songs-search-input:focus {
-  outline: none; border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+  outline: none; border-color: var(--gold-400);
+  box-shadow: 0 0 0 4px rgba(251,191,36,0.12), 0 4px 16px rgba(251,191,36,0.06);
+  background: rgba(255,255,255,0.12);
 }
+.songs-search-input:focus::placeholder { color: rgba(255,255,255,0.25); }
 .songs-search-clear {
-  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
-  background: none; border: none; cursor: pointer;
-  color: var(--gray-400); display: flex; align-items: center;
-  padding: 0.2rem;
+  position: absolute; right: 0.65rem; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+  color: rgba(255,255,255,0.5); display: flex; align-items: center;
+  padding: 0.35rem; border-radius: var(--radius-full);
+  transition: all 0.2s ease;
 }
-.songs-search-clear:hover { color: var(--primary); }
+.songs-search-clear:hover { background: rgba(251,191,36,0.2); color: var(--gold-400); }
 .songs-count {
   font-size: 0.82rem; color: var(--text-light);
   white-space: nowrap; margin: 0;
@@ -1767,7 +1826,7 @@ html.dark .song-card:hover { border-color: var(--purple-400); }
 html.dark .song-card-title { color: #f0f0f0; }
 html.dark .song-card-artist { color: var(--purple-400); }
 html.dark .song-card-date { color: rgba(255,255,255,0.6); }
-html.dark .songs-search-input { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
+html.dark .songs-search-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: #f0f0f0; }
 html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
 html.dark .songs-count { color: rgba(255,255,255,0.6); }
 
@@ -3753,7 +3812,7 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.6); }
 .sermon-featured-visual {
   position: relative; display: flex; align-items: center;
   justify-content: center; overflow: hidden;
-  background: var(--black);
+  background: var(--black); min-height: 280px;
 }
 .sermon-featured-visual img {
   width: 100%; height: auto; object-fit: contain; opacity: 0.85;
@@ -4980,8 +5039,8 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 1;
 }
 .resource-card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 24px 56px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
   border-color: rgba(245,158,11,0.25);
 }
 .resource-card:hover::before { transform: scaleX(1); }
@@ -5690,7 +5749,7 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
 }
 
 .resource-card-body {
-  padding: 1.5rem; flex: 1; display: flex; flex-direction: column;
+  padding: 1rem 1.15rem; flex: 1; display: flex; flex-direction: column;
 }
 .resource-stars {
   display: flex; gap: 2px; margin-bottom: 0.5rem;
@@ -5700,26 +5759,26 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
   transition: filter 0.3s ease;
 }
 .resource-card-title {
-  font-size: 1.05rem; line-height: 1.4; margin-bottom: 0.35rem;
+  font-size: 0.92rem; line-height: 1.4; margin-bottom: 0.25rem;
   font-family: var(--font-display); font-weight: 700;
   transition: color 0.25s ease;
 }
 .resource-card:hover .resource-card-title { color: var(--primary); }
 
 .resource-card-author {
-  font-size: 0.82rem; color: var(--primary); font-weight: 600;
-  margin-bottom: 0.75rem;
+  font-size: 0.78rem; color: var(--primary); font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 .resource-card-desc {
-  color: var(--gray-600); font-size: 0.87rem; line-height: 1.7;
-  flex: 1; margin-bottom: 0.75rem;
+  color: var(--gray-600); font-size: 0.82rem; line-height: 1.6;
+  flex: 1; margin-bottom: 0.5rem;
 }
 .resource-card-meta {
-  font-size: 0.75rem; color: var(--text-light); margin-bottom: 1rem;
+  font-size: 0.72rem; color: var(--text-light); margin-bottom: 0.75rem;
 }
 .resource-card-price {
-  font-size: 1.15rem; font-weight: 800; color: var(--primary);
-  margin-bottom: 1rem; font-family: var(--font-mono);
+  font-size: 1rem; font-weight: 800; color: var(--primary);
+  margin-bottom: 0.75rem; font-family: var(--font-mono);
   letter-spacing: -0.01em;
 }
 html.dark .resource-card-price { color: var(--gold-400); }
@@ -5734,26 +5793,26 @@ html.dark .resource-card-price { color: var(--gold-400); }
 /* ─── RESOURCE GRID ────────────────────────────────────────── */
 .resource-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1.25rem;
 }
 /* Featured first book card spans full width as horizontal layout */
 @media (min-width: 640px) {
-  .resource-grid { grid-template-columns: repeat(2, 1fr); }
+  .resource-grid { grid-template-columns: repeat(3, 1fr); }
   .resource-grid .resource-card:first-child {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 240px 1fr;
   }
   .resource-grid .resource-card:first-child .resource-card-image img {
     height: 100%; object-fit: cover;
   }
 }
 @media (min-width: 960px) {
-  .resource-grid { grid-template-columns: repeat(3, 1fr); }
+  .resource-grid { grid-template-columns: repeat(4, 1fr); }
   .resource-grid .resource-card:first-child {
     grid-column: 1 / 3;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 260px 1fr;
   }
 }
 
