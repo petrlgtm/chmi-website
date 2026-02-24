@@ -116,9 +116,9 @@ export default function Home() {
 
   const heroHomeBg = siteImages?.heroHome || `${import.meta.env.BASE_URL}images/hero-bg.jpg`;
 
-  // Merge CMS service card images into static service data
+  // Merge CMS service card images into static service data (trim labels for resilience)
   const serviceCardMap = new Map(
-    (siteImages?.serviceCards ?? []).map((c) => [c.label, c.url]),
+    (siteImages?.serviceCards ?? []).map((c) => [c.label?.trim(), c.url]),
   );
   const servicesData = SERVICES_DATA.map((s) => ({
     ...s,
