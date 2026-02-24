@@ -58,7 +58,7 @@ export default function About() {
       {/* Timeline Section - Dark */}
       <section className="about-timeline-section">
         <div className="container" style={{ maxWidth: "700px" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div className="section-header">
             <span className="section-label" style={{ color: "var(--gold-400)" }}>Our Journey</span>
             <h2 style={{ color: "var(--text-inverse)" }}>A Timeline of Growth</h2>
           </div>

@@ -313,14 +313,10 @@ export default function Events() {
       </section>
 
       {/* CTA Section */}
-      <section style={{
-        background: "linear-gradient(135deg, var(--black) 0%, var(--purple-950) 40%, var(--black-900) 100%)",
-        padding: "5rem 1.5rem", textAlign: "center", color: "var(--text-inverse)",
-        position: "relative", overflow: "hidden"
-      }}>
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <h2 style={{ color: "var(--text-inverse)", marginBottom: "1rem" }}>Have an Event Idea?</h2>
-          <p style={{ opacity: 0.8, maxWidth: "550px", margin: "0 auto 2rem", lineHeight: 1.8 }}>
+      <section className="inline-cta-section">
+        <div className="container">
+          <h2>Have an Event Idea?</h2>
+          <p>
             We love hearing from our community. If you have an idea for an event or gathering,
             let us know and we'll make it happen together.
           </p>

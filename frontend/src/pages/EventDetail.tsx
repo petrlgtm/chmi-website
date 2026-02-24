@@ -36,7 +36,7 @@ export default function EventDetail() {
 
   if (!event) {
     return (
-      <section className="section" style={{ paddingTop: "8rem", textAlign: "center" }}>
+      <section className="section section--not-found">
         <div className="container">
           <h2>Event Not Found</h2>
           <Link to="/events" className="btn btn-primary" style={{ marginTop: "2rem" }}>
@@ -117,28 +117,24 @@ export default function EventDetail() {
       </div>
 
       <section className="section">
-        <div className="container" style={{ maxWidth: "900px" }}>
+        <div className="container container--narrow">
 
           {/* Poster Image — full-width, cinematic ratio */}
-          <div style={{
-            borderRadius: "var(--radius-2xl)", overflow: "visible",
-            marginBottom: "2.5rem", boxShadow: "var(--shadow-2xl)",
-            background: "var(--black-900)"
-          }}>
+          <div className="detail-hero-image mb-section-sm" style={{ background: "var(--black-900)" }}>
             <img
               src={event.image || eventFallbackImage(event.category)}
               alt={`${event.name} poster`}
-              style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
+              style={{ objectFit: "contain" }}
               loading="eager"
               decoding="async"
             />
           </div>
 
           {/* About This Event */}
-          <div className="branch-info-card" style={{ marginBottom: "2.5rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
+          <div className="branch-info-card mb-section-sm">
+            <div className="card-heading-row">
               <Sparkles size={18} style={{ color: "var(--primary)" }} />
-              <h3 style={{ margin: 0 }}>About This Event</h3>
+              <h3>About This Event</h3>
             </div>
             <p style={{ color: "var(--gray-600)", lineHeight: 1.9, fontSize: "1.05rem" }}>
               {event.description}
@@ -148,25 +144,19 @@ export default function EventDetail() {
             </p>
           </div>
 
-          {/* Photo Gallery — 4 images in 2×2 grid */}
-          <div style={{ marginBottom: "2.5rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
+          {/* Photo Gallery — 4 images in 2x2 grid */}
+          <div className="mb-section-sm">
+            <div className="card-heading-row">
               <Images size={18} style={{ color: "var(--primary)" }} />
-              <h3 style={{ margin: 0 }}>Event Gallery</h3>
+              <h3>Event Gallery</h3>
             </div>
-            <div style={{
-              display: "grid", gridTemplateColumns: "1fr 1fr",
-              gap: "0.75rem", borderRadius: "var(--radius-2xl)", overflow: "hidden"
-            }}>
+            <div className="event-gallery-grid">
               {galleryImages.map((img, i) => (
-                <div key={i} style={{ aspectRatio: "4/3", overflow: "hidden", background: "var(--gray-100)" }}>
+                <div key={i} className="event-gallery-item">
                   <img
                     src={img}
                     alt={`${event.name} gallery ${i + 1}`}
-                    style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", transition: "transform 0.4s ease" }}
                     loading="lazy"
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLImageElement).style.transform = ""; }}
                   />
                 </div>
               ))}

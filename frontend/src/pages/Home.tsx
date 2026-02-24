@@ -177,7 +177,7 @@ export default function Home() {
                 Learn More <ArrowRight size={18} />
               </Link>
             </div>
-            <div className="hero-animate hero-animate-delay-4" style={{ marginTop: "2rem" }}>
+            <div className="hero-animate hero-animate-delay-4 mt-4">
               <CountdownTimer events={events} />
             </div>
           </div>
@@ -217,6 +217,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <div className="wave-divider">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#0a0a0a" />
+        </svg>
+      </div>
 
       {/* Leadership */}
       <section className="mission-section" id="leadership">
