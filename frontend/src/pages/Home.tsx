@@ -114,7 +114,7 @@ export default function Home() {
   const { data: leadership } = useSanityLeadership();
   const siteImages = useSiteImages();
 
-  const heroHomeBg = siteImages?.heroHome || `${import.meta.env.BASE_URL}images/hero-bg.jpg`;
+  const heroHomeBg = siteImages?.heroHome || ALL_IMAGES[0];
 
   // Merge CMS service card images into static service data (trim labels for resilience)
   const serviceCardMap = new Map(

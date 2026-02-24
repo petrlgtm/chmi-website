@@ -643,7 +643,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 /* ===================== */
 .hero {
   position: relative; min-height: 100vh; display: flex; align-items: center;
-  overflow: hidden; background-size: contain; background-position: center; background-repeat: no-repeat;
+  overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
 }
 .hero::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 150px;
@@ -1183,7 +1183,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 
 @media (max-width: 768px) {
   .about-leadership { grid-template-columns: 1fr; }
-  .leader-photo { width: 100%; height: 300px; }
+  .leader-photo { width: 100%; height: auto; }
 }
 
 /* ===================== */
@@ -1868,7 +1868,7 @@ html.dark .events-heading-accent { color: var(--gold-400); }
 @media (max-width: 600px) {
   .history-mosaic {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 220px);
+    grid-template-rows: auto;
   }
   .history-mosaic-1,
   .history-mosaic-2,
@@ -1877,6 +1877,9 @@ html.dark .events-heading-accent { color: var(--gold-400); }
   .history-mosaic-5 {
     grid-column: 1;
     grid-row: auto;
+  }
+  .history-mosaic-img img {
+    width: 100%; height: auto; object-fit: contain;
   }
   .history-story-header h3 { font-size: 1.75rem; }
 }
@@ -2978,7 +2981,7 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 }
 @media (max-width: 768px) {
   .event-card-lg { grid-template-columns: 1fr; }
-  .event-card-lg-image { height: 250px; }
+  .event-card-lg-image { height: auto; }
 }
 
 /* ----------- EVENTS FILTERS ----------- */
@@ -3068,12 +3071,12 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
   border-color: var(--gold-500);
 }
 
-/* Thumbnail — image fills the card thumb area */
+/* Thumbnail — image contained within card thumb area */
 .evt-card-thumb {
-  position: relative; height: 160px; overflow: hidden;
+  position: relative; overflow: hidden;
 }
 .evt-card-thumb img {
-  width: 100%; height: 100%; object-fit: fill;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .evt-card:hover .evt-card-thumb img {
@@ -3236,7 +3239,8 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
 .sermon-featured-content p { opacity: 0.8; line-height: 1.7; margin-bottom: 1.5rem; }
 @media (max-width: 768px) {
   .sermon-featured { grid-template-columns: 1fr; }
-  .sermon-featured-visual { height: 200px; }
+  .sermon-featured-visual { height: auto; min-height: 180px; position: relative; }
+  .sermon-featured-visual img { position: relative; inset: auto; }
 }
 
 /* ----------- GIVING HERO EXTENDED ----------- */
@@ -3940,8 +3944,9 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   .impact-grid { grid-template-columns: 1fr; }
   .give-impact-grid { grid-template-columns: 1fr; }
 
-  /* Photo gallery — single column */
+  /* Photo gallery — single column, no cropping */
   .photo-gallery { grid-template-columns: 1fr; }
+  .photo-gallery-item { aspect-ratio: auto; }
   .photo-gallery-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
 
   /* Branch search — prevent overflow on 320px screens */
