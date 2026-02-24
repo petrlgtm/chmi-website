@@ -128,6 +128,7 @@ html.dark .navbar-social-link { color: #555; }
 html.dark .navbar-social-link:hover { color: var(--purple-400); background: rgba(168,62,245,0.12); }
 html.dark .navbar-icon-btn { color: #b0b0b0; }
 html.dark .navbar-icon-btn:hover { color: var(--purple-400); background: rgba(168,62,245,0.12); }
+html.dark .mobile-toggle { color: #ffffff; }
 html.dark .dropdown-menu {
   background: #1c1c1c; border-color: rgba(255,255,255,0.08);
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
