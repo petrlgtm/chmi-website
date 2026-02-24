@@ -5,6 +5,7 @@ import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useHeroStyle } from "../context/SiteImagesContext";
 import { useSanityResources } from "../hooks/useSanityResources";
 import { useYouTubeSongs } from "../hooks/useYouTubeSongs";
+import { usePlayer } from "../context/PlayerContext";
 import type { ResourceItem, MediaChannel } from "../hooks/useSanityResources";
 
 const DEFAULT_ORDER_URL =
@@ -87,8 +88,8 @@ export default function Resources() {
   const { resources: sanityResources, mediaChannels: sanityMedia } = useSanityResources();
   const { songs, loading: songsLoading, error: songsError } = useYouTubeSongs();
   const songsRef = useScrollAnimation<HTMLDivElement>(0.15, !songsLoading && !songsError);
+  const { currentSong, play } = usePlayer();
 
-  const [playingId, setPlayingId] = useState<string | null>(null);
   const [songsSearch, setSongsSearch] = useState("");
   const [visibleSongs, setVisibleSongs] = useState(SONGS_PAGE_SIZE);
 
@@ -241,7 +242,7 @@ export default function Resources() {
               <Music size={48} style={{ marginBottom: "1rem", opacity: 0.3 }} />
               <p>Unable to load songs from YouTube.</p>
               <a
-                href="https://www.youtube.com/@isaiahmbuga8559"
+                href="https://www.youtube.com/@isaiahmbuga9628"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
@@ -273,64 +274,51 @@ export default function Resources() {
               ) : (
                 <div className="songs-grid">
                   {displayedSongs.map((song) => {
-                    const isPlaying = playingId === song.id;
+                    const isPlaying = currentSong?.id === song.id;
 
                     return (
                       <div
                         key={song.id}
                         className={`song-card${isPlaying ? " song-card--playing" : ""}`}
                       >
-                        {/* Video player */}
-                        {isPlaying && song.videoId && (
-                          <div className="song-player">
-                            <iframe
-                              src={`https://www.youtube.com/embed/${song.videoId}?autoplay=1`}
-                              title={song.title}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
-                        )}
-
                         {/* Thumbnail */}
-                        {!isPlaying && (
-                          <div
-                            className="song-thumb-wrap"
-                            onClick={() => song.videoId && setPlayingId(song.id)}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Play: ${song.title}`}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && song.videoId && setPlayingId(song.id)
-                            }
-                          >
-                            <img
-                              src={song.thumbnail}
-                              alt={song.title}
-                              loading="lazy"
-                              width={320}
-                              height={180}
-                              decoding="async"
-                            />
+                        <div
+                          className="song-thumb-wrap"
+                          onClick={() => song.videoId && play(song)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={isPlaying ? `Now playing: ${song.title}` : `Play: ${song.title}`}
+                          onKeyDown={(e) =>
+                            e.key === "Enter" && song.videoId && play(song)
+                          }
+                        >
+                          <img
+                            src={song.thumbnail}
+                            alt={song.title}
+                            loading="lazy"
+                            width={320}
+                            height={180}
+                            decoding="async"
+                          />
+                          {isPlaying ? (
+                            <div className="song-now-playing-overlay">
+                              <div className="song-audio-bars">
+                                <span /><span /><span /><span />
+                              </div>
+                              <span className="song-now-playing-label">Now Playing</span>
+                            </div>
+                          ) : (
                             <div className="song-hover-overlay">
                               <div className="song-play-circle">
                                 <Play size={20} />
                               </div>
                               <span className="song-watch-label">Play</span>
                             </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
 
                         {/* Card meta */}
                         <div className="song-card-meta">
-                          {isPlaying && (
-                            <button
-                              className="song-close-btn"
-                              onClick={() => setPlayingId(null)}
-                            >
-                              <X size={13} /> Close
-                            </button>
-                          )}
                           <h3 className="song-card-title">{song.title}</h3>
                           <div className="song-card-info">
                             <span className="song-card-artist">{song.artist}</span>
@@ -368,7 +356,7 @@ export default function Resources() {
 
               <div style={{ textAlign: "center", marginTop: "2rem" }}>
                 <a
-                  href="https://www.youtube.com/@isaiahmbuga8559"
+                  href="https://www.youtube.com/@isaiahmbuga9628"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-black"

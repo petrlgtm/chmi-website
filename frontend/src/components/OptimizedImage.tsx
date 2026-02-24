@@ -33,8 +33,8 @@ export default function OptimizedImage({
         className={className}
         style={{
           width: "100%",
-          height: "auto",
-          objectFit: "contain",
+          height: "100%",
+          objectFit: "cover",
           display: "block",
           opacity: loaded ? 1 : 0,
           transition: "opacity 0.3s ease",

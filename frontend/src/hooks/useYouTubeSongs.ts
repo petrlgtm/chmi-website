@@ -3,7 +3,7 @@ import type { Song } from "../types";
 import { songs as fallbackSongs } from "../data/songs";
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
-const CHANNEL_ID = "UChS0PgHCe9IaskluH_kfXEw";
+const CHANNEL_ID = "UCjvusRmkIPyBw2gEf7fnrWQ";
 const PAGE_SIZE = 10;
 
 interface YouTubeSnippet {
