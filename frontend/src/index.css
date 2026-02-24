@@ -1030,13 +1030,13 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   font-family: var(--font-body); font-weight: 700;
 }
 .pastor-card {
-  display: flex; align-items: center; gap: 1rem; padding: 1rem;
+  display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem;
   background: var(--purple-50); border-radius: var(--radius-lg); margin-bottom: 0.75rem;
   transition: var(--transition);
 }
 .pastor-card:hover { background: var(--purple-100); }
 .pastor-avatar {
-  width: 44px; height: 44px; border-radius: 50%;
+  width: 72px; height: 72px; border-radius: 50%;
   background: linear-gradient(135deg, var(--purple-200), var(--purple-300));
   display: flex; align-items: center; justify-content: center;
   color: var(--primary); flex-shrink: 0;
@@ -1045,8 +1045,8 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 .pastor-avatar-img {
   width: 100%; height: 100%; object-fit: cover;
 }
-.pastor-info h4 { font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--gray-900); }
-.pastor-info p { font-size: 0.85rem; color: var(--text-light); }
+.pastor-info h4 { font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; color: var(--gray-900); }
+.pastor-info p { font-size: 0.88rem; color: var(--text-light); }
 .testimonial-card {
   background: var(--purple-50); border-radius: var(--radius-lg); padding: 1.5rem;
   margin-bottom: 0.75rem; border-left: 3px solid var(--primary);
