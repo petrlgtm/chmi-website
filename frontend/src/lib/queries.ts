@@ -38,7 +38,8 @@ export const EVENTS_QUERY = `*[_type == "event"] | order(dateStart asc) {
   "image": image.asset->url,
   tagline,
   "category": category->name,
-  isMajor
+  isMajor,
+  "gallery": gallery[].asset->url
 }`;
 
 export const EVENT_CATEGORIES_QUERY = `*[_type == "eventCategory"] | order(name asc) {

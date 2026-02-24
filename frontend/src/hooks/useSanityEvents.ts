@@ -17,6 +17,7 @@ interface SanityEvent {
   tagline: string;
   category: string;
   isMajor: boolean;
+  gallery: string[] | null;
 }
 
 export function useSanityEvents() {
@@ -43,6 +44,7 @@ export function useSanityEvents() {
           tagline: e.tagline || "",
           category: e.category || "",
           isMajor: e.isMajor ?? false,
+          gallery: e.gallery?.length ? e.gallery : undefined,
         }));
 
         setData(mapped);

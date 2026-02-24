@@ -35,6 +35,7 @@ export interface ChurchEvent {
   tagline: string;
   category: string;
   isMajor?: boolean;
+  gallery?: string[];
 }
 
 export interface Sermon {

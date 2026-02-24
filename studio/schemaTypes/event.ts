@@ -68,6 +68,21 @@ export default defineType({
       to: [{type: 'eventCategory'}],
     }),
     defineField({
+      name: 'gallery',
+      title: 'Event Gallery',
+      type: 'array',
+      description: 'Photo gallery shown on the event detail page. Upload 2–6 images. Recommended: landscape, at least 800×600px.',
+      of: [
+        {
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'isMajor',
       title: 'Is Major Event',
       type: 'boolean',

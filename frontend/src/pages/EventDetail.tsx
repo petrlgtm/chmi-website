@@ -70,8 +70,12 @@ export default function EventDetail() {
     setSubmitted(true);
   };
 
-  // Gallery images: manifest extras if available, otherwise fallbacks
-  const galleryImages = extraImages.length >= 4 ? extraImages : GALLERY_FALLBACKS;
+  // Gallery images: CMS gallery first, then manifest extras, then fallbacks
+  const galleryImages = event?.gallery?.length
+    ? event.gallery.slice(0, 6)
+    : extraImages.length >= 4
+      ? extraImages
+      : GALLERY_FALLBACKS;
 
   return (
     <>
