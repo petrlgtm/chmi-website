@@ -129,13 +129,13 @@ const SERVICES: Service[] = [
       { label: "TikTok", url: "https://www.tiktok.com/@christsheartmin" },
     ],
   },
-  // ── Overnight Prayer — Last Friday 6pm → Sat 5am (Mukono) ────────
+  // ── Overnight Prayer — Last Friday 6pm → Sat 5am (All branches → Mukono) ──
   {
-    name: "Overnight Prayer",
+    name: "Convergence Overnight Prayer",
     days: [5], // Friday start
     startHour: 18, startMinute: 0,
     endHour: 5, endMinute: 0,   // ends Saturday morning
-    location: "Mukono Branch",
+    location: "Christ's Heart Mukono (All Branches)",
     overnight: true,
     lastFridayOnly: true,
     links: [
@@ -266,6 +266,14 @@ function LocationDisplay({ svc, className }: { svc: Service; className: string }
   );
 }
 
+/** When a service is LIVE, convert YouTube channel URLs to /live so viewers land on the actual broadcast. */
+function toLiveUrl(url: string): string {
+  // Match youtube.com/@handle or youtube.com/channel/ID (no trailing path)
+  const ytChannel = /^https?:\/\/(www\.)?youtube\.com\/(@[\w-]+|channel\/[\w-]+)\/?$/i;
+  if (ytChannel.test(url)) return url.replace(/\/?$/, "/live");
+  return url;
+}
+
 interface CountdownTimerProps {
   events?: ChurchEvent[];
 }
@@ -332,16 +340,17 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
           <div className="live-watch-links">
             {active.service.links!.map((lnk) => {
               const isTeams = lnk.url.includes("teams.microsoft.com");
+              const href = toLiveUrl(lnk.url);
               return (
                 <a
                   key={lnk.url}
-                  href={lnk.url}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`live-watch-btn${isTeams ? " live-watch-btn-teams" : ""}`}
                 >
                   {isTeams ? <Video size={14} /> : <Tv size={14} />}
-                  {isTeams ? "Join Now" : "Watch Now"}
+                  {isTeams ? "Join Now" : "Watch Live"}
                 </a>
               );
             })}
