@@ -150,6 +150,11 @@ html.dark .mobile-subnav-link:hover { background: rgba(168,62,245,0.1); color: v
 /* Dark: cards & sections */
 html.dark .section { background: var(--bg); }
 html.dark .section:nth-child(even) { background: var(--bg-alt); }
+html.dark .wave-divider + section,
+html.dark section + section,
+html.dark section + div + section { box-shadow: 0 -6px 24px -8px rgba(0,0,0,0.5); }
+html.dark .about-timeline-section + section,
+html.dark .testimonial-carousel + section { box-shadow: 0 -8px 30px -6px rgba(0,0,0,0.6); }
 html.dark .card,
 html.dark .sermon-card,
 html.dark .blog-card,
@@ -278,7 +283,7 @@ input, textarea, select { font-family: inherit; font-size: inherit; }
 .skip-link:focus { top: 1rem; }
 
 .container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--container-px); }
-.section { padding: var(--section-py) 0; }
+.section { padding: var(--section-py) 0; background: var(--bg); }
 
 .section-header { text-align: center; margin-bottom: var(--section-header-mb); }
 .section-header h2 { font-size: 2.75rem; color: var(--primary); margin-bottom: 0.75rem; }
@@ -829,7 +834,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 /* HERO                  */
 /* ===================== */
 .hero {
-  position: relative; min-height: 100vh; display: flex; align-items: center;
+  position: relative; z-index: 0; min-height: 100vh; display: flex; align-items: center;
   overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
 }
 .hero::after {
@@ -3272,7 +3277,7 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 /* ----------- ENHANCED PAGE HEROES ----------- */
 .page-hero-xl {
   min-height: 50vh; display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden; text-align: center;
+  position: relative; z-index: 0; overflow: hidden; text-align: center;
   color: var(--text-inverse); padding: 8rem 1.5rem 5rem;
 }
 .page-hero-xl::before {
@@ -3360,14 +3365,36 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 .breadcrumb a:hover { color: var(--gold-400); }
 .breadcrumb-sep { opacity: 0.4; }
 
-/* ----------- WAVE DIVIDER ----------- */
-.wave-divider {
-  position: relative; overflow: hidden; line-height: 0;
-  margin-top: -1px;
-  background: #fff;
+/* ----------- WAVE DIVIDER (hidden — replaced by layered transitions) ----------- */
+.wave-divider { display: none; }
+
+/* ── Section Flow: Layered Card-Stack Transitions ── */
+.wave-divider + section,
+section + section,
+section + div + section {
+  padding-top: var(--space-6);
+  margin-top: -1.5rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 -6px 24px -8px rgba(0,0,0,0.08);
 }
-.wave-divider svg { display: block; width: 100%; height: 60px; }
-.wave-divider-bottom { transform: rotate(180deg); margin-top: 0; margin-bottom: -1px; }
+
+/* Dark sections: full-bleed, no rounding — keep the overlap for seamless connection */
+section.about-timeline-section,
+section.testimonial-carousel,
+section.cta-section {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Sections after dark sections: stronger shadow for contrast lift */
+.about-timeline-section + section,
+.about-timeline-section + div + section,
+.testimonial-carousel + section,
+.cta-section + section {
+  box-shadow: 0 -8px 30px -6px rgba(0,0,0,0.15);
+}
 
 /* ----------- GLASS CARD ----------- */
 .glass-card {
@@ -4401,6 +4428,15 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 @media (max-width: 768px) {
   :root { --section-py: var(--space-8); --container-px: var(--space-3); --section-header-mb: var(--space-6); }
 
+  /* Section overlap — tighter on tablet */
+  .wave-divider + section,
+  section + section,
+  section + div + section {
+    margin-top: -1rem;
+    border-radius: 1.25rem 1.25rem 0 0;
+    padding-top: var(--space-5);
+  }
+
   /* Font sizes — intermediate step between desktop and 480px */
   .section-header h2 { font-size: 2.25rem; }
   .cta-section h2 { font-size: 2.25rem; }
@@ -4439,6 +4475,15 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 /* --- 480px Small Phone Breakpoint --- */
 @media (max-width: 480px) {
   :root { --section-py: var(--space-5); --container-px: var(--space-2); --section-header-mb: var(--space-5); }
+
+  /* Section overlap — compact on small phones */
+  .wave-divider + section,
+  section + section,
+  section + div + section {
+    margin-top: -0.75rem;
+    border-radius: 1rem 1rem 0 0;
+    padding-top: var(--space-4);
+  }
 
   /* Events grid — force single column (prevent 350px minmax overflow) */
   .events-grid { grid-template-columns: 1fr; }
