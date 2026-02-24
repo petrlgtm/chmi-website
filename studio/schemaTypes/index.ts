@@ -11,6 +11,8 @@ import leadership from './leadership'
 import giveCategory from './giveCategory'
 import testimonial from './testimonial'
 import siteImages from './siteImages'
+import resource from './resource'
+import mediaChannel from './mediaChannel'
 
 export const schemaTypes = [
   // Content types
@@ -29,4 +31,6 @@ export const schemaTypes = [
   giveCategory,
   testimonial,
   siteImages,
+  resource,
+  mediaChannel,
 ]

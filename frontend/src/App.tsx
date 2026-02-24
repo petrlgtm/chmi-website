@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import FloatingGive from "./components/FloatingGive";
+
 import ScrollProgress from "./components/ScrollProgress";
 import BackToTop from "./components/BackToTop";
 import PrayerRequestModal from "./components/PrayerRequestModal";
@@ -50,7 +50,6 @@ function App() {
         </Routes>
       </main>
       <Footer />
-      <FloatingGive />
       <BackToTop />
       <PrayerRequestModal />
       <NearbyBranchPrompt onDismiss={() => {}} />

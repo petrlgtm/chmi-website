@@ -5,13 +5,7 @@ import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useSanityBranches } from "../hooks/useSanityBranches";
 import { getCountdownText } from "../utils/eventDate";
 import { submitFormspree } from "../lib/formspree";
-import { ALL_IMAGES } from "../utils/imageFallbacks";
-
-/** Fallback poster when Sanity image is missing */
-const EVENT_POSTER_FALLBACK = ALL_IMAGES[0];
-
-// 4 gallery fallback images — diverse church photography
-const GALLERY_FALLBACKS = [ALL_IMAGES[4], ALL_IMAGES[9], ALL_IMAGES[13], ALL_IMAGES[16]];
+import { eventFallbackImage, eventGalleryFallback } from "../utils/imageFallbacks";
 
 export default function EventDetail() {
   const { id } = useParams<{ id: string }>();
@@ -75,7 +69,7 @@ export default function EventDetail() {
     ? event.gallery.slice(0, 6)
     : extraImages.length >= 4
       ? extraImages
-      : GALLERY_FALLBACKS;
+      : eventGalleryFallback(event.category);
 
   return (
     <>
@@ -127,14 +121,14 @@ export default function EventDetail() {
 
           {/* Poster Image — full-width, cinematic ratio */}
           <div style={{
-            borderRadius: "var(--radius-2xl)", overflow: "hidden",
+            borderRadius: "var(--radius-2xl)", overflow: "visible",
             marginBottom: "2.5rem", boxShadow: "var(--shadow-2xl)",
-            aspectRatio: "16/7", background: "var(--black-900)"
+            background: "var(--black-900)"
           }}>
             <img
-              src={event.image || EVENT_POSTER_FALLBACK}
+              src={event.image || eventFallbackImage(event.category)}
               alt={`${event.name} poster`}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ width: "100%", height: "auto", objectFit: "contain", display: "block" }}
               loading="eager"
               decoding="async"
             />
@@ -169,7 +163,7 @@ export default function EventDetail() {
                   <img
                     src={img}
                     alt={`${event.name} gallery ${i + 1}`}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.4s ease" }}
+                    style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", transition: "transform 0.4s ease" }}
                     loading="lazy"
                     onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLImageElement).style.transform = ""; }}

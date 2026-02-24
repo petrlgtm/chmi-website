@@ -1,24 +1,22 @@
-import { BookOpen, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, ExternalLink, Play, X, Music, ChevronDown, Search } from "lucide-react";
 import { ALL_IMAGES, APOSTLE_ISAIAH } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useHeroStyle } from "../context/SiteImagesContext";
+import { useSanityResources } from "../hooks/useSanityResources";
+import { useYouTubeSongs } from "../hooks/useYouTubeSongs";
+import type { ResourceItem, MediaChannel } from "../hooks/useSanityResources";
 
-interface Resource {
-  id: string;
-  title: string;
-  author: string;
-  type: "book";
-  description: string;
-  image: string;
-  price: number;
-}
+const DEFAULT_ORDER_URL =
+  "https://wa.me/256392177825?text=Hello%2C%20I%20would%20like%20to%20order%20a%20book%20by%20Apostle%20Isaiah%20Mbuga.";
 
-const resources: Resource[] = [
+const SONGS_PAGE_SIZE = 8;
+
+const fallbackResources: ResourceItem[] = [
   {
     id: "beneath-the-surface",
     title: "Beneath the Surface",
     author: "Apostle Isaiah Mbuga",
-    type: "book",
     description: "A revealing look beyond what the eye can see. Apostle Isaiah digs into the hidden dimensions of spiritual life, uncovering the layers beneath our walk with God that determine true fruitfulness, character, and lasting impact in the Kingdom.",
     image: APOSTLE_ISAIAH.preaching,
     price: 20000,
@@ -27,8 +25,7 @@ const resources: Resource[] = [
     id: "rite-of-passage",
     title: "Rite of Passage",
     author: "Apostle Isaiah Mbuga",
-    type: "book",
-    description: "Every believer must pass through seasons of transition that shape their destiny. This book unpacks the spiritual rites of passage that mark a believer's growth — from salvation to maturity, from following to leading, from promise to fulfilment.",
+    description: "Every believer must pass through seasons of transition that shape their destiny. This book unpacks the spiritual rites of passage that mark a believer\u2019s growth \u2014 from salvation to maturity, from following to leading, from promise to fulfilment.",
     image: ALL_IMAGES[4],
     price: 20000,
   },
@@ -36,7 +33,6 @@ const resources: Resource[] = [
     id: "leveraging-the-generation",
     title: "Leveraging the Generation",
     author: "Apostle Isaiah Mbuga",
-    type: "book",
     description: "A timely call to the church to intentionally invest in the next generation. Apostle Isaiah presents a compelling case for why the church must empower, equip, and release young people into their God-given assignments before the window of opportunity closes.",
     image: ALL_IMAGES[8],
     price: 20000,
@@ -45,8 +41,7 @@ const resources: Resource[] = [
     id: "be-a-man",
     title: "Be a Man",
     author: "Apostle Isaiah Mbuga",
-    type: "book",
-    description: "A bold and unapologetic call to biblical manhood. In a generation confused about masculinity, Apostle Isaiah lays out God's original design for the man — as priest, provider, protector, and prophet in the home, the church, and the marketplace.",
+    description: "A bold and unapologetic call to biblical manhood. In a generation confused about masculinity, Apostle Isaiah lays out God\u2019s original design for the man \u2014 as priest, provider, protector, and prophet in the home, the church, and the marketplace.",
     image: ALL_IMAGES[3],
     price: 70000,
   },
@@ -54,38 +49,66 @@ const resources: Resource[] = [
     id: "unforgotten-ministry",
     title: "Unforgotten Ministry",
     author: "Apostle Isaiah Mbuga",
-    type: "book",
     description: "A powerful exploration of the ministries and callings that the modern church has neglected. Apostle Isaiah revisits forgotten biblical patterns of service, intercession, and sacrifice that are essential for the church to fulfil its mandate in this hour.",
     image: ALL_IMAGES[6],
     price: 70000,
   },
 ];
 
-const mediaLinks = [
+const fallbackMedia: MediaChannel[] = [
   {
     label: "PROMISE TV",
     url: "https://www.instagram.com/promisetv",
-    desc: "Prophetic broadcast ministry — follow on Instagram for live streams and clips",
+    desc: "Prophetic broadcast ministry \u2014 follow on Instagram for live streams and clips",
     color: "var(--primary)",
   },
   {
-    label: "Christ's Heart TV",
+    label: "Christ\u2019s Heart TV",
     url: "https://www.youtube.com/@christshearttv",
     desc: "Full sermons, conferences, and teachings on our YouTube channel",
     color: "var(--gold-600)",
   },
 ];
 
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 export default function Resources() {
   const heroStyle = useHeroStyle("heroResources");
   const booksRef = useScrollAnimation<HTMLDivElement>();
   const mediaRef = useScrollAnimation<HTMLDivElement>();
+  const songsRef = useScrollAnimation<HTMLDivElement>();
+  const { resources: sanityResources, mediaChannels: sanityMedia } = useSanityResources();
+  const { songs, loading: songsLoading, error: songsError } = useYouTubeSongs();
+
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [songsSearch, setSongsSearch] = useState("");
+  const [visibleSongs, setVisibleSongs] = useState(SONGS_PAGE_SIZE);
+
+  const resources = sanityResources.length > 0 ? sanityResources : fallbackResources;
+  const mediaLinks = sanityMedia.length > 0 ? sanityMedia : fallbackMedia;
+
+  const filteredSongs = songs.filter(
+    (s) =>
+      !songsSearch ||
+      s.title.toLowerCase().includes(songsSearch.toLowerCase()) ||
+      s.description.toLowerCase().includes(songsSearch.toLowerCase())
+  );
+  const displayedSongs = filteredSongs.slice(0, visibleSongs);
+  const hasMoreSongs = visibleSongs < filteredSongs.length;
 
   const formatPrice = (price: number) =>
     `UGX ${price.toLocaleString()}`;
 
-  const handleOrder = () => {
-    window.open("https://wa.me/256392177825?text=Hello%2C%20I%20would%20like%20to%20order%20a%20book%20by%20Apostle%20Isaiah%20Mbuga.", "_blank");
+  const handleOrder = (orderUrl?: string) => {
+    window.open(orderUrl || DEFAULT_ORDER_URL, "_blank");
   };
 
   return (
@@ -131,10 +154,10 @@ export default function Resources() {
                   <h3 className="resource-card-title">{res.title}</h3>
                   <p className="resource-card-author">{res.author}</p>
                   <p className="resource-card-desc">
-                    {res.description.slice(0, 150)}…
+                    {res.description.slice(0, 150)}{res.description.length > 150 ? "\u2026" : ""}
                   </p>
                   <p className="resource-card-price">{formatPrice(res.price)}</p>
-                  <button onClick={handleOrder} className="btn btn-primary resource-download-btn">
+                  <button onClick={() => handleOrder(res.orderUrl)} className="btn btn-primary resource-download-btn">
                     <BookOpen size={14} /> Order Now
                   </button>
                 </div>
@@ -144,13 +167,227 @@ export default function Resources() {
         </div>
       </section>
 
-      {/* Media channels */}
+      {/* Songs — Watch, Listen & Connect */}
       <section className="about-timeline-section">
         <div className="container">
           <div className="section-header">
-            <span className="section-label resources-media-label">Media</span>
+            <span className="section-label resources-media-label">Music</span>
             <h2 className="resources-media-heading">Watch, Listen &amp; Connect</h2>
-            <p className="resources-media-desc">Access our media channels for sermons, teachings, and prophetic broadcasts</p>
+            <p className="resources-media-desc">
+              Stream gospel songs by Apostle Isaiah Mbuga — worship, praise, and prophetic music
+            </p>
+          </div>
+
+          {/* Search bar */}
+          {!songsLoading && songs.length > 0 && (
+            <div className="songs-toolbar">
+              <div className="songs-search-wrap">
+                <Search size={17} className="songs-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search songs..."
+                  value={songsSearch}
+                  onChange={(e) => {
+                    setSongsSearch(e.target.value);
+                    setVisibleSongs(SONGS_PAGE_SIZE);
+                  }}
+                  className="songs-search-input"
+                  aria-label="Search songs"
+                />
+                {songsSearch && (
+                  <button
+                    className="songs-search-clear"
+                    onClick={() => setSongsSearch("")}
+                    aria-label="Clear search"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              <p className="songs-count">
+                {songs.length} song{songs.length !== 1 ? "s" : ""}
+              </p>
+            </div>
+          )}
+
+          {/* Loading skeletons */}
+          {songsLoading && (
+            <div className="songs-grid">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={i} className="song-card">
+                  <div
+                    className="skeleton"
+                    style={{ aspectRatio: "16/9", borderRadius: "var(--radius-lg)" }}
+                  />
+                  <div
+                    style={{
+                      padding: "0.85rem 0.25rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <div className="skeleton skeleton-title" />
+                    <div className="skeleton skeleton-text" style={{ width: "65%" }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Error state */}
+          {songsError && (
+            <div style={{ textAlign: "center", padding: "3rem", color: "var(--text-light)" }}>
+              <Music size={48} style={{ marginBottom: "1rem", opacity: 0.3 }} />
+              <p>Unable to load songs from YouTube.</p>
+              <a
+                href="https://www.youtube.com/@isaiahmbuga8559"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                style={{ marginTop: "1.5rem" }}
+              >
+                <ExternalLink size={16} /> Listen on YouTube
+              </a>
+            </div>
+          )}
+
+          {/* Songs grid */}
+          {!songsLoading && !songsError && (
+            <div className="animate-on-scroll" ref={songsRef}>
+              {filteredSongs.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "3rem", color: "var(--text-light)" }}>
+                  <Search size={48} style={{ marginBottom: "1rem", opacity: 0.3 }} />
+                  <p>No songs found.</p>
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginTop: "1rem" }}
+                    onClick={() => {
+                      setSongsSearch("");
+                      setVisibleSongs(SONGS_PAGE_SIZE);
+                    }}
+                  >
+                    Clear Search
+                  </button>
+                </div>
+              ) : (
+                <div className="songs-grid">
+                  {displayedSongs.map((song) => {
+                    const isPlaying = playingId === song.id;
+
+                    return (
+                      <div
+                        key={song.id}
+                        className={`song-card${isPlaying ? " song-card--playing" : ""}`}
+                      >
+                        {/* Video player */}
+                        {isPlaying && song.videoId && (
+                          <div className="song-player">
+                            <iframe
+                              src={`https://www.youtube.com/embed/${song.videoId}?autoplay=1`}
+                              title={song.title}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        )}
+
+                        {/* Thumbnail */}
+                        {!isPlaying && (
+                          <div
+                            className="song-thumb-wrap"
+                            onClick={() => song.videoId && setPlayingId(song.id)}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Play: ${song.title}`}
+                            onKeyDown={(e) =>
+                              e.key === "Enter" && song.videoId && setPlayingId(song.id)
+                            }
+                          >
+                            <img
+                              src={song.thumbnail}
+                              alt={song.title}
+                              loading="lazy"
+                              width={320}
+                              height={180}
+                              decoding="async"
+                            />
+                            <div className="song-hover-overlay">
+                              <div className="song-play-circle">
+                                <Play size={20} />
+                              </div>
+                              <span className="song-watch-label">Play</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Card meta */}
+                        <div className="song-card-meta">
+                          {isPlaying && (
+                            <button
+                              className="song-close-btn"
+                              onClick={() => setPlayingId(null)}
+                            >
+                              <X size={13} /> Close
+                            </button>
+                          )}
+                          <h3 className="song-card-title">{song.title}</h3>
+                          <div className="song-card-info">
+                            <span className="song-card-artist">{song.artist}</span>
+                            <span className="song-meta-dot">&middot;</span>
+                            <span className="song-card-date">{formatDate(song.date)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {filteredSongs.length > 0 && (
+                <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+                  <p
+                    style={{
+                      fontSize: "0.82rem",
+                      color: "var(--text-light)",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    Showing {displayedSongs.length} of {filteredSongs.length} songs
+                  </p>
+                  {hasMoreSongs && (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => setVisibleSongs((p) => p + SONGS_PAGE_SIZE)}
+                    >
+                      <ChevronDown size={16} /> Show More
+                    </button>
+                  )}
+                </div>
+              )}
+
+              <div style={{ textAlign: "center", marginTop: "2rem" }}>
+                <a
+                  href="https://www.youtube.com/@isaiahmbuga8559"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-black"
+                >
+                  <ExternalLink size={16} /> View All on YouTube
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Media channel links */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">Channels</span>
+            <h2>Our Media Channels</h2>
+            <p>Follow us across platforms for sermons, teachings, and prophetic broadcasts</p>
           </div>
           <div className="media-channel-grid animate-on-scroll" ref={mediaRef}>
             {mediaLinks.map((link) => (

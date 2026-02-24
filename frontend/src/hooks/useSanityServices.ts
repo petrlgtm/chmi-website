@@ -13,6 +13,8 @@ interface SanityService {
   heroImage: string;
   schedules: { day: string; time: string; details: string }[];
   branchSchedules: { branchId: string; branchName: string; city: string; times: string }[];
+  isOnline?: boolean;
+  onlineDetails?: { host: string; platforms: { label: string; url: string }[] };
   cellLocations?: { area: string; city: string; day: string; time: string; leader: string; contact: string }[];
   highlights: { title: string; text: string }[];
   scripture: { text: string; ref: string };
@@ -48,6 +50,14 @@ export function useSanityServices() {
             city: bs.city || "",
             times: bs.times || "",
           })),
+          isOnline: s.isOnline || false,
+          onlineDetails: s.onlineDetails ? {
+            host: s.onlineDetails.host || "",
+            platforms: (s.onlineDetails.platforms || []).map((p) => ({
+              label: p.label || "",
+              url: p.url || "",
+            })),
+          } : undefined,
           cellLocations: s.cellLocations?.map((cl) => ({
             area: cl.area || "",
             city: cl.city || "",
@@ -63,7 +73,13 @@ export function useSanityServices() {
           scripture: s.scripture || { text: "", ref: "" },
         }));
 
-        setData(mapped);
+        // Merge: Sanity overrides matching fallback services (by id), keeps
+        // fallback entries that don't exist in Sanity, and appends new Sanity-only entries.
+        const merged = [
+          ...fallbackServices.map((fb) => mapped.find((s) => s.id === fb.id) || fb),
+          ...mapped.filter((s) => !fallbackServices.some((fb) => fb.id === s.id)),
+        ];
+        setData(merged);
         setError(null);
       } catch (err) {
         if (cancelled) return;

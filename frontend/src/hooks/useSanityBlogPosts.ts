@@ -60,7 +60,14 @@ export function useSanityBlogPosts() {
         if (cancelled || !posts?.length) return;
 
         setSanityPosts(posts);
-        setData(posts.map(mapToLegacy));
+        const sanityMapped = posts.map(mapToLegacy);
+        // Merge: Sanity overrides matching fallbacks (by id/slug), keeps
+        // fallback entries not in Sanity, and appends new Sanity-only entries.
+        const merged = [
+          ...fallbackPosts.map((fb) => sanityMapped.find((s) => s.id === fb.id) || fb),
+          ...sanityMapped.filter((s) => !fallbackPosts.some((fb) => fb.id === s.id)),
+        ];
+        setData(merged);
         setHasSanityData(true);
         setError(null);
       } catch (err) {

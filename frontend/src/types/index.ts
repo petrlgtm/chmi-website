@@ -49,3 +49,14 @@ export interface Sermon {
   thumbnail: string;
   thumbnailHigh?: string;
 }
+
+export interface Song {
+  id: string;
+  title: string;
+  artist: string;
+  date: string;
+  description: string;
+  videoId: string;
+  thumbnail: string;
+  thumbnailHigh?: string;
+}

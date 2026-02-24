@@ -60,6 +60,7 @@ export default defineType({
       name: 'branchSchedules',
       title: 'Branch Schedules',
       type: 'array',
+      hidden: ({parent}) => !!parent?.isOnline,
       of: [
         {
           type: 'object',
@@ -69,6 +70,46 @@ export default defineType({
             {name: 'city', title: 'City', type: 'string'},
             {name: 'times', title: 'Times', type: 'string'},
           ],
+          preview: {
+            select: {branchName: 'branchName', city: 'city', times: 'times'},
+            prepare({branchName, city, times}: {branchName?: string; city?: string; times?: string}) {
+              return {
+                title: branchName || 'Unnamed Branch',
+                subtitle: `${city || ''} · ${times || ''}`,
+              }
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: 'isOnline',
+      title: 'Online Service',
+      type: 'boolean',
+      description: 'Toggle on if this service is streamed online (not branch-based)',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'onlineDetails',
+      title: 'Online Details',
+      type: 'object',
+      description: 'Only used when "Online Service" is enabled',
+      hidden: ({parent}) => !parent?.isOnline,
+      fields: [
+        {name: 'host', title: 'Host', type: 'string', description: 'e.g. Apostle Isaiah Mbuga'},
+        {
+          name: 'platforms',
+          title: 'Streaming Platforms',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {name: 'label', title: 'Label', type: 'string'},
+                {name: 'url', title: 'URL', type: 'url'},
+              ],
+            },
+          ],
         },
       ],
     }),
@@ -76,18 +117,27 @@ export default defineType({
       name: 'cellLocations',
       title: 'Cell Locations',
       type: 'array',
-      description: 'Only used for Home Cells service type',
+      description: 'Home cell meeting points — area, day/time, leader & contact. Add, edit, or remove cells here.',
       of: [
         {
           type: 'object',
           fields: [
-            {name: 'area', title: 'Area', type: 'string'},
-            {name: 'city', title: 'City', type: 'string'},
-            {name: 'day', title: 'Day', type: 'string'},
-            {name: 'time', title: 'Time', type: 'string'},
-            {name: 'leader', title: 'Leader', type: 'string'},
-            {name: 'contact', title: 'Contact', type: 'string'},
+            {name: 'area', title: 'Area / Neighbourhood', type: 'string', description: 'e.g. Ntinda / Kisaasi'},
+            {name: 'city', title: 'City', type: 'string', description: 'e.g. Kampala, Mukono'},
+            {name: 'day', title: 'Meeting Day', type: 'string', description: 'e.g. Tuesday'},
+            {name: 'time', title: 'Meeting Time', type: 'string', description: 'e.g. 6:30 PM'},
+            {name: 'leader', title: 'Cell Leader', type: 'string'},
+            {name: 'contact', title: 'Contact Number', type: 'string', description: 'Phone number with country code'},
           ],
+          preview: {
+            select: {area: 'area', city: 'city', day: 'day', time: 'time', leader: 'leader'},
+            prepare({area, city, day, time, leader}: {area?: string; city?: string; day?: string; time?: string; leader?: string}) {
+              return {
+                title: `${area || 'Unnamed'} — ${city || ''}`,
+                subtitle: `${day || ''} ${time || ''} · ${leader || 'No leader'}`,
+              }
+            },
+          },
         },
       ],
     }),

@@ -58,6 +58,8 @@ export const SERVICES_QUERY = `*[_type == "serviceType"] | order(title asc) {
   "heroImage": heroImage.asset->url,
   schedules,
   branchSchedules,
+  isOnline,
+  onlineDetails,
   cellLocations,
   highlights,
   scripture
@@ -155,4 +157,23 @@ export const SITE_IMAGES_QUERY = `*[_type == "siteImages" && _id == "siteImages"
   "serviceCards": serviceCards[]{ "url": asset->url, label, alt },
   "aboutGallery": aboutGallery[]{ "url": asset->url, alt },
   "giveImpact": giveImpact[]{ "url": asset->url, alt }
+}`;
+
+export const RESOURCES_QUERY = `*[_type == "resource"] | order(order asc) {
+  _id,
+  title,
+  "id": slug.current,
+  author,
+  description,
+  "image": image.asset->url,
+  price,
+  orderUrl
+}`;
+
+export const MEDIA_CHANNELS_QUERY = `*[_type == "mediaChannel"] | order(order asc) {
+  _id,
+  label,
+  url,
+  description,
+  color
 }`;

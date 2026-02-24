@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { X, Calendar, MapPin, ArrowRight, Bell } from "lucide-react";
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { getPromoEvent, getCountdownText } from "../utils/eventDate";
+import { ALL_IMAGES } from "../utils/imageFallbacks";
 
 const DISMISS_KEY = "eventPromoDismissed";
 
@@ -52,6 +53,15 @@ export default function EventPromoPopup() {
         <span>Event Reminder</span>
         {countdown && <span className="event-reminder-countdown">{countdown}</span>}
       </div>
+
+      {(promoEvent.image || ALL_IMAGES[0]) && (
+        <div className="event-reminder-poster">
+          <img
+            src={promoEvent.image || ALL_IMAGES[0]}
+            alt={promoEvent.name}
+          />
+        </div>
+      )}
 
       <div className="event-reminder-body">
         <span className="event-reminder-category">{promoEvent.category}</span>

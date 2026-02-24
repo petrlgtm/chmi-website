@@ -81,6 +81,15 @@ export default defineConfig({
               .title('Testimonials')
               .schemaType('testimonial')
               .child(S.documentTypeList('testimonial').title('Testimonials')),
+            S.divider(),
+            S.listItem()
+              .title('Books / Resources')
+              .schemaType('resource')
+              .child(S.documentTypeList('resource').title('Books / Resources')),
+            S.listItem()
+              .title('Media Channels')
+              .schemaType('mediaChannel')
+              .child(S.documentTypeList('mediaChannel').title('Media Channels')),
           ]),
     }),
     visionTool(),

@@ -488,7 +488,7 @@ html.dark .dropdown-view-all { border-top-color: rgba(255,255,255,0.08); color: 
 }
 .mobile-panel-portrait {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: top center;
+  object-fit: contain; object-position: top center;
   opacity: 0.12; pointer-events: none; z-index: 0;
   filter: grayscale(40%);
 }
@@ -641,7 +641,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 /* ===================== */
 .hero {
   position: relative; min-height: 100vh; display: flex; align-items: center;
-  overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
+  overflow: hidden; background-size: contain; background-position: center; background-repeat: no-repeat;
 }
 .hero::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 150px;
@@ -702,13 +702,13 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 
 .hero-visual { display: flex; justify-content: center; align-items: center; }
 .hero-image-container {
-  width: 100%; max-width: 480px; aspect-ratio: 3/4;
-  border-radius: var(--radius-2xl); overflow: hidden;
+  width: 100%; max-width: 480px;
+  border-radius: var(--radius-2xl); overflow: visible;
   box-shadow: 0 25px 60px rgba(0,0,0,0.3);
   position: relative;
 }
 .hero-image-container img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: auto; object-fit: contain;
 }
 .hero-image-overlay {
   position: absolute; inset: 0;
@@ -793,8 +793,8 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   position: relative; min-height: 380px;
 }
 /* Make OptimizedImage wrapper fill the column */
-.mission-image .opt-img-wrap { height: 100%; aspect-ratio: unset !important; }
-.mission-image img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 0; }
+.mission-image .opt-img-wrap { aspect-ratio: unset !important; }
+.mission-image img { width: 100%; height: auto; object-fit: contain; display: block; border-radius: 0; }
 .mission-image-placeholder {
   width: 100%; height: 100%;
   background: linear-gradient(135deg, var(--purple-100), var(--purple-200));
@@ -877,11 +877,11 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
 
 /* ── Branch card image strip ── */
 .bc-image {
-  position: relative; height: 130px; overflow: hidden;
+  position: relative; overflow: visible;
   flex-shrink: 0;
 }
 .bc-image img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .branch-card-v2:hover .bc-image img { transform: scale(1.08); }
@@ -1043,10 +1043,41 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   overflow: hidden;
 }
 .pastor-avatar-img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: auto; object-fit: contain;
 }
 .pastor-info h4 { font-family: var(--font-body); font-size: 1.05rem; font-weight: 600; color: var(--gray-900); }
 .pastor-info p { font-size: 0.88rem; color: var(--text-light); }
+/* ── Pastor lightbox ── */
+.pastor-lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2rem; cursor: pointer;
+  animation: pastor-lb-in 0.25s ease;
+}
+@keyframes pastor-lb-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.pastor-lightbox img {
+  max-width: 90vw; max-height: 75vh; border-radius: var(--radius-2xl);
+  object-fit: contain; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  cursor: default;
+}
+.pastor-lightbox-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; border-radius: 50%; width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s;
+}
+.pastor-lightbox-close:hover { background: rgba(255,255,255,0.2); }
+.pastor-lightbox-name {
+  margin-top: 1rem; color: #fff; font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 600; text-align: center;
+}
+.pastor-avatar:hover { opacity: 0.85; transition: opacity 0.2s; }
+
 .testimonial-card {
   background: var(--purple-50); border-radius: var(--radius-lg); padding: 1.5rem;
   margin-bottom: 0.75rem; border-left: 3px solid var(--primary);
@@ -1296,7 +1327,7 @@ html.dark .mobile-subnav-viewall { color: var(--purple-300) !important; border-t
   background: var(--gray-100);
 }
 .sermon-thumb-wrap img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .sermon-thumb-wrap:hover img { transform: scale(1.06); }
@@ -1397,6 +1428,156 @@ html.dark .sermons-pill { background: #1a1a1a; border-color: rgba(255,255,255,0.
 html.dark .sermons-pill:not(.active):hover { border-color: var(--purple-400); color: var(--purple-300); }
 html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
 
+/* =========================== */
+/* SONGS GRID (Resources page) */
+/* =========================== */
+.songs-toolbar {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.songs-search-wrap {
+  position: relative; flex: 1; min-width: 200px;
+}
+.songs-search-icon {
+  position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
+  color: var(--gray-400); pointer-events: none;
+}
+.songs-search-input {
+  width: 100%; padding: 0.65rem 2.75rem 0.65rem 2.5rem;
+  border: 1px solid var(--gray-200); border-radius: var(--radius-full);
+  font-size: 0.9rem; background: var(--white); color: var(--text);
+  transition: var(--transition);
+}
+.songs-search-input:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+}
+.songs-search-clear {
+  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--gray-400); display: flex; align-items: center;
+  padding: 0.2rem;
+}
+.songs-search-clear:hover { color: var(--primary); }
+.songs-count {
+  font-size: 0.82rem; color: var(--text-light);
+  white-space: nowrap; margin: 0;
+}
+
+/* Songs grid */
+.songs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 1200px) { .songs-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px)  { .songs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px)  { .songs-grid { grid-template-columns: 1fr; } }
+
+/* Song card */
+.song-card {
+  display: flex; flex-direction: column;
+  background: var(--white); border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-100); overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+}
+.song-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--gold-400, var(--purple-100)); }
+.song-card--playing { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(124,58,237,0.2); transform: none; }
+
+/* Song thumbnail */
+.song-thumb-wrap {
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  overflow: hidden; cursor: pointer;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--gray-100);
+}
+.song-thumb-wrap img {
+  width: 100%; height: auto; object-fit: contain; display: block;
+  transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.song-thumb-wrap:hover img { transform: scale(1.06); }
+
+/* Song hover overlay */
+.song-hover-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.5rem;
+  background: rgba(0,0,0,0); transition: background 0.3s;
+  pointer-events: none;
+}
+.song-thumb-wrap:hover .song-hover-overlay {
+  background: rgba(0,0,0,0.45);
+}
+.song-play-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(255,255,255,0.95); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  transform: scale(0.8); opacity: 0; transition: transform 0.3s, opacity 0.3s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.song-watch-label {
+  font-size: 0.75rem; font-weight: 700; color: #fff;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.3s 0.05s, transform 0.3s 0.05s;
+}
+.song-thumb-wrap:hover .song-play-circle {
+  transform: scale(1); opacity: 1;
+}
+.song-thumb-wrap:hover .song-watch-label {
+  opacity: 1; transform: translateY(0);
+}
+
+/* Song player */
+.song-player {
+  width: 100%; aspect-ratio: 16/9; overflow: hidden;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.song-player iframe { width: 100%; height: 100%; border: none; display: block; }
+
+/* Song card meta */
+.song-card-meta {
+  padding: 0.85rem 1rem 1rem;
+  display: flex; flex-direction: column; gap: 0.35rem;
+  flex: 1;
+}
+.song-close-btn {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.75rem; font-weight: 600; color: var(--gray-500);
+  background: var(--gray-100); border: none; cursor: pointer;
+  padding: 0.3rem 0.65rem; border-radius: var(--radius-full);
+  width: fit-content; margin-bottom: 0.25rem;
+  transition: background 0.2s, color 0.2s;
+}
+.song-close-btn:hover { background: var(--purple-50); color: var(--primary); }
+.song-card-title {
+  font-size: 0.9rem; font-weight: 700; color: var(--gray-900);
+  line-height: 1.4; font-family: var(--font-body);
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+  margin: 0;
+}
+.song-card-info {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.75rem; color: var(--text-light); flex-wrap: wrap;
+}
+.song-card-artist {
+  font-weight: 600; color: var(--primary); font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.song-meta-dot { color: var(--gray-300); }
+.song-card-date { color: var(--gray-500); }
+
+/* Songs dark mode */
+html.dark .song-card { background: #1a1a1a; border-color: rgba(255,255,255,0.07); }
+html.dark .song-card:hover { border-color: var(--purple-400); }
+html.dark .song-card-title { color: #f0f0f0; }
+html.dark .song-card-artist { color: var(--purple-400); }
+html.dark .song-card-date { color: rgba(255,255,255,0.4); }
+html.dark .songs-search-input { background: #1a1a1a; border-color: rgba(255,255,255,0.1); color: #f0f0f0; }
+html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
+html.dark .songs-count { color: rgba(255,255,255,0.4); }
+
 /* ===================== */
 /* GIVING                */
 /* ===================== */
@@ -1425,28 +1606,7 @@ html.dark .sermon-close-btn { background: rgba(255,255,255,0.07); color: rgba(25
 .giving-card p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.5rem; line-height: 1.6; }
 
 /* ===================== */
-/* FLOATING GIVE         */
-/* ===================== */
-.floating-give {
-  position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
-  animation: float-gentle 3s ease-in-out infinite;
-}
-.floating-give a {
-  display: flex; align-items: center; gap: 0.5rem;
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
-  color: var(--black); padding: 0.9rem 1.5rem; border-radius: var(--radius-full);
-  font-weight: 700; font-size: 0.95rem;
-  box-shadow: 0 8px 30px rgba(245,158,11,0.45);
-  transition: var(--transition);
-}
-.floating-give a:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 12px 40px rgba(245,158,11,0.55);
-}
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
+/* (floating give removed — only nav bar give button used) */
 
 /* ===================== */
 /* FOOTER                */
@@ -1653,7 +1813,7 @@ html.dark .events-heading-accent { color: var(--gold-400); }
 .history-mosaic-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -1763,7 +1923,7 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 .svc-card-zoom {
   position: absolute; inset: 0;
   background-image: var(--svc-bg);
-  background-size: cover; background-position: center;
+  background-size: contain; background-position: center;
   transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
   will-change: transform;
 }
@@ -2140,7 +2300,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.08);
 }
 .card-3d img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: auto; object-fit: contain;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-3d:hover img { transform: scale(1.05); }
@@ -2297,7 +2457,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
 }
 .photo-gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
 .photo-gallery-item img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .photo-gallery-item:hover img { transform: scale(1.08); }
@@ -2383,7 +2543,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   overflow: hidden; border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 .sermon-thumbnail img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--gray-100);
 }
@@ -2565,7 +2725,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
 }
 .page-hero-xl::before {
   content: ''; position: absolute; inset: 0;
-  background-size: cover; background-position: center;
+  background-size: contain; background-position: center;
   opacity: 0.2; z-index: 0;
 }
 .page-hero-xl::after {
@@ -2717,7 +2877,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
 }
 /* Make OptimizedImage wrapper fill the column */
 .feature-row-image .opt-img-wrap { height: 100%; aspect-ratio: unset !important; }
-.feature-row-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.feature-row-image img { width: 100%; height: auto; object-fit: contain; display: block; }
 .feature-row-text h3 {
   font-size: 2rem; color: var(--primary); margin-bottom: 1rem;
 }
@@ -2867,12 +3027,12 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   border-color: var(--gold-500);
 }
 
-/* Thumbnail */
+/* Thumbnail — image fills the card thumb area */
 .evt-card-thumb {
-  position: relative; height: 140px; overflow: hidden;
+  position: relative; height: 160px; overflow: hidden;
 }
 .evt-card-thumb img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: fill;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .evt-card:hover .evt-card-thumb img {
@@ -2907,7 +3067,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   display: flex; gap: 0.35rem; flex-wrap: wrap;
 }
 .evt-tag {
-  font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem;
+  font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.55rem;
   border-radius: var(--radius-full);
   display: inline-flex; align-items: center; gap: 0.2rem;
 }
@@ -2918,25 +3078,26 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   background: var(--gray-100); color: var(--gray-600);
 }
 .evt-card-title {
-  font-size: 0.95rem; font-weight: 700; margin: 0;
-  color: var(--gray-900); line-height: 1.3;
+  font-size: 1.05rem; font-weight: 800; margin: 0;
+  color: var(--gray-900); line-height: 1.35;
 }
 .evt-card-tagline {
-  font-size: 0.78rem; color: var(--primary); font-style: italic;
-  font-weight: 500; margin: 0; line-height: 1.3;
+  font-size: 0.82rem; color: var(--primary); font-style: italic;
+  font-weight: 600; margin: 0; line-height: 1.35;
 }
 .evt-card-meta {
-  display: flex; flex-direction: column; gap: 0.15rem;
-  margin-top: 0.15rem;
+  display: flex; flex-direction: column; gap: 0.2rem;
+  margin-top: 0.25rem;
 }
 .evt-card-meta span {
-  font-size: 0.72rem; color: var(--gray-500);
+  font-size: 0.78rem; color: var(--gray-600);
   display: flex; align-items: center; gap: 0.3rem;
+  font-weight: 500;
 }
 .evt-card-meta svg { color: var(--purple-400); flex-shrink: 0; }
 .evt-card-cta {
   display: inline-flex; align-items: center; gap: 0.3rem;
-  font-size: 0.78rem; font-weight: 700; color: var(--primary);
+  font-size: 0.82rem; font-weight: 800; color: var(--primary);
   margin-top: auto; padding-top: 0.5rem;
   transition: gap 0.2s ease;
 }
@@ -3014,7 +3175,7 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
   background: var(--black);
 }
 .sermon-featured-visual img {
-  width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
+  width: 100%; height: auto; object-fit: contain; opacity: 0.85;
   position: absolute; inset: 0;
 }
 .sermon-featured-play {
@@ -3283,8 +3444,6 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
 
 /* Floating elements — smaller on mobile to avoid overlap */
 @media (max-width: 480px) {
-  .floating-give { bottom: 1rem; right: 1rem; }
-  .floating-give a { padding: 0.7rem 1rem; font-size: 0.85rem; }
   .prayer-fab { bottom: 1rem; left: 1rem; padding: 0.7rem 1rem; font-size: 0.8rem; }
   .back-to-top { bottom: 4.5rem; right: 1rem; }
 }
@@ -3328,7 +3487,7 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
   display: block; overflow: hidden;
 }
 .ls-thumb-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: auto; object-fit: contain;
   transition: transform 0.5s ease;
 }
 .ls-thumb-wrap:hover img { transform: scale(1.04); }
@@ -3438,6 +3597,13 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 }
 .event-reminder-countdown {
   margin-left: auto; font-size: 0.65rem; color: #fbbf24; font-weight: 700;
+}
+.event-reminder-poster {
+  width: 100%; aspect-ratio: 16/9; overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.event-reminder-poster img {
+  width: 100%; height: auto; object-fit: contain; display: block;
 }
 .event-reminder-body { padding: 0.85rem 1rem 0.7rem; }
 .event-reminder-category {
@@ -3902,7 +4068,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 }
 .event-marquee-img img {
   width: 100%; height: 100%;
-  object-fit: cover; display: block;
+  object-fit: contain; display: block;
   transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
 }
 .event-marquee-card:hover .event-marquee-img img { transform: scale(1.07); }
@@ -4212,7 +4378,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
 }
 .sermon-audio-album {
   width: 80px; height: 80px; border-radius: var(--radius-lg);
-  object-fit: cover; flex-shrink: 0;
+  object-fit: contain; flex-shrink: 0;
   border: 2px solid var(--gold-400);
   box-shadow: 0 0 20px rgba(245,158,11,0.3);
 }
@@ -4544,8 +4710,6 @@ html.dark .back-to-top:hover { background: var(--purple-600); color: #fff; borde
 /* ── Prayer FAB ── */
 html.dark .prayer-fab { box-shadow: 0 8px 25px rgba(0,0,0,0.6); }
 
-/* ── Floating give ── */
-html.dark .floating-give a { box-shadow: 0 8px 30px rgba(245,158,11,0.3); }
 
 /* ── Form group label ── */
 html.dark .form-group label { color: var(--text); }
@@ -4724,7 +4888,7 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
 /* ── Event card lg image cover on mobile ── */
 @media (max-width: 768px) {
   .event-card-lg-image img {
-    width: 100%; height: 100%; object-fit: cover;
+    width: 100%; height: auto; object-fit: contain;
   }
 }
 
@@ -4742,7 +4906,7 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
   background: var(--gray-100);
 }
 .blog-card-image img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;
 }
 .blog-card:hover .blog-card-image img {
@@ -4801,7 +4965,7 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
   position: relative;
 }
 .blog-featured-image img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .blog-featured:hover .blog-featured-image img { transform: scale(1.04); }
@@ -4874,11 +5038,11 @@ html.dark .mission-feature:hover span { color: var(--purple-300); }
 /* ─── RESOURCE CARD INTERNALS ──────────────────────────────── */
 
 .resource-card-image {
-  height: 220px; overflow: hidden; position: relative;
+  overflow: visible; position: relative;
   background: var(--gray-100);
 }
 .resource-card-image img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%; height: auto; object-fit: contain; display: block;
   transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);
 }
 .resource-card:hover .resource-card-image img { transform: scale(1.06); }
@@ -5336,7 +5500,7 @@ html.dark .branch-service-box p { color: var(--text-light); }
   aspect-ratio: 21/9;
 }
 .blog-detail-image img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: auto; object-fit: contain;
 }
 .blog-detail-image-overlay {
   position: absolute; inset: 0;

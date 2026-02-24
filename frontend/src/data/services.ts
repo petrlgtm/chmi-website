@@ -14,6 +14,11 @@ export interface CellLocation {
   contact: string;
 }
 
+export interface OnlineDetails {
+  host: string;
+  platforms: { label: string; url: string }[];
+}
+
 export interface ServiceInfo {
   id: string;
   title: string;
@@ -23,6 +28,8 @@ export interface ServiceInfo {
   schedule: { day: string; time: string; details: string }[];
   branchSchedules: BranchSchedule[];
   cellLocations?: CellLocation[];
+  isOnline?: boolean;
+  onlineDetails?: OnlineDetails;
   highlights: { title: string; text: string }[];
   scripture: { text: string; ref: string };
 }
@@ -223,29 +230,30 @@ export const services: ServiceInfo[] = [
   {
     id: "night-services",
     title: "Night Services",
-    shortDesc: "Special evening worship gatherings for spiritual empowerment.",
+    shortDesc: "Live online evening worship with Apostle Isaiah Mbuga every weeknight.",
     heroImage: img(8),
     description: [
-      "Night Services at Christ's Heart Ministries are special evening gatherings designed for those who desire a deeper encounter with God. These services often carry a different atmosphere from the regular Sunday services — more intimate, more intense, and deeply prophetic.",
-      "The evening setting creates a unique ambiance for worship, teaching, and ministry. Many believers have experienced life-changing encounters during our Night Services, including healings, deliverances, and profound spiritual revelations.",
-      "Night Services also serve as a platform for visiting ministers and special speakers who bring fresh perspectives and anointed ministry to the congregation.",
+      "Night Services are live online gatherings hosted by Apostle Isaiah Mbuga every weeknight. These evening sessions carry a unique atmosphere — intimate, intense, and deeply prophetic — as the Apostle ministers the Word and leads believers into the presence of God from wherever they are.",
+      "Streamed live on ChristHeartTV (YouTube) and TikTok, Night Services bring the anointing directly to your home. Many believers across Uganda and beyond have experienced life-changing encounters during these broadcasts, including healings, deliverances, and profound spiritual revelations.",
+      "Whether you are winding down after a long day or seeking a fresh encounter with God, Night Services are an open door to the supernatural. Tune in, engage in the chat, and let the Holy Spirit minister to you.",
     ],
     schedule: [
-      { day: "Friday", time: "7:00 PM", details: "Friday Night Fire — Worship, Word, and Ministry" },
-      { day: "Last Saturday", time: "6:00 PM", details: "Monthly Night of Encounter — Special themed evening services" },
+      { day: "Monday – Friday", time: "9:00 PM – 10:30 PM", details: "Apostle Live — Night Service with Apostle Isaiah Mbuga" },
     ],
-    branchSchedules: [
-      { branchId: "kampala", branchName: "Christ's Heart Kampala", city: "Kampala", times: "Friday: 7pm (Night Fire) | Last Sat: 6pm (Encounter Night)" },
-      { branchId: "mukono", branchName: "Christ's Heart Mukono", city: "Mukono", times: "Friday: 7pm (Night Fire)" },
-      { branchId: "jinja", branchName: "Christ's Heart Jinja", city: "Jinja", times: "Last Friday: 7pm" },
-      { branchId: "mbale", branchName: "Christ's Heart Mbale", city: "Mbale", times: "Last Friday: 7pm" },
-      { branchId: "makerere", branchName: "Christ's Heart Makerere", city: "Makerere", times: "Friday: 7pm (Campus Night Fire)" },
-    ],
+    branchSchedules: [],
+    isOnline: true,
+    onlineDetails: {
+      host: "Apostle Isaiah Mbuga",
+      platforms: [
+        { label: "ChristHeartTV (YouTube)", url: "https://www.youtube.com/@ChristsHeart" },
+        { label: "TikTok", url: "https://www.tiktok.com/@christsheartmin" },
+      ],
+    },
     highlights: [
-      { title: "Deeper Worship", text: "Extended worship sessions that create space for intimate encounters with God." },
-      { title: "Guest Ministers", text: "National and international speakers bring fresh revelation and anointed ministry." },
-      { title: "Ministry Time", text: "Personal prayer, laying on of hands, and prophetic ministry available." },
-      { title: "Youth-Friendly", text: "A vibrant atmosphere that resonates with young adults seeking genuine spiritual experience." },
+      { title: "Apostle Isaiah Mbuga Live", text: "Personal ministry from the Apostle every weeknight — teaching, prophecy, and prayer." },
+      { title: "Watch from Anywhere", text: "Stream live on YouTube and TikTok from the comfort of your home, no matter where you are." },
+      { title: "Interactive Chat", text: "Share prayer requests and engage in real-time through the live chat during the broadcast." },
+      { title: "Replay Available", text: "Missed a session? Watch the replay on ChristHeartTV at any time." },
     ],
     scripture: { text: "At midnight I will rise to give thanks unto thee because of thy righteous judgments.", ref: "Psalm 119:62" },
   },

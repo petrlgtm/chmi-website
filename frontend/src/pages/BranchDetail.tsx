@@ -1,6 +1,6 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Phone, Mail, Clock, ArrowLeft, Quote, Church, Users } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, ArrowLeft, Quote, Church, Users, X } from "lucide-react";
 import { useSanityBranches } from "../hooks/useSanityBranches";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import OptimizedImage from "../components/OptimizedImage";
@@ -14,6 +14,7 @@ export default function BranchDetail() {
   const { data: branches } = useSanityBranches();
   const branch = branches.find((b) => b.id === id);
   const contentRef = useScrollAnimation<HTMLDivElement>();
+  const [lightboxImg, setLightboxImg] = useState<{ src: string; name: string } | null>(null);
 
   if (!branch) {
     return (
@@ -76,7 +77,12 @@ export default function BranchDetail() {
                 {branch.pastors.length > 0 ? (
                   branch.pastors.map((pastor, i) => (
                     <div key={i} className="pastor-card">
-                      <div className="pastor-avatar">
+                      <div
+                        className="pastor-avatar"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => setLightboxImg({ src: pastor.image || IMAGES.pastorDefault, name: pastor.name })}
+                        title={`View ${pastor.name}'s photo`}
+                      >
                         <img
                           src={pastor.image || IMAGES.pastorDefault}
                           alt={pastor.name}
@@ -169,6 +175,23 @@ export default function BranchDetail() {
           </div>
         </div>
       </section>
+      {/* Pastor image lightbox */}
+      {lightboxImg && (
+        <div
+          className="pastor-lightbox"
+          onClick={() => setLightboxImg(null)}
+        >
+          <button
+            className="pastor-lightbox-close"
+            onClick={() => setLightboxImg(null)}
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
+          <img src={lightboxImg.src} alt={lightboxImg.name} />
+          <p className="pastor-lightbox-name">{lightboxImg.name}</p>
+        </div>
+      )}
     </>
   );
 }

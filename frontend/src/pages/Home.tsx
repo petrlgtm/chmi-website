@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MapPin, Users, BookOpen, Clock, Headphones,
-  Church, Globe, Star, ArrowRight, Flame, Play, Calendar
+  Church, Star, ArrowRight, Flame, Play, Calendar
 } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
 import { useSanityEvents } from "../hooks/useSanityEvents";
@@ -246,20 +246,6 @@ export default function Home() {
                 and has lectured before joining full-time ministry. He is also known as a gospel music
                 writer and singer, raising a generation that walks in divine authority, power, and purpose.
               </p>
-              <div className="mission-features">
-                <div className="mission-feature">
-                  <div className="feature-icon"><Globe size={20} /></div>
-                  <span>Branches Across the World</span>
-                </div>
-                <div className="mission-feature">
-                  <div className="feature-icon"><Users size={20} /></div>
-                  <span>Dynamic Community of Believers</span>
-                </div>
-                <div className="mission-feature">
-                  <div className="feature-icon"><Flame size={20} /></div>
-                  <span>Apostolic Power &amp; Teaching</span>
-                </div>
-              </div>
               <Link to="/about" className="btn btn-primary" style={{ marginTop: "1.5rem", width: "fit-content", display: "inline-flex" }}>
                 Learn More <ArrowRight size={16} />
               </Link>

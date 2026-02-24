@@ -1,8 +1,12 @@
 import type { ChurchEvent } from "../types";
-import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
+import { eventFallbackImage } from "../utils/imageFallbacks";
 
-// Cycle through available images for events without dedicated photos
-const img = (i: number) => ALL_IMAGES[i % ALL_IMAGES.length];
+// Auto-incrementing counter per category for varied Unsplash fallbacks
+const _c: Record<string, number> = {};
+const fb = (category: string) => {
+  _c[category] = (_c[category] ?? -1) + 1;
+  return eventFallbackImage(category, _c[category]);
+};
 
 export const events: ChurchEvent[] = [
   // ── JANUARY ──────────────────────────────────────────────────────
@@ -14,7 +18,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A vibrant celebration honouring the Teens Ministry of Christ's Heart Ministries International. Young people from all branches come together for an electrifying day of worship, dance, spoken word, and testimonies. Featuring guest youth speakers, mentorship sessions, and powerful ministry time dedicated to raising a generation bold in faith and purpose.",
-    image: img(0),
+    image: fb("Youth"),
     tagline: "Raising a Generation Bold in Faith.",
     category: "Youth",
     isMajor: false,
@@ -27,7 +31,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart UK",
     description:
       "Celebrating the faithfulness of God over the UK branch of Christ's Heart Ministries International. A special anniversary service featuring worship, testimonies, and a powerful word from the leadership. Members and friends gather to mark another year of God's grace in the diaspora.",
-    image: img(1),
+    image: fb("Branch Anniversary"),
     tagline: "God's Grace Across the Nations.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -40,7 +44,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit. The Mukono Overnight is a monthly anchor event where we press into God's presence and receive fresh direction for the season ahead.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -55,7 +59,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Lugazi & Kira",
     description:
       "A joint celebration of the Lugazi and Kira branches as they mark another year of God's faithfulness. Special services at both locations with worship, testimonies, and preaching. A day to celebrate what God has done and decree what He is about to do in these communities.",
-    image: img(3),
+    image: fb("Branch Anniversary"),
     tagline: "Two Branches, One God, One Celebration.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -68,7 +72,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A powerful fellowship gathering as the church comes together to break a season of corporate fasting. Featuring thanksgiving worship, communion, shared meals, and a celebratory atmosphere as we mark the end of our consecration season. Expect testimonies of answered prayers and breakthroughs from the fast.",
-    image: img(4),
+    image: fb("Special Service"),
     tagline: "The Fast Is Over. The Breakthrough Is Here.",
     category: "Special Service",
     isMajor: false,
@@ -81,7 +85,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mayuge",
     description:
       "Celebrating the Mayuge branch of Christ's Heart Ministries as they commemorate another year of growth, miracles, and kingdom advancement. A day of worship, thanksgiving, and prophetic declarations over the Mayuge community.",
-    image: img(5),
+    image: fb("Branch Anniversary"),
     tagline: "Mayuge Celebrates God's Faithfulness.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -94,7 +98,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A powerful celebration of love, covenant, and God's design for marriage. Marriage Flair brings couples and singles together for a day of teaching, testimonies, and prayer focused on building strong, God-honouring homes. Featuring practical sessions on communication, intimacy, and raising godly families.",
-    image: IMAGES.events[0],
+    image: fb("Marriage & Family"),
     tagline: "Celebrate Love. Build God's Way.",
     category: "Marriage & Family",
     isMajor: true,
@@ -107,7 +111,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A special Sunday service featuring the internationally renowned Bishop Victory Godspower. Experience a powerful ministration of the Word, prophetic declarations, and an atmosphere of signs and wonders. An unmissable opportunity to receive a fresh impartation from this anointed vessel of God.",
-    image: img(6),
+    image: fb("Guest Speaker"),
     tagline: "A Word From Heaven. A Shift in Your Season.",
     category: "Guest Speaker",
     isMajor: true,
@@ -120,7 +124,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mityana & Kagoma",
     description:
       "A joyous joint anniversary celebration for the Mityana and Kagoma branches. Believers from both communities gather to give God praise for His sustaining grace and to look ahead with faith. Featuring worship, shared testimonies, and an anointed word from leadership.",
-    image: img(7),
+    image: fb("Branch Anniversary"),
     tagline: "Together in Faith, Together in Celebration.",
     category: "Branch Anniversary",
     isMajor: true,
@@ -133,7 +137,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "Four days of powerful midday encounters with Bishop Victory Godspower. These lunch-hour sessions are designed for the working class and students — short, intense, and loaded with the fire of God. Come during your lunch break and leave with a fresh word, fresh fire, and fresh direction for your life.",
-    image: img(8),
+    image: fb("Guest Speaker"),
     tagline: "Your Lunch Hour Will Never Be the Same.",
     category: "Guest Speaker",
     isMajor: true,
@@ -146,7 +150,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A special evening fellowship with Bishop Victory Godspower focusing on the promises of God. An evening of deep teaching, prophetic ministry, and covenant declarations. Come and lay hold of what God has spoken over your life, family, and ministry.",
-    image: img(9),
+    image: fb("Guest Speaker"),
     tagline: "Hold On to Every Promise. God Is Faithful.",
     category: "Guest Speaker",
     isMajor: true,
@@ -159,7 +163,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit. The Mukono Overnight is a monthly anchor event where we press into God's presence and receive fresh direction for the season ahead.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -174,7 +178,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Soroti",
     description:
       "Celebrating the Soroti branch as it marks another year of gospel impact in the Teso region. A day filled with worship, powerful testimonies, and a celebratory message from leadership. The Soroti community comes together to honour God for His faithfulness.",
-    image: img(10),
+    image: fb("Branch Anniversary"),
     tagline: "Soroti Rises in Praise.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -187,7 +191,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kyebando",
     description:
       "An electrifying all-night gathering at the Kyebando branch where multiple branches converge for a unified night of prayer, worship, and fellowship. The interbranch format creates a powerful atmosphere as believers from different communities join their faith together in one accord.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "Many Branches. One Fire.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -200,7 +204,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A glorious ceremony where multiple couples exchange vows and begin their married life before God, family, and the church. The Mass Wedding is one of CHMI's most beautiful events — celebrating love, covenant, and community. Featuring a full wedding service, reception, and blessings from the senior leadership.",
-    image: img(12),
+    image: fb("Marriage & Family"),
     tagline: "Covenant Love. Kingdom Beginnings.",
     category: "Marriage & Family",
     isMajor: true,
@@ -213,7 +217,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Entebbe",
     description:
       "The Entebbe branch celebrates another year of God's goodness. A special anniversary service with worship, testimonies of transformation, and a powerful word to set the tone for the year ahead. The lakeside community gathers to glorify God for every victory.",
-    image: img(13),
+    image: fb("Branch Anniversary"),
     tagline: "Entebbe Celebrates God's Goodness.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -226,7 +230,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mubende",
     description:
       "Celebrating the Mubende branch's growth and impact in the community. A day of worship, thanksgiving, and prophetic declarations as the church honours God's faithfulness and looks ahead with expectation.",
-    image: img(14),
+    image: fb("Branch Anniversary"),
     tagline: "Mubende Stands in Faith.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -239,7 +243,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Hoima",
     description:
       "The Hoima branch marks another year of God's grace with a powerful anniversary service. Believers gather to celebrate testimonies of healing, provision, and spiritual growth. A day of gratitude and fresh vision for the Hoima community.",
-    image: img(15),
+    image: fb("Branch Anniversary"),
     tagline: "Hoima Honours God's Grace.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -252,7 +256,7 @@ export const events: ChurchEvent[] = [
     location: "Kampala City",
     description:
       "An exciting charity run and fitness event organised by the women of Christ's Heart Ministries. The Virtuous Woman Run combines physical wellness with spiritual empowerment — a fun, energetic morning of running, walking, and fellowship followed by a short devotional and prayer. Open to women of all ages and fitness levels.",
-    image: img(16),
+    image: fb("Women's Ministry"),
     tagline: "Run With Purpose. Walk in Strength.",
     category: "Women's Ministry",
     isMajor: true,
@@ -265,7 +269,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mbale",
     description:
       "The Mbale branch celebrates God's faithfulness with a special anniversary service. Worship, testimonies, and a powerful word mark this joyous occasion as the eastern Uganda community gives God all the glory.",
-    image: img(17),
+    image: fb("Branch Anniversary"),
     tagline: "Mbale Declares God's Faithfulness.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -278,7 +282,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit. Press into God's presence and receive fresh direction for the season ahead.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -293,7 +297,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Butaleja",
     description:
       "Celebrating the Butaleja branch as it marks another year of gospel impact. A special anniversary service filled with worship, heartfelt testimonies, and a word from leadership. The Butaleja community gathers to honour God's sustaining grace.",
-    image: img(18),
+    image: fb("Branch Anniversary"),
     tagline: "Butaleja Celebrates Another Year.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -306,7 +310,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala – All Branches",
     description:
       "Join us for a glorious Easter Sunday celebration as we commemorate the resurrection of our Lord Jesus Christ. A powerful service of worship, thanksgiving, and declaration that He is risen. Believers from all branches come together to celebrate the victory of the cross and the power of the empty tomb. An atmosphere charged with praise, prophetic declaration, and the joy of resurrection faith.",
-    image: IMAGES.events[8],
+    image: fb("Special Service"),
     tagline: "He Is Risen. Victory Is Ours.",
     category: "Special Service",
     isMajor: true,
@@ -319,7 +323,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Nansana",
     description:
       "A powerful all-night gathering at the Nansana branch where multiple branches come together for a unified night of prayer, worship, and deep fellowship. Experience the power of corporate intercession as believers from different communities join in one accord.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "United in Prayer Through the Night.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -332,7 +336,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kabale",
     description:
       "The Kabale branch celebrates another milestone year with a special anniversary service. Nestled in the hills of south-western Uganda, this community gathers to worship, testify, and receive a fresh word from God for the season ahead.",
-    image: img(19),
+    image: fb("Branch Anniversary"),
     tagline: "Kabale Rises in Worship.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -345,7 +349,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A highly anticipated visit from Pastor Olashore for a special ministration at Christ's Heart Kampala. Dates to be confirmed — stay tuned for details on what promises to be a powerful encounter with the Word and the Spirit. Mark your calendar and prepare your heart.",
-    image: img(20),
+    image: fb("Guest Speaker"),
     tagline: "A Divine Appointment Awaits.",
     category: "Guest Speaker",
     isMajor: true,
@@ -358,7 +362,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit. Press into God's presence and receive fresh direction.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -373,7 +377,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala – Mabirizi Complex",
     description:
       "A powerful three-day women's conference celebrating the strength, grace, and beauty of the godly woman. Featuring worship, keynote speakers, panel discussions, and ministry time focused on identity, purpose, and destiny. Women from all branches come together for a weekend of empowerment, sisterhood, and spiritual renewal.",
-    image: IMAGES.events[1],
+    image: fb("Women's Conference"),
     tagline: "Crowned With Grace. Walking in Power.",
     category: "Women's Conference",
     isMajor: true,
@@ -386,7 +390,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kisaasi",
     description:
       "Multiple branches converge at the Kisaasi location for a powerful all-night prayer and worship gathering. An atmosphere of unity, intercession, and prophetic ministry as the body of Christ comes together across branch lines for a night of encounter.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "Branches Unite. Heaven Responds.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -399,7 +403,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Nansana",
     description:
       "The Nansana branch celebrates its anniversary with a day of praise, thanksgiving, and powerful ministry. A growing community that has seen God's hand at work — this celebration honours every testimony and every victory experienced in this branch.",
-    image: img(0),
+    image: fb("Branch Anniversary"),
     tagline: "Nansana Celebrates God's Hand at Work.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -412,7 +416,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit. Press into God's presence and receive fresh direction.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -427,7 +431,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Bweyale",
     description:
       "Celebrating the Bweyale branch's anniversary with a special service of worship, testimonies, and a powerful word. The Bweyale community comes together to honour God for every breakthrough and every soul added to the kingdom through this branch.",
-    image: img(3),
+    image: fb("Branch Anniversary"),
     tagline: "Bweyale Glorifies God.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -440,7 +444,7 @@ export const events: ChurchEvent[] = [
     location: "Gerenge, Uganda",
     description:
       "A landmark three-day celebration marking 19 years of Christ's Heart Ministries International. Combined with our powerful Gerenge Prayer Camp, this gathering unites believers from all branches in worship, thanksgiving, and intercession. Expect powerful testimonies, prophetic ministry, and a fresh outpouring as we celebrate God's faithfulness.",
-    image: IMAGES.events[2],
+    image: fb("Anniversary"),
     tagline: "19 Years of Apostolic Grace. The Best Is Yet to Come.",
     category: "Anniversary",
     isMajor: true,
@@ -453,7 +457,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A dedicated leadership development day for all pastors and ministry leaders across the CHMI network. Featuring team-building exercises, strategic planning sessions, and leadership training. An investment in the shepherds who lead our branches and ministries worldwide.",
-    image: img(4),
+    image: fb("Leadership"),
     tagline: "Stronger Leaders. Stronger Churches.",
     category: "Leadership",
     isMajor: true,
@@ -466,7 +470,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Makerere",
     description:
       "An all-night interbranch prayer gathering at the Makerere location. Students and community members from multiple branches converge for a night of intense worship, intercession, and prophetic ministry. The university community atmosphere adds a unique energy to this gathering.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "The Campus Burns With Prayer.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -479,7 +483,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Iganga",
     description:
       "The Iganga branch celebrates its anniversary with praise, worship, and a powerful word. A day to reflect on God's goodness in the Iganga community and to declare His purposes for the season ahead.",
-    image: img(5),
+    image: fb("Branch Anniversary"),
     tagline: "Iganga Declares God's Purposes.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -492,7 +496,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -507,7 +511,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mbarara",
     description:
       "Celebrating the Mbarara branch as it marks another year of kingdom expansion in western Uganda. A day of worship, testimonies of God's power, and a fresh prophetic word for the Mbarara community.",
-    image: img(6),
+    image: fb("Branch Anniversary"),
     tagline: "Mbarara Celebrates Kingdom Expansion.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -520,7 +524,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "The headquarters branch — Christ's Heart Kampala — celebrates its anniversary with a grand service of worship, powerful testimonies, and a prophetic word for the flagship community. As the mother church, this celebration carries a special weight and draws believers from across the network.",
-    image: img(7),
+    image: fb("Branch Anniversary"),
     tagline: "The Mother Church Celebrates.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -533,7 +537,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Nansana",
     description:
       "A powerful all-night gathering at the Nansana branch where multiple branches come together for a unified night of prayer, worship, and deep fellowship. Experience the power of corporate intercession as believers from different communities join in one accord.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "United in Prayer Through the Night.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -546,7 +550,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Zambia",
     description:
       "Celebrating the Zambia branch of Christ's Heart Ministries International. A cross-border celebration of God's faithfulness as the Zambian community marks another year of growth, ministry, and kingdom impact in southern Africa.",
-    image: img(8),
+    image: fb("Branch Anniversary"),
     tagline: "Beyond Borders. God's Grace in Zambia.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -559,7 +563,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "An inter-generational gathering where different generations of believers — from children to elders — come together in worship, fellowship, and ministry. The Blend celebrates unity across age groups, honouring what each generation carries and creating a powerful atmosphere where the old and new flow together in one Spirit.",
-    image: IMAGES.events[3],
+    image: fb("Conference"),
     tagline: "Generations United. One Spirit. One Vision.",
     category: "Conference",
     isMajor: true,
@@ -572,7 +576,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -587,7 +591,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A joyful and anointed conference dedicated to celebrating new life and equipping parents in raising the next generation. Featuring teaching on godly parenting, baby dedications, prayer over families, and practical sessions on raising children in faith. A must-attend for young families and expecting parents.",
-    image: IMAGES.events[4],
+    image: fb("Family"),
     tagline: "A Generation Born for Greatness.",
     category: "Family",
     isMajor: true,
@@ -600,7 +604,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Luweero",
     description:
       "The Luweero branch celebrates its anniversary with a special service of praise and thanksgiving. A community known for resilience and faith gathers to honour God's sustaining grace and to prophesy into the next chapter of their journey.",
-    image: img(9),
+    image: fb("Branch Anniversary"),
     tagline: "Luweero Stands Strong in Grace.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -613,7 +617,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kisaasi",
     description:
       "Multiple branches converge at the Kisaasi location for a powerful all-night prayer and worship gathering. An atmosphere of unity, intercession, and prophetic ministry as the body of Christ comes together for a night of encounter.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "Branches Unite. Heaven Responds.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -626,7 +630,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kyetume",
     description:
       "Celebrating the Kyetume branch's anniversary with a powerful day of worship, testimonies, and prophetic declarations. The community gathers to celebrate God's faithfulness and to receive fresh vision for the season ahead.",
-    image: img(10),
+    image: fb("Branch Anniversary"),
     tagline: "Kyetume Celebrates in Faith.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -639,7 +643,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Lira & Biso",
     description:
       "A joint anniversary celebration for the Lira and Biso branches in northern Uganda. Two communities united in purpose gather to celebrate another year of God's grace, share testimonies, and receive a prophetic word for the next season.",
-    image: img(12),
+    image: fb("Branch Anniversary"),
     tagline: "Northern Uganda Celebrates God's Grace.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -652,7 +656,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -667,7 +671,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A conference dedicated to building godly men who lead with integrity, purpose, and faith. Featuring dynamic speakers, breakout sessions on leadership, family, career, and spiritual warfare, plus powerful fellowship designed specifically for men ready to rise and take their God-given place.",
-    image: IMAGES.events[5],
+    image: fb("Men's Conference"),
     tagline: "Rise. Lead. Transform.",
     category: "Men's Conference",
     isMajor: true,
@@ -680,7 +684,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kyebando",
     description:
       "The Kyebando branch celebrates its anniversary — one of the key branches in the Kampala network. A day of vibrant worship, powerful testimonies, and a prophetic word as this thriving community marks another year of God's faithfulness.",
-    image: img(13),
+    image: fb("Branch Anniversary"),
     tagline: "Kyebando Thrives in God's Faithfulness.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -693,7 +697,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kyebando",
     description:
       "An electrifying all-night gathering at the Kyebando branch where multiple branches converge for a unified night of prayer, worship, and fellowship. The interbranch format creates a powerful atmosphere of corporate intercession.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "Many Branches. One Fire.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -706,7 +710,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Canada",
     description:
       "Celebrating the Canada branch of Christ's Heart Ministries International. A cross-continental celebration of God's faithfulness as the Canadian community marks another year of growth, ministry, and kingdom impact in North America.",
-    image: img(14),
+    image: fb("Branch Anniversary"),
     tagline: "From Africa to the Americas. God's Grace Knows No Border.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -719,7 +723,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kalagi",
     description:
       "The Kalagi branch celebrates its anniversary with worship, testimonies, and a powerful word. A growing community that continues to see God move in remarkable ways gathers to celebrate and prophesy into the future.",
-    image: img(15),
+    image: fb("Branch Anniversary"),
     tagline: "Kalagi Grows in God's Purpose.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -732,7 +736,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kangulumira & All Branches",
     description:
       "A special Sunday across all branches dedicated to honouring and appreciating our pastors and spiritual leaders. Combined with the Kangulumira branch anniversary, this day celebrates the sacrificial service of those who shepherd the flock. Featuring tributes, gifts, prayer over pastors, and a powerful celebratory service.",
-    image: img(16),
+    image: fb("Leadership"),
     tagline: "Honouring Those Who Shepherd Us.",
     category: "Leadership",
     isMajor: true,
@@ -745,7 +749,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Banda",
     description:
       "Celebrating the Banda branch as it marks another year of gospel impact in the Banda community. A day filled with worship, heartfelt testimonies, and a celebratory message from leadership.",
-    image: img(17),
+    image: fb("Branch Anniversary"),
     tagline: "Banda Celebrates God's Impact.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -758,7 +762,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -773,7 +777,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Makerere",
     description:
       "The Makerere branch — located at Uganda's flagship university — celebrates its anniversary. A vibrant gathering of students and community members worshipping, testifying, and receiving a word of direction for the academic and spiritual season.",
-    image: img(18),
+    image: fb("Branch Anniversary"),
     tagline: "The Campus Church Celebrates.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -786,7 +790,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Makerere",
     description:
       "An all-night interbranch prayer gathering at the Makerere location. Students and community members from multiple branches converge for a night of intense worship, intercession, and prophetic ministry.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "The Campus Burns With Prayer.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -799,7 +803,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Jinja",
     description:
       "Celebrating the Jinja branch at the source of the Nile. A special anniversary service with worship, testimonies, and a prophetic word. The Jinja community gathers to honour God for the mighty things He has done in this city.",
-    image: img(19),
+    image: fb("Branch Anniversary"),
     tagline: "Jinja Flows With God's Power.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -812,7 +816,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kisoro",
     description:
       "The Kisoro branch in the far south-west of Uganda celebrates its anniversary. Nestled near the borders of Congo and Rwanda, this community is a testament to the gospel reaching the furthest corners. A day of worship, celebration, and prophetic vision.",
-    image: img(20),
+    image: fb("Branch Anniversary"),
     tagline: "To the Ends of the Earth. Kisoro Praises.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -825,7 +829,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Bugolobi",
     description:
       "Celebrating the Bugolobi branch in the heart of Kampala. A special anniversary service filled with worship, powerful testimonies, and a word from leadership. The Bugolobi community is known for its vibrant worship and strong fellowship.",
-    image: img(0),
+    image: fb("Branch Anniversary"),
     tagline: "Bugolobi Worships With Passion.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -838,7 +842,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Ishaka",
     description:
       "The Ishaka branch celebrates its anniversary with a powerful service of worship and thanksgiving. A community in western Uganda that continues to grow and impact lives through the gospel of Jesus Christ.",
-    image: img(1),
+    image: fb("Branch Anniversary"),
     tagline: "Ishaka Grows in Grace.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -851,7 +855,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -866,7 +870,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Nairobi, Kenya",
     description:
       "Celebrating the Nairobi branch of Christ's Heart Ministries in Kenya. A cross-border celebration of God's faithfulness as the Kenyan community marks another year of growth, ministry, and kingdom impact in East Africa's capital city.",
-    image: img(3),
+    image: fb("Branch Anniversary"),
     tagline: "Nairobi Stands Strong for the Gospel.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -879,7 +883,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kisaasi",
     description:
       "The Kisaasi branch celebrates its anniversary with a vibrant service of worship, testimonies, and a prophetic word. One of the key branches in the greater Kampala area, Kisaasi continues to be a centre of spiritual transformation.",
-    image: img(4),
+    image: fb("Branch Anniversary"),
     tagline: "Kisaasi Shines for Christ.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -892,7 +896,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala – Mabirizi Complex",
     description:
       "Our annual week-long gathering of praise, worship, and prophetic declarations as we enter the season of thanksgiving. Join thousands of believers for seven days of supernatural encounters, divine blessings, and life-changing ministry. Featuring powerful worship, international guest speakers, and an atmosphere charged with God's presence.",
-    image: IMAGES.events[6],
+    image: fb("Conference"),
     tagline: "Step Into a Season of Supernatural Overflow.",
     category: "Conference",
     isMajor: true,
@@ -905,7 +909,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Mukono",
     description:
       "An all-night prayer and worship experience at our Mukono branch. Believers gather for extended intercession, prophetic declarations, and a deep encounter with the Holy Spirit.",
-    image: img(2),
+    image: fb("Prayer Night"),
     tagline: "A Night in His Presence Changes Everything.",
     category: "Prayer Night",
     isMajor: true,
@@ -920,7 +924,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Buloba & Fort Portal",
     description:
       "A joint anniversary celebration for the Buloba and Fort Portal branches. Two communities — one in greater Kampala and one in the western mountains — united in faith, celebrating God's faithfulness with worship, testimonies, and a powerful word.",
-    image: img(5),
+    image: fb("Branch Anniversary"),
     tagline: "Two Branches, One Celebration of Grace.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -933,7 +937,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kyebando",
     description:
       "An electrifying all-night gathering at the Kyebando branch where multiple branches converge for a unified night of prayer, worship, and fellowship to close out the year. A powerful send-off into the festive season.",
-    image: img(11),
+    image: fb("Interbranch Overnight"),
     tagline: "Ending the Year in Prayer.",
     category: "Interbranch Overnight",
     isMajor: false,
@@ -946,7 +950,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Gulu",
     description:
       "The Gulu branch in northern Uganda celebrates its anniversary. A community that has risen from the ashes of conflict to become a beacon of hope and faith. This anniversary is a powerful testament to God's redemptive power.",
-    image: img(6),
+    image: fb("Branch Anniversary"),
     tagline: "Gulu Rises. Hope Prevails.",
     category: "Branch Anniversary",
     isMajor: false,
@@ -959,7 +963,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "A fun-filled four-day Bible camp for children featuring interactive Bible teaching, games, crafts, drama, music, and fellowship. The Children Bible Camp is designed to build the faith foundation of the youngest members of our church family. Children learn about God's love, character, and purpose for their lives in an exciting and age-appropriate environment.",
-    image: img(7),
+    image: fb("Family"),
     tagline: "Building Faith. Shaping Futures.",
     category: "Family",
     isMajor: true,
@@ -972,7 +976,7 @@ export const events: ChurchEvent[] = [
     location: "Christ's Heart Kampala",
     description:
       "An elegant two-evening gala dinner honouring the faithful servants, leaders, and partners of Christ's Heart Ministries International. A night of celebration, appreciation, awards, and fellowship as we close the year by recognising those who have gone above and beyond in service to God and the ministry.",
-    image: img(8),
+    image: fb("Celebration"),
     tagline: "Honouring the Faithful. Celebrating the Journey.",
     category: "Celebration",
     isMajor: true,
@@ -985,7 +989,7 @@ export const events: ChurchEvent[] = [
     location: "All Branches",
     description:
       "Cross over into the new year in the presence of God. Our Crossover Night is a powerful all-branches gathering featuring extended worship, prophetic declarations, thanksgiving, and prayer as we usher in the new year with faith and expectation. Do not enter 2027 without seeking God's face first.",
-    image: IMAGES.events[7],
+    image: fb("Special Service"),
     tagline: "Cross Over in Power. Enter the New Year With God.",
     category: "Special Service",
     isMajor: true,

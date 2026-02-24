@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Clock, BookOpen, ArrowRight, Sparkles, MapPin, Church, Phone, Search, Users } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, ArrowRight, Sparkles, MapPin, Church, Phone, Search, Users, Wifi, ExternalLink } from "lucide-react";
 import { useSanityServices } from "../hooks/useSanityServices";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { ALL_IMAGES } from "../utils/imageFallbacks";
@@ -125,88 +125,141 @@ export default function ServiceDetail() {
             </div>
           </div>
 
-          {/* Branch-Specific Schedules */}
-          <div className="animate-on-scroll" ref={branchRef}>
-            <div style={{
-              marginBottom: "2.5rem", padding: "2.5rem",
-              background: "linear-gradient(135deg, var(--black-800), var(--purple-950), var(--black-700))",
-              borderRadius: "var(--radius-2xl)", color: "var(--text-inverse)"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                <Church size={20} style={{ color: "var(--gold-400)" }} />
-                <h3 style={{ margin: 0, color: "var(--text-inverse)" }}>
-                  {service.title} by Branch
-                </h3>
-              </div>
-              <p style={{ opacity: 0.6, fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-                Times may vary by branch. Contact your local branch for the latest schedule.
-              </p>
+          {/* Online Service or Branch-Specific Schedules */}
+          {service.isOnline && service.onlineDetails ? (
+            <div className="animate-on-scroll" ref={branchRef}>
+              <div style={{
+                marginBottom: "2.5rem", padding: "2.5rem",
+                background: "linear-gradient(135deg, var(--black-800), var(--purple-950), var(--black-700))",
+                borderRadius: "var(--radius-2xl)", color: "var(--text-inverse)"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                  <Wifi size={20} style={{ color: "var(--gold-400)" }} />
+                  <h3 style={{ margin: 0, color: "var(--text-inverse)" }}>
+                    Live Online Service
+                  </h3>
+                </div>
+                <p style={{ opacity: 0.6, fontSize: "0.9rem", marginBottom: "1.75rem" }}>
+                  Hosted by {service.onlineDetails.host} — stream live from anywhere.
+                </p>
 
-              {/* Branch Search */}
-              <div style={{ position: "relative", marginBottom: "1.25rem" }}>
-                <Search size={16} style={{
-                  position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)",
-                  color: "var(--gray-400)"
-                }} />
-                <input
-                  type="text"
-                  placeholder="Search branches by name or city..."
-                  value={branchSearch}
-                  onChange={(e) => setBranchSearch(e.target.value)}
-                  style={{
-                    width: "100%", padding: "0.7rem 0.75rem 0.7rem 2.25rem",
-                    background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
-                    borderRadius: "var(--radius-lg)", color: "var(--white)", fontSize: "0.9rem"
-                  }}
-                  aria-label="Search branches"
-                />
-              </div>
+                {/* Platform Links */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {service.onlineDetails.platforms.map((p) => (
+                    <a
+                      key={p.label}
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "1rem 1.25rem",
+                        background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: "var(--radius-lg)", textDecoration: "none",
+                        transition: "var(--transition)"
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.12)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.06)"; }}
+                    >
+                      <span style={{ color: "var(--gold-400)", fontWeight: 600, fontSize: "0.95rem" }}>
+                        {p.label}
+                      </span>
+                      <ExternalLink size={16} style={{ color: "rgba(255,255,255,0.5)" }} />
+                    </a>
+                  ))}
+                </div>
 
-              {/* Branch List */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-                {filteredBranches.length === 0 ? (
-                  <p style={{ textAlign: "center", padding: "1.5rem", opacity: 0.5, fontSize: "0.9rem" }}>
-                    No branches found matching your search.
-                  </p>
-                ) : (
-                  filteredBranches.map((b) => (
-                    <div key={b.branchId} style={{
-                      display: "flex", justifyContent: "space-between", alignItems: "center",
-                      padding: "1rem 0", borderBottom: "1px solid rgba(255,255,255,0.08)",
-                      gap: "1rem", flexWrap: "wrap"
-                    }}>
-                      <div>
-                        <Link
-                          to={`/branches/${b.branchId}`}
-                          style={{ color: "var(--gold-400)", fontWeight: 600, fontSize: "0.95rem" }}
-                        >
-                          {b.branchName}
-                        </Link>
-                        <div style={{ fontSize: "0.8rem", opacity: 0.5, marginTop: "0.15rem" }}>
-                          <MapPin size={12} style={{ display: "inline", verticalAlign: "-2px" }} /> {b.city}
+                <p style={{
+                  marginTop: "1.5rem", fontSize: "0.85rem", opacity: 0.5,
+                  textAlign: "center", fontFamily: "var(--font-mono)"
+                }}>
+                  Tune in every weeknight at 9:00 PM EAT
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="animate-on-scroll" ref={branchRef}>
+              <div style={{
+                marginBottom: "2.5rem", padding: "2.5rem",
+                background: "linear-gradient(135deg, var(--black-800), var(--purple-950), var(--black-700))",
+                borderRadius: "var(--radius-2xl)", color: "var(--text-inverse)"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                  <Church size={20} style={{ color: "var(--gold-400)" }} />
+                  <h3 style={{ margin: 0, color: "var(--text-inverse)" }}>
+                    {service.title} by Branch
+                  </h3>
+                </div>
+                <p style={{ opacity: 0.6, fontSize: "0.9rem", marginBottom: "1.5rem" }}>
+                  Times may vary by branch. Contact your local branch for the latest schedule.
+                </p>
+
+                {/* Branch Search */}
+                <div style={{ position: "relative", marginBottom: "1.25rem" }}>
+                  <Search size={16} style={{
+                    position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)",
+                    color: "var(--gray-400)"
+                  }} />
+                  <input
+                    type="text"
+                    placeholder="Search branches by name or city..."
+                    value={branchSearch}
+                    onChange={(e) => setBranchSearch(e.target.value)}
+                    style={{
+                      width: "100%", padding: "0.7rem 0.75rem 0.7rem 2.25rem",
+                      background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: "var(--radius-lg)", color: "var(--white)", fontSize: "0.9rem"
+                    }}
+                    aria-label="Search branches"
+                  />
+                </div>
+
+                {/* Branch List */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+                  {filteredBranches.length === 0 ? (
+                    <p style={{ textAlign: "center", padding: "1.5rem", opacity: 0.5, fontSize: "0.9rem" }}>
+                      No branches found matching your search.
+                    </p>
+                  ) : (
+                    filteredBranches.map((b) => (
+                      <div key={b.branchId} style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "1rem 0", borderBottom: "1px solid rgba(255,255,255,0.08)",
+                        gap: "1rem", flexWrap: "wrap"
+                      }}>
+                        <div>
+                          <Link
+                            to={`/branches/${b.branchId}`}
+                            style={{ color: "var(--gold-400)", fontWeight: 600, fontSize: "0.95rem" }}
+                          >
+                            {b.branchName}
+                          </Link>
+                          <div style={{ fontSize: "0.8rem", opacity: 0.5, marginTop: "0.15rem" }}>
+                            <MapPin size={12} style={{ display: "inline", verticalAlign: "-2px" }} /> {b.city}
+                          </div>
+                        </div>
+                        <div style={{
+                          fontFamily: "var(--font-mono)", fontSize: "0.8rem",
+                          background: "rgba(255,255,255,0.06)", padding: "0.35rem 0.75rem",
+                          borderRadius: "var(--radius-md)", color: "rgba(255,255,255,0.8)",
+                          whiteSpace: "nowrap"
+                        }}>
+                          {b.times}
                         </div>
                       </div>
-                      <div style={{
-                        fontFamily: "var(--font-mono)", fontSize: "0.8rem",
-                        background: "rgba(255,255,255,0.06)", padding: "0.35rem 0.75rem",
-                        borderRadius: "var(--radius-md)", color: "rgba(255,255,255,0.8)",
-                        whiteSpace: "nowrap"
-                      }}>
-                        {b.times}
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
+                    ))
+                  )}
+                </div>
 
-              <p style={{
-                marginTop: "1.25rem", fontSize: "0.8rem", opacity: 0.4,
-                fontFamily: "var(--font-mono)", textAlign: "center"
-              }}>
-                Showing {filteredBranches.length} of {service.branchSchedules.length} branches
-              </p>
+                <p style={{
+                  marginTop: "1.25rem", fontSize: "0.8rem", opacity: 0.4,
+                  fontFamily: "var(--font-mono)", textAlign: "center"
+                }}>
+                  Showing {filteredBranches.length} of {service.branchSchedules.length} branches
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Cell Locations (only for home-cells) */}
           {service.cellLocations && service.cellLocations.length > 0 && (
@@ -362,12 +415,22 @@ export default function ServiceDetail() {
           }}>
             <h3 style={{ marginBottom: "0.75rem" }}>Join Us for {service.title}</h3>
             <p style={{ color: "var(--gray-600)", marginBottom: "1.5rem", maxWidth: "500px", margin: "0 auto 1.5rem" }}>
-              Find a Christ's Heart branch near you and experience {service.title.toLowerCase()} in person.
+              {service.isOnline
+                ? `Tune in live with ${service.onlineDetails?.host || "us"} every weeknight at 9:00 PM.`
+                : `Find a Christ's Heart branch near you and experience ${service.title.toLowerCase()} in person.`}
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link to="/branches" className="btn btn-primary">
-                <MapPin size={16} /> Find a Branch
-              </Link>
+              {service.isOnline && service.onlineDetails ? (
+                service.onlineDetails.platforms.map((p) => (
+                  <a key={p.label} href={p.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                    <ExternalLink size={16} /> {p.label}
+                  </a>
+                ))
+              ) : (
+                <Link to="/branches" className="btn btn-primary">
+                  <MapPin size={16} /> Find a Branch
+                </Link>
+              )}
               <Link to="/contact" className="btn btn-gold">
                 Contact Us <ArrowRight size={16} />
               </Link>
