@@ -55,21 +55,12 @@ export default function BranchDetail() {
 
       <div className="wave-divider">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#0a0a0a" />
+          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#ffffff" />
         </svg>
       </div>
 
       <section className="section">
         <div className="container">
-          {/* Branch Gallery */}
-          <div className="branch-gallery" style={{ marginBottom: "2.5rem" }}>
-            {(branch.images?.length > 0 ? branch.images : IMAGES.branches).map((img, i) => (
-              <div key={i} className="branch-gallery-item">
-                <OptimizedImage src={img} alt={`${branch.name} - Photo ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} aspectRatio="16/9" />
-              </div>
-            ))}
-          </div>
-
           <div className="branch-info-grid animate-on-scroll" ref={contentRef}>
             <div>
               {/* Pastors */}
@@ -116,7 +107,7 @@ export default function BranchDetail() {
               )}
 
               {/* Services */}
-              <div className="branch-info-card">
+              <div className="branch-info-card" style={{ marginBottom: "1.5rem" }}>
                 <h3>Service Times</h3>
                 {(() => {
                   const branchSchedules: { title: string; id: string; times: string }[] = [];
@@ -174,6 +165,15 @@ export default function BranchDetail() {
                     </div>
                   );
                 })()}
+              </div>
+
+              {/* Branch Gallery */}
+              <div className="branch-gallery">
+                {(branch.images?.length > 0 ? branch.images : IMAGES.branches).map((img, i) => (
+                  <div key={i} className="branch-gallery-item">
+                    <OptimizedImage src={img} alt={`${branch.name} - Photo ${i + 1}`} loading="lazy" aspectRatio="16/9" />
+                  </div>
+                ))}
               </div>
             </div>
 

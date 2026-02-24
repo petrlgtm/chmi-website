@@ -44,7 +44,7 @@ export default function Blog() {
 
       <div className="wave-divider">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#0a0a0a" />
+          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#ffffff" />
         </svg>
       </div>
 

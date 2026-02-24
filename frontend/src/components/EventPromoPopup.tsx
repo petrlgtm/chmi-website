@@ -43,46 +43,48 @@ export default function EventPromoPopup() {
   const countdown = getCountdownText(promoEvent);
 
   return (
-    <div className="event-reminder">
-      <button className="event-reminder-close" onClick={dismiss} aria-label="Close">
-        <X size={15} />
-      </button>
-
-      <div className="event-reminder-header">
-        <Bell size={13} />
-        <span>Event Reminder</span>
-        {countdown && <span className="event-reminder-countdown">{countdown}</span>}
-      </div>
-
-      {(promoEvent.image || ALL_IMAGES[0]) && (
-        <div className="event-reminder-poster">
-          <img
-            src={promoEvent.image || ALL_IMAGES[0]}
-            alt={promoEvent.name}
-          />
-        </div>
-      )}
-
-      <div className="event-reminder-body">
-        <span className="event-reminder-category">{promoEvent.category}</span>
-        <h4>{promoEvent.name}</h4>
-        <div className="event-reminder-meta">
-          <span><Calendar size={12} /> {promoEvent.date}</span>
-          <span><MapPin size={12} /> {promoEvent.location}</span>
-        </div>
-      </div>
-
-      <div className="event-reminder-footer">
-        <Link
-          to={`/events/${promoEvent.id}`}
-          className="event-reminder-btn"
-          onClick={dismiss}
-        >
-          See Details <ArrowRight size={12} />
-        </Link>
-        <button className="event-reminder-dismiss" onClick={dismiss}>
-          Dismiss
+    <div className="event-reminder-backdrop" onClick={dismiss}>
+      <div className="event-reminder" onClick={(e) => e.stopPropagation()}>
+        <button className="event-reminder-close" onClick={dismiss} aria-label="Close">
+          <X size={15} />
         </button>
+
+        <div className="event-reminder-header">
+          <Bell size={13} />
+          <span>Event Reminder</span>
+          {countdown && <span className="event-reminder-countdown">{countdown}</span>}
+        </div>
+
+        {(promoEvent.image || ALL_IMAGES[0]) && (
+          <div className="event-reminder-poster">
+            <img
+              src={promoEvent.image || ALL_IMAGES[0]}
+              alt={promoEvent.name}
+            />
+          </div>
+        )}
+
+        <div className="event-reminder-body">
+          <span className="event-reminder-category">{promoEvent.category}</span>
+          <h4>{promoEvent.name}</h4>
+          <div className="event-reminder-meta">
+            <span><Calendar size={12} /> {promoEvent.date}</span>
+            <span><MapPin size={12} /> {promoEvent.location}</span>
+          </div>
+        </div>
+
+        <div className="event-reminder-footer">
+          <Link
+            to={`/events/${promoEvent.id}`}
+            className="event-reminder-btn"
+            onClick={dismiss}
+          >
+            See Details <ArrowRight size={12} />
+          </Link>
+          <button className="event-reminder-dismiss" onClick={dismiss}>
+            Dismiss
+          </button>
+        </div>
       </div>
     </div>
   );

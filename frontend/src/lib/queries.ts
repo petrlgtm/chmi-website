@@ -155,6 +155,8 @@ export const SITE_IMAGES_QUERY = `*[_type == "siteImages" && _id == "siteImages"
   "heroContact": heroContact.asset->url,
   "heroBranches": heroBranches.asset->url,
   "serviceCards": serviceCards[]{ "url": asset->url, label, alt },
+  "aboutHistoryImage": aboutHistoryImage.asset->url,
+  "aboutStoryImage": aboutStoryImage.asset->url,
   "aboutGallery": aboutGallery[]{ "url": asset->url, alt },
   "giveImpact": giveImpact[]{ "url": asset->url, alt }
 }`;

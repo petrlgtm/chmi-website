@@ -1,11 +1,11 @@
 import { Heart, BookOpen, Globe, Users, Flame } from "lucide-react";
 import { useSanityFaith } from "../hooks/useSanityFaith";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
-import { useHeroStyle } from "../context/SiteImagesContext";
+import { useSiteImages, useHeroStyle } from "../context/SiteImagesContext";
 import OptimizedImage from "../components/OptimizedImage";
 import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
 
-const galleryImages = [
+const defaultGallery = [
   { src: IMAGES.gallery[0], alt: "Church worship service" },
   { src: IMAGES.gallery[1], alt: "Community gathering" },
   { src: IMAGES.gallery[2], alt: "Church celebration" },
@@ -26,6 +26,7 @@ const timelineEvents = [
 
 export default function About() {
   const { data: statementOfFaith } = useSanityFaith();
+  const siteImages = useSiteImages();
   const historyRef = useScrollAnimation<HTMLDivElement>();
   const ourStoryRef = useScrollAnimation<HTMLDivElement>();
   const purposeRef = useScrollAnimation<HTMLDivElement>();
@@ -33,6 +34,15 @@ export default function About() {
   const galleryRef = useScrollAnimation<HTMLDivElement>();
   const timelineRef = useScrollAnimation<HTMLDivElement>();
   const heroStyle = useHeroStyle("heroAbout");
+
+  // Sanity images with local fallbacks
+  const historyImage = siteImages?.aboutHistoryImage || IMAGES.history;
+  const storyImage = siteImages?.aboutStoryImage || ALL_IMAGES[11];
+  const galleryImages = siteImages?.aboutGallery?.length
+    ? siteImages.aboutGallery.map((img, i) => ({ src: img.url, alt: img.alt || defaultGallery[i]?.alt || "Church life" }))
+    : defaultGallery;
+  // Mosaic pulls from gallery[0..3]
+  const mosaic = (i: number, fallback: string) => galleryImages[i]?.src || fallback;
 
   return (
     <>
@@ -51,7 +61,7 @@ export default function About() {
 
       <div className="wave-divider">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#0a0a0a" />
+          <path d="M0,0 C360,60 1080,0 1440,60 L1440,0 L0,0 Z" fill="#ffffff" />
         </svg>
       </div>
 
@@ -102,29 +112,29 @@ export default function About() {
 
               {/* Cell 1 — tall feature left (rows 1–2) */}
               <div className="history-mosaic-img history-mosaic-1">
-                <img src={IMAGES.history} alt="Apostle Isaiah leading worship, Mukono 2007" loading="eager" />
+                <img src={historyImage} alt="Apostle Isaiah leading worship, Mukono 2007" loading="eager" />
                 <div className="history-mosaic-caption">2007 · Mukono, Uganda</div>
               </div>
 
               {/* Cell 2 — top center */}
               <div className="history-mosaic-img history-mosaic-2">
-                <img src={IMAGES.gallery[0]} alt="Early congregation gathering" loading="lazy" />
+                <img src={mosaic(0, IMAGES.gallery[0])} alt="Early congregation gathering" loading="lazy" />
               </div>
 
               {/* Cell 3 — top right */}
               <div className="history-mosaic-img history-mosaic-3">
-                <img src={IMAGES.gallery[1]} alt="Community fellowship" loading="lazy" />
+                <img src={mosaic(1, IMAGES.gallery[1])} alt="Community fellowship" loading="lazy" />
               </div>
 
               {/* Cell 4 — wide center-right (spans 2 cols) */}
               <div className="history-mosaic-img history-mosaic-4">
-                <img src={IMAGES.gallery[2]} alt="Church celebration and growth" loading="lazy" />
+                <img src={mosaic(2, IMAGES.gallery[2])} alt="Church celebration and growth" loading="lazy" />
                 <div className="history-mosaic-caption">Expanding Across Uganda</div>
               </div>
 
               {/* Cell 5 — full-width panoramic base */}
               <div className="history-mosaic-img history-mosaic-5">
-                <img src={IMAGES.gallery[3]} alt="Christ's Heart Ministries worldwide" loading="lazy" />
+                <img src={mosaic(3, IMAGES.gallery[3])} alt="Christ's Heart Ministries worldwide" loading="lazy" />
                 <div className="history-mosaic-caption">Today · A Global Ministry</div>
               </div>
 
@@ -158,7 +168,7 @@ export default function About() {
             <div className="feature-row reverse">
               <div className="feature-row-image image-reveal">
                 <OptimizedImage
-                  src={ALL_IMAGES[11]}
+                  src={storyImage}
                   alt="Christ's Heart Ministries community"
                   loading="lazy"
                   aspectRatio="4/3"

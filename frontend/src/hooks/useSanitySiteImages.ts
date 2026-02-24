@@ -13,6 +13,8 @@ export interface SiteImages {
   heroContact: string | null;
   heroBranches: string | null;
   serviceCards: { url: string; label: string; alt: string }[] | null;
+  aboutHistoryImage: string | null;
+  aboutStoryImage: string | null;
   aboutGallery: { url: string; alt: string }[] | null;
   giveImpact: { url: string; alt: string }[] | null;
 }
@@ -28,6 +30,8 @@ const EMPTY: SiteImages = {
   heroContact: null,
   heroBranches: null,
   serviceCards: null,
+  aboutHistoryImage: null,
+  aboutStoryImage: null,
   aboutGallery: null,
   giveImpact: null,
 };

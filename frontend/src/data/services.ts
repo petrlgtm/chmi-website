@@ -86,7 +86,7 @@ export const services: ServiceInfo[] = [
   {
     id: "discipleship-class",
     title: "Discipleship Class",
-    shortDesc: "Deep dive into God's word through interactive discipleship sessions and home cell fellowships.",
+    shortDesc: "Online Mon-Fri 5:00–6:30 AM — interactive study through the Word of God with Apostle Isaiah Mbuga.",
     heroImage: img(4),
     description: [
       "Discipleship Class at Christ's Heart Ministries is more than just reading Scripture — it's an immersive journey into the depths of God's Word designed to form mature, Spirit-filled disciples. Our mid-week sessions equip believers with a thorough understanding of the Bible and apostolic doctrine.",
@@ -94,24 +94,17 @@ export const services: ServiceInfo[] = [
       "We believe that a strong foundation in the Word of God is essential for spiritual growth, which is why our Discipleship Classes cover both Old and New Testament books, doctrinal themes, and practical Christian living.",
     ],
     schedule: [
-      { day: "Wednesday", time: "6:00 PM", details: "Mid-Week Bible Study — Systematic study through books of the Bible" },
-      { day: "Thursday", time: "5:30 PM", details: "Leadership Bible Study — Advanced study for church leaders and ministers" },
-      { day: "Saturday", time: "10:00 AM", details: "New Believers' Class — Foundational teaching for those new to the faith" },
+      { day: "Monday – Friday", time: "5:00 AM – 6:30 AM", details: "Online Discipleship Class — Interactive study through the Word of God" },
     ],
-    branchSchedules: [
-      { branchId: "kampala", branchName: "Christ's Heart Kampala", city: "Kampala", times: "Wednesday: 6pm | Saturday: 10am (New Believers)" },
-      { branchId: "mukono", branchName: "Christ's Heart Mukono", city: "Mukono", times: "Wednesday: 6pm" },
-      { branchId: "jinja", branchName: "Christ's Heart Jinja", city: "Jinja", times: "Wednesday: 6pm" },
-      { branchId: "mbale", branchName: "Christ's Heart Mbale", city: "Mbale", times: "Thursday: 5:30pm" },
-      { branchId: "lira", branchName: "Christ's Heart Lira", city: "Lira", times: "Wednesday: 5:30pm" },
-      { branchId: "gulu", branchName: "Christ's Heart Gulu", city: "Gulu", times: "Wednesday: 6pm" },
-      { branchId: "mbarara", branchName: "Christ's Heart Mbarara", city: "Mbarara", times: "Wednesday: 6pm" },
-      { branchId: "masaka", branchName: "Christ's Heart Masaka", city: "Masaka", times: "Thursday: 6pm" },
-      { branchId: "soroti", branchName: "Christ's Heart Soroti", city: "Soroti", times: "Wednesday: 5:30pm" },
-      { branchId: "makerere", branchName: "Christ's Heart Makerere", city: "Makerere", times: "Tuesday: 6pm | Saturday: 10am" },
-      { branchId: "kisaasi", branchName: "Christ's Heart Kisaasi", city: "Kisaasi", times: "Wednesday: 6pm" },
-      { branchId: "bugolobi", branchName: "Christ's Heart Bugolobi", city: "Bugolobi", times: "Wednesday: 6pm" },
-    ],
+    branchSchedules: [],
+    isOnline: true,
+    onlineDetails: {
+      host: "Apostle Isaiah Mbuga",
+      platforms: [
+        { label: "ChristHeartTV (YouTube)", url: "https://www.youtube.com/@ChristsHeart" },
+        { label: "TikTok", url: "https://www.tiktok.com/@christsheartmin" },
+      ],
+    },
     highlights: [
       { title: "Verse-by-Verse Teaching", text: "Systematic exposition of Scripture that builds a comprehensive understanding of God's Word." },
       { title: "Interactive Discussion", text: "Open forum for questions, insights, and practical application of biblical principles." },
@@ -167,9 +160,6 @@ export const services: ServiceInfo[] = [
     ],
     branchSchedules: [
       { branchId: "kampala", branchName: "Christ's Heart Kampala", city: "Kampala", times: "Mon-Fri: 12:45pm – 1:45pm" },
-      { branchId: "bugolobi", branchName: "Christ's Heart Bugolobi", city: "Bugolobi", times: "Check with branch for times" },
-      { branchId: "makerere", branchName: "Christ's Heart Makerere", city: "Makerere", times: "Check with branch for times" },
-      { branchId: "mukono", branchName: "Christ's Heart Mukono", city: "Mukono", times: "Check with branch for times" },
     ],
     highlights: [
       { title: "Convenient Timing", text: "One-hour format (12:45pm–1:45pm at Kampala) — perfectly within your lunch break." },

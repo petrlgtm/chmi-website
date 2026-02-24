@@ -115,10 +115,30 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'aboutHistoryImage',
+      title: 'About Page — History Feature Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'The large featured image in the history mosaic section (left column)',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
+      ],
+    }),
+    defineField({
+      name: 'aboutStoryImage',
+      title: 'About Page — Our Story Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Image beside the "Our Story" text section',
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
+      ],
+    }),
+    defineField({
       name: 'aboutGallery',
       title: 'About Page — Gallery Images',
       type: 'array',
-      description: 'Photo gallery on the About page (7 images)',
+      description: 'Photo gallery on the About page (7 images). The first 4 are also used in the history mosaic.',
       of: [
         {
           type: 'image',
