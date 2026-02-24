@@ -403,7 +403,7 @@ export default function Home() {
           <AnimatedSection>
             <div className="section-header">
               <span className="section-label">Latest Message</span>
-              <h2>Stream This Week's Sermon</h2>
+              <h2>Stream Current Sermon</h2>
               <p>Watch our most recent message from Christ's Heart Ministries</p>
             </div>
           </AnimatedSection>

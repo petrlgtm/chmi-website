@@ -3,7 +3,7 @@ import type { Song } from "../types";
 import { songs as fallbackSongs } from "../data/songs";
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || "";
-const CHANNEL_HANDLE = "isaiahmbuga8559";
+const CHANNEL_ID = "UChS0PgHCe9IaskluH_kfXEw";
 const PAGE_SIZE = 10;
 
 interface YouTubeSnippet {
@@ -64,9 +64,9 @@ export function useYouTubeSongs() {
 
     async function fetchFirstBatch() {
       try {
-        // Resolve channel handle to channel ID + uploads playlist
+        // Get the uploads playlist ID
         const channelRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${CHANNEL_HANDLE}&key=${API_KEY}`
+          `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${CHANNEL_ID}&key=${API_KEY}`
         );
         const channelData = await channelRes.json();
 

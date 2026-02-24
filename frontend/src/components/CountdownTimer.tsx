@@ -308,17 +308,17 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
   if (active) {
     if (active.kind === "event") {
       return (
-        <div className="countdown-timer countdown-live">
-          <div className="live-indicator">
-            <span className="live-dot" />
-            <span className="live-badge">EVENT LIVE</span>
+        <div className="cd cd--live">
+          <div className="cd-top">
+            <span className="cd-live-pulse" />
+            <span className="cd-badge cd-badge--live">Event Live</span>
           </div>
-          <div className="live-service-name">{active.event.name}</div>
-          <div className="live-location">
-            <MapPin size={11} />
+          <h3 className="cd-name">{active.event.name}</h3>
+          <div className="cd-meta">
+            <MapPin size={12} />
             <span>{active.event.location}</span>
           </div>
-          <p className="live-tagline">Event is ON — Join us now!</p>
+          <p className="cd-tagline">Happening now — join us!</p>
         </div>
       );
     }
@@ -326,18 +326,18 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
     const hasStream = active.service.links && active.service.links.length > 0;
 
     return (
-      <div className="countdown-timer countdown-live">
-        <div className="live-indicator">
-          <span className="live-dot" />
-          <span className="live-badge">LIVE NOW</span>
+      <div className="cd cd--live">
+        <div className="cd-top">
+          <span className="cd-live-pulse" />
+          <span className="cd-badge cd-badge--live">Live Now</span>
         </div>
-        <div className="live-service-name">
+        <h3 className="cd-name">
           {active.service.name}
-          {active.service.session && <span className="live-session"> · {active.service.session}</span>}
-        </div>
-        <LocationDisplay svc={active.service} className="live-location" />
+          {active.service.session && <span className="cd-session"> · {active.service.session}</span>}
+        </h3>
+        <LocationDisplay svc={active.service} className="cd-meta" />
         {hasStream ? (
-          <div className="live-watch-links">
+          <div className="cd-actions">
             {active.service.links!.map((lnk) => {
               const isTeams = lnk.url.includes("teams.microsoft.com");
               const href = toLiveUrl(lnk.url);
@@ -347,7 +347,7 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`live-watch-btn${isTeams ? " live-watch-btn-teams" : ""}`}
+                  className={`cd-action-btn${isTeams ? " cd-action-btn--teams" : ""}`}
                 >
                   {isTeams ? <Video size={14} /> : <Tv size={14} />}
                   {isTeams ? "Join Now" : "Watch Live"}
@@ -356,7 +356,7 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
             })}
           </div>
         ) : (
-          <p className="live-tagline">Service is ON — Join us now!</p>
+          <p className="cd-tagline">Service is ON — join us!</p>
         )}
       </div>
     );
@@ -369,36 +369,33 @@ export default function CountdownTimer({ events = [] }: CountdownTimerProps) {
   const session = isEvent ? null : next.service.session;
 
   return (
-    <div className="countdown-timer">
-      <div className="countdown-next-label">{label}</div>
-      <div className="countdown-service-info">
-        <span className="countdown-service-name">
-          {name}
-          {session && <span className="countdown-session"> · {session}</span>}
-        </span>
+    <div className="cd">
+      <div className="cd-top">
+        <span className="cd-badge">{label}</span>
+      </div>
+      <h3 className="cd-name">
+        {name}
+        {session && <span className="cd-session"> · {session}</span>}
+      </h3>
+      <div className="cd-meta">
+        {isEvent ? <Calendar size={12} /> : null}
         {isEvent ? (
-          <div className="countdown-location">
-            <Calendar size={11} />
-            <span>{next.event.location}</span>
-          </div>
+          <span>{next.event.location}</span>
         ) : (
-          <LocationDisplay svc={next.service} className="countdown-location" />
+          <LocationDisplay svc={next.service} className="cd-meta-loc" />
         )}
       </div>
-      <div className="countdown-units">
+      <div className="cd-digits">
         {[
-          { val: time.days,    label: "Days"    },
-          { val: time.hours,   label: "Hours"   },
-          { val: time.minutes, label: "Minutes" },
-          { val: time.seconds, label: "Seconds" },
-        ].map((unit, i) => (
-          <span key={unit.label} style={{ display: "contents" }}>
-            {i > 0 && <span className="countdown-colon">:</span>}
-            <div className="countdown-unit">
-              <span className="countdown-value">{String(unit.val).padStart(2, "0")}</span>
-              <span className="countdown-unit-label">{unit.label}</span>
-            </div>
-          </span>
+          { val: time.days,    lbl: "d" },
+          { val: time.hours,   lbl: "h" },
+          { val: time.minutes, lbl: "m" },
+          { val: time.seconds, lbl: "s" },
+        ].map((u) => (
+          <div key={u.lbl} className="cd-digit">
+            <span className="cd-digit-val">{String(u.val).padStart(2, "0")}</span>
+            <span className="cd-digit-lbl">{u.lbl}</span>
+          </div>
         ))}
       </div>
     </div>

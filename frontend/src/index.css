@@ -58,7 +58,7 @@
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
   --radius-full: 9999px;
-  --font-display: 'Roboto Slab', Georgia, serif;
+  --font-display: 'Bebas Neue', 'Roboto Slab', Georgia, serif;
   --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
@@ -186,14 +186,16 @@ html.dark .feature-content h3 { color: #f0f0f0; }
 html.dark .feature-content p { color: var(--text-light); }
 html.dark .mission-content h2 { color: #f0f0f0; }
 html.dark .mission-content p { color: var(--text-light); }
-html.dark .giving-card h3 { color: #f0f0f0; }
-html.dark .giving-card p { color: var(--text-light); }
+html.dark .giving-list-heading { color: #f0f0f0; }
+html.dark .giving-list { border-color: rgba(255,255,255,0.08); }
+html.dark .giving-list-row { border-color: rgba(255,255,255,0.08); }
+html.dark .giving-list-row:hover { background: rgba(255,255,255,0.03); }
+html.dark .giving-list-name { color: #f0f0f0; }
 html.dark .impact-stat h3 { color: #f0f0f0; }
 html.dark .impact-stat p { color: var(--text-light); }
 html.dark .event-card-lg-content h3 { color: #f0f0f0; }
 html.dark .event-card-lg-content p { color: var(--text-light); }
 html.dark .branch-info-card { background: #1a1a1a; border-color: rgba(255,255,255,0.06); }
-html.dark .giving-card { border-color: rgba(255,255,255,0.08); }
 html.dark .impact-bar { background: rgba(255,255,255,0.08); }
 html.dark .modal-content { background: #1a1a1a; }
 html.dark .modal-close { background: #2a2a2a; color: #aaa; }
@@ -1579,31 +1581,41 @@ html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,
 html.dark .songs-count { color: rgba(255,255,255,0.4); }
 
 /* ===================== */
-/* GIVING                */
+/* GIVING LIST           */
 /* ===================== */
-.giving-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-.giving-card {
-  background: var(--white); border-radius: var(--radius-2xl); padding: 2.25rem;
-  text-align: center; border: 2px solid var(--gray-200); transition: var(--transition);
-  position: relative; overflow: hidden;
+.giving-list-wrap {
+  max-width: 640px; margin: 0 auto;
 }
-.giving-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--gold-400), var(--gold-600));
-  transform: scaleX(0); transform-origin: center; transition: transform 0.4s ease;
+.giving-list-heading {
+  font-size: 1.75rem; font-weight: 800; line-height: 1.3;
+  margin-bottom: 2rem; color: var(--gray-900);
+  font-family: var(--font-display);
 }
-.giving-card:hover { border-color: var(--gold-500); box-shadow: 0 12px 30px rgba(234,179,8,0.15); transform: translateY(-4px); }
-.giving-card:hover::before { transform: scaleX(1); }
-.giving-icon {
-  width: 72px; height: 72px;
-  background: linear-gradient(135deg, var(--purple-100), var(--purple-200));
-  border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; color: var(--primary); margin: 0 auto 1.5rem;
-  transition: var(--transition);
+.giving-list {
+  border-top: 1px solid var(--gray-200);
 }
-.giving-card:hover .giving-icon { background: var(--primary); color: var(--white); }
-.giving-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; font-family: var(--font-body); font-weight: 700; }
-.giving-card p { font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.5rem; line-height: 1.6; }
+.giving-list-row {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 1.5rem 0;
+  border: none; border-bottom: 1px solid var(--gray-200);
+  background: transparent; cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: var(--font-body);
+}
+.giving-list-row:hover { background: rgba(0,0,0,0.015); }
+.giving-list-name {
+  font-size: 1.1rem; font-weight: 500; color: var(--gray-900);
+}
+.giving-list-arrow {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1.5px solid var(--gold-500); display: flex;
+  align-items: center; justify-content: center;
+  color: var(--gold-500); flex-shrink: 0;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.giving-list-row:hover .giving-list-arrow {
+  background: var(--gold-500); color: var(--white); transform: scale(1.08);
+}
 
 /* ===================== */
 /* (floating give removed — only nav bar give button used) */
@@ -2119,127 +2131,138 @@ html.dark .history-mosaic-img { background: var(--gray-800); }
 /* COUNTDOWN TIMER       */
 /* ===================== */
 /* ── Base timer container ── */
-.countdown-timer {
-  background: rgba(255,255,255,0.06); backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-2xl);
-  padding: 1.75rem 2rem; display: inline-block; min-width: 290px;
-  transition: border-color 0.4s, box-shadow 0.4s;
+/* ── Countdown card ── */
+.cd {
+  display: inline-flex; flex-direction: column; align-items: center;
+  padding: 1.5rem 2rem 1.25rem;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1.25rem;
+  min-width: 300px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+}
+.cd:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  border-color: rgba(255,255,255,0.18);
 }
 
-/* ── LIVE state ── */
-.countdown-live {
-  border-color: rgba(74, 222, 128, 0.45);
-  box-shadow: 0 0 32px rgba(74, 222, 128, 0.14), inset 0 0 20px rgba(74, 222, 128, 0.04);
+/* ── Top row — badge / live pulse ── */
+.cd-top {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.65rem;
 }
-.live-indicator {
-  display: flex; align-items: center; gap: 0.6rem;
-  justify-content: center; margin-bottom: 0.85rem;
+.cd-badge {
+  font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-400); background: rgba(245,158,11,0.1);
+  padding: 0.25rem 0.7rem; border-radius: var(--radius-full);
 }
-.live-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.9);
-  animation: live-blink 1.2s ease-in-out infinite; flex-shrink: 0;
+.cd-badge--live {
+  color: #4ade80; background: rgba(74,222,128,0.12);
 }
-@keyframes live-blink {
-  0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(74, 222, 128, 0.9); }
-  50%       { opacity: 0.35; box-shadow: 0 0 3px rgba(74, 222, 128, 0.3); }
+.cd-live-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74,222,128,0.8);
+  animation: cd-blink 1.2s ease-in-out infinite;
 }
-.live-badge {
-  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 800;
-  letter-spacing: 0.14em; color: #4ade80; text-transform: uppercase;
+@keyframes cd-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
-.live-service-name {
-  font-size: 1.1rem; font-weight: 700; color: var(--white);
-  text-align: center; margin-bottom: 0.4rem; font-family: var(--font-body);
+
+/* ── LIVE variant ── */
+.cd--live {
+  border-color: rgba(74,222,128,0.3);
+  box-shadow: 0 0 30px rgba(74,222,128,0.08);
 }
-.live-session { font-weight: 400; opacity: 0.75; }
-.live-location {
+
+/* ── Name ── */
+.cd-name {
+  font-size: 1.05rem; font-weight: 700; color: #fff;
+  text-align: center; margin: 0 0 0.35rem;
+  font-family: var(--font-body); line-height: 1.35;
+}
+.cd-session { font-weight: 400; opacity: 0.7; }
+
+/* ── Meta row (location, platform links) ── */
+.cd-meta {
   display: flex; align-items: center; gap: 0.35rem; justify-content: center;
-  font-size: 0.78rem; color: #4ade80; margin-bottom: 0.85rem;
+  font-size: 0.75rem; color: rgba(255,255,255,0.45);
+  margin-bottom: 1rem;
 }
-.live-tagline {
-  text-align: center; font-size: 0.8rem; font-style: italic;
-  color: rgba(255,255,255,0.5); margin: 0; font-family: var(--font-display);
-}
-.live-watch-links {
-  display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
-  margin-top: 0.85rem;
-}
-.live-watch-btn {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.5rem 1.1rem; border-radius: var(--radius-full);
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  color: #fff; font-size: 0.78rem; font-weight: 700;
-  text-decoration: none; letter-spacing: 0.02em;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 12px rgba(220, 38, 38, 0.4);
-}
-.live-watch-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
-}
-.live-watch-btn svg { flex-shrink: 0; }
-.live-watch-btn-teams {
-  background: linear-gradient(135deg, #5b5fc7, #4b4fbf);
-  box-shadow: 0 2px 12px rgba(91, 95, 199, 0.4);
-}
-.live-watch-btn-teams:hover {
-  box-shadow: 0 4px 20px rgba(91, 95, 199, 0.6);
+.cd--live .cd-meta { color: #4ade80; }
+.cd-meta-loc {
+  display: inline-flex; align-items: center; gap: 0.35rem;
 }
 
-/* ── Countdown state ── */
-.countdown-next-label {
-  text-align: center; margin-bottom: 0.5rem;
-  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-400);
-}
-.countdown-service-info { text-align: center; margin-bottom: 1.25rem; }
-.countdown-service-name {
-  font-size: 0.98rem; font-weight: 700; color: var(--white);
-  font-family: var(--font-body); display: block; margin-bottom: 0.3rem;
-}
-.countdown-session { font-weight: 400; opacity: 0.75; }
+/* ── Platform links inside cd-meta ── */
 .countdown-platform-link {
-  color: var(--gold-400); text-decoration: none; font-weight: 700; transition: color 0.2s;
+  color: var(--gold-400); text-decoration: none; font-weight: 700;
+  transition: color 0.2s;
 }
 .countdown-platform-link:hover { color: #fff; text-decoration: underline; }
-.live-location .countdown-platform-link { color: #4ade80; }
-.live-location .countdown-platform-link:hover { color: #fff; }
-.countdown-location {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  font-size: 0.75rem; color: rgba(255,255,255,0.5);
+.cd--live .countdown-platform-link { color: #4ade80; }
+.cd--live .countdown-platform-link:hover { color: #fff; }
+
+/* ── Digit strip ── */
+.cd-digits {
+  display: flex; gap: 0.4rem; align-items: center;
 }
-.countdown-units { display: flex; gap: 0.6rem; justify-content: center; }
-.countdown-unit {
-  text-align: center; min-width: 62px;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-lg);
-  padding: 0.75rem 0.5rem 0.6rem;
-  position: relative;
+.cd-digit {
+  display: flex; align-items: baseline; gap: 1px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.55rem 0.4rem;
+  min-width: 52px; justify-content: center;
 }
-.countdown-value {
-  display: block; font-family: var(--font-mono);
-  font-size: 2rem; font-weight: 700; color: #ffffff; line-height: 1;
-  text-shadow: 0 0 12px rgba(245,158,11,0.4);
+.cd-digit-val {
+  font-family: var(--font-mono); font-size: 1.55rem; font-weight: 700;
+  color: #fff; line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
-.countdown-unit-label {
-  display: block; font-size: 0.6rem; text-transform: uppercase;
-  letter-spacing: 0.14em; color: var(--gold-400);
-  font-family: var(--font-mono); margin-top: 0.45rem;
-  font-weight: 600;
-}
-.countdown-colon {
-  font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700;
-  color: rgba(255,255,255,0.3); align-self: center; padding-bottom: 0.8rem;
+.cd-digit-lbl {
+  font-family: var(--font-mono); font-size: 0.6rem; font-weight: 600;
+  color: var(--gold-400); text-transform: uppercase;
+  margin-left: 1px;
 }
 
-/* Countdown dark mode overrides */
-html.dark .countdown-value { color: #fbbf24; text-shadow: 0 0 16px rgba(251,191,36,0.5); }
-html.dark .countdown-next-label { color: #fde68a; }
-html.dark .countdown-service-name { color: #ffffff; }
-html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
+/* ── Tagline ── */
+.cd-tagline {
+  text-align: center; font-size: 0.78rem; font-style: italic;
+  color: rgba(255,255,255,0.4); margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+}
+
+/* ── Action buttons (live watch) ── */
+.cd-actions {
+  display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.cd-action-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 1rem; border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: #fff; font-size: 0.75rem; font-weight: 700;
+  text-decoration: none; letter-spacing: 0.02em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(220,38,38,0.35);
+}
+.cd-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(220,38,38,0.5);
+}
+.cd-action-btn svg { flex-shrink: 0; }
+.cd-action-btn--teams {
+  background: linear-gradient(135deg, #5b5fc7, #4b4fbf);
+  box-shadow: 0 2px 10px rgba(91,95,199,0.35);
+}
+.cd-action-btn--teams:hover {
+  box-shadow: 0 4px 18px rgba(91,95,199,0.5);
+}
 
 /* ===================== */
 /* PARTICLE FIELD        */
@@ -2503,15 +2526,33 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
 /* ===================== */
 .donation-meter {
   background: var(--purple-50); border-radius: var(--radius-2xl);
-  padding: 2.5rem; text-align: center; border: 1px solid var(--purple-100);
+  padding: 2.25rem 2.5rem; border: 1px solid var(--purple-100);
+  margin-top: 2.5rem;
 }
+.donation-meter-inner {
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.donation-meter-left { flex: 1; min-width: 0; }
 .donation-meter h3 {
-  font-size: 1.35rem; color: var(--primary); margin-bottom: 0.5rem;
+  font-size: 1.15rem; color: var(--primary); margin-bottom: 0.5rem;
 }
-.donation-meter p { color: var(--gray-600); margin-bottom: 1.5rem; }
+.donation-meter p { color: var(--gray-600); margin-bottom: 1.25rem; font-size: 0.9rem; }
+.donation-meter-pct {
+  display: flex; align-items: baseline; flex-shrink: 0;
+}
+.donation-meter-pct-num {
+  font-family: var(--font-mono); font-size: 3.5rem; font-weight: 800;
+  background: linear-gradient(135deg, var(--purple-500), var(--gold-500));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; line-height: 1;
+}
+.donation-meter-pct-sign {
+  font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700;
+  color: var(--gold-500); margin-left: 2px;
+}
 .donation-progress {
-  height: 12px; background: var(--gray-200); border-radius: 6px;
-  overflow: hidden; margin-bottom: 1rem; position: relative;
+  height: 10px; background: var(--gray-200); border-radius: 6px;
+  overflow: hidden; margin-bottom: 0.75rem; position: relative;
 }
 .donation-progress-bar {
   height: 100%; border-radius: 6px;
@@ -2521,8 +2562,8 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
 }
 .donation-progress-bar::after {
   content: ''; position: absolute; right: 0; top: 0; bottom: 0;
-  width: 20px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+  width: 30px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5));
   animation: shimmer 2s ease-in-out infinite;
 }
 @keyframes shimmer {
@@ -2530,7 +2571,7 @@ html.dark .countdown-unit-label { color: rgba(255,255,255,0.7); }
   50% { opacity: 1; }
 }
 .donation-stats {
-  display: flex; justify-content: space-between; font-size: 0.9rem;
+  display: flex; justify-content: space-between; font-size: 0.85rem;
   color: var(--text-light);
 }
 .donation-stats strong { color: var(--primary); font-family: var(--font-mono); }
@@ -3398,14 +3439,13 @@ html.dark .evt-card-meta span { color: rgba(255,255,255,0.4); }
   .branches-grid { grid-template-columns: 1fr; }
 }
 
-/* Countdown timer — prevent overflow on narrow screens */
+/* Countdown card — narrow screens */
 @media (max-width: 480px) {
-  .countdown-units { flex-wrap: nowrap; gap: 0.35rem; }
-  .countdown-unit { min-width: 48px; padding: 0.55rem 0.35rem 0.45rem; }
-  .countdown-value { font-size: 1.35rem; }
-  .countdown-unit-label { font-size: 0.5rem; letter-spacing: 0.08em; }
-  .countdown-colon { font-size: 1.1rem; padding-bottom: 0.6rem; }
-  .countdown-timer { padding: 1.25rem 0.85rem; min-width: unset; }
+  .cd { padding: 1.25rem 1rem 1rem; min-width: unset; width: 100%; }
+  .cd-digits { gap: 0.3rem; }
+  .cd-digit { min-width: 44px; padding: 0.4rem 0.4rem 0.35rem; }
+  .cd-digit-val { font-size: 1.25rem; }
+  .cd-digit-lbl { font-size: 0.55rem; }
 }
 
 /* Give hero stats — flex wrap on mobile */
@@ -4510,8 +4550,8 @@ select:focus-visible {
   50% { box-shadow: 0 0 0 8px rgba(168,62,245,0.12), var(--shadow-lg); }
 }
 
-/* ── Giving card icon spin on hover ── */
-.giving-card:hover .giving-icon { transform: rotate(8deg) scale(1.05); }
+/* ── Giving list arrow hover ── */
+.giving-list-row:hover .giving-list-arrow { transform: scale(1.08); }
 
 /* ── Impact card number count-up feel ── */
 .impact-card:hover .impact-number { transform: scale(1.08); transition: transform 0.3s ease; }
@@ -4606,15 +4646,7 @@ select:focus-visible {
   box-shadow: 0 0 0 4px rgba(168,62,245,0.2), 0 0 0 2px var(--purple-300);
 }
 
-/* ── Countdown timer glow pulse ── */
-.countdown-timer {
-  transition: border-color 0.4s, box-shadow 0.4s, transform 0.3s;
-}
-.countdown-timer:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  border-color: rgba(255,255,255,0.2);
-}
+/* ── (countdown hover handled in .cd block) ── */
 
 /* ── Badge subtle hover ── */
 .badge { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -4654,6 +4686,7 @@ html.dark .donation-meter { background: rgba(168,62,245,0.08); border-color: rgb
 html.dark .donation-meter h3 { color: var(--purple-300); }
 html.dark .donation-meter p { color: var(--text-light); }
 html.dark .donation-progress { background: rgba(255,255,255,0.08); }
+html.dark .donation-meter-pct-sign { color: var(--gold-400); }
 
 /* ── Badge variants ── */
 html.dark .badge-purple { background: rgba(168,62,245,0.15); color: var(--purple-300); }
@@ -4754,13 +4787,7 @@ html.dark .impact-card-icon { background: rgba(168,62,245,0.12); }
 html.dark .impact-number { color: var(--purple-300); }
 html.dark .impact-label { color: var(--text); }
 
-/* ── Giving cards ── */
-html.dark .giving-card { background: #1a1a1a; border-color: rgba(255,255,255,0.08); }
-html.dark .giving-card:hover { border-color: var(--gold-500); box-shadow: 0 12px 30px rgba(245,158,11,0.1); }
-html.dark .giving-card h3 { color: #f0f0f0; }
-html.dark .giving-card p { color: var(--text-light); }
-html.dark .giving-icon { background: rgba(168,62,245,0.12); }
-html.dark .giving-card:hover .giving-icon { background: var(--purple-600); }
+/* ── Giving list (dark) — handled in early block ── */
 
 /* ── Skeleton dark mode ── */
 html.dark .skeleton {
@@ -4798,12 +4825,12 @@ html.dark .featured-events { background: var(--bg-alt); }
 @media (prefers-reduced-motion: reduce) {
   .navbar-links a::after { transition: none !important; }
   .footer-col a::after { transition: none !important; }
-  .giving-card:hover .giving-icon { transform: none !important; }
+  .giving-list-row:hover .giving-list-arrow { transform: none !important; }
   .impact-card:hover .impact-number { transform: none !important; }
   .mission-feature:hover .feature-icon { transform: none !important; }
   .back-to-top.visible { animation: none !important; }
   .contact-info-card:hover .icon-box { transform: none !important; }
-  .countdown-timer:hover { transform: none !important; }
+  .cd:hover { transform: none !important; }
   .blog-card:hover img { transform: none !important; }
   .give-impact-card:hover img { transform: none !important; }
   .navbar-social-link:hover { transform: none !important; }
@@ -4876,10 +4903,6 @@ a.contact-split-info-item { transition: opacity 0.2s ease; }
 a.contact-split-info-item:hover { opacity: 0.85; }
 a.contact-split-info-item:hover .contact-split-info-icon { background: rgba(255,255,255,0.18); }
 
-/* ── Giving card transition timing match ── */
-.giving-card {
-  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease, border-color 0.4s ease;
-}
 
 /* ── Mission feature dark mode span ── */
 html.dark .mission-feature span { color: var(--text); }
@@ -5647,7 +5670,7 @@ html.dark .nearby-backdrop { background: rgba(0,0,0,0.65); }
 /* ── Donation meter header ── */
 .donation-meter-header {
   display: flex; align-items: center; gap: 0.5rem;
-  justify-content: center; margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .donation-meter-header svg { color: var(--primary); }
 .donation-meter-header h3 { margin: 0; }
@@ -5751,6 +5774,11 @@ html.dark .give-impact-section { background: #111; }
   .give-scripture-card { padding: 2.5rem 1.5rem; }
   .give-scripture-text { font-size: 1.1rem; }
   .give-payment-hint { font-size: 0.78rem; flex-direction: column; text-align: center; }
+  .donation-meter { padding: 1.75rem 1.5rem; }
+  .donation-meter-inner { flex-direction: column; gap: 1.25rem; text-align: center; }
+  .donation-meter-header { justify-content: center; }
+  .donation-meter-pct-num { font-size: 2.5rem; }
+  .donation-meter-pct-sign { font-size: 1.1rem; }
 }
 
 /* =============================================================
