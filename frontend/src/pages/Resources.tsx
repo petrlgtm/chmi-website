@@ -242,7 +242,7 @@ export default function Resources() {
               <Music size={48} style={{ marginBottom: "1rem", opacity: 0.3 }} />
               <p>Unable to load songs from YouTube.</p>
               <a
-                href="https://www.youtube.com/@isaiahmbuga9628"
+                href="https://www.youtube.com/channel/UC8YCTJBNTxHVdSi7QROeedQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
@@ -362,7 +362,7 @@ export default function Resources() {
 
               <div style={{ textAlign: "center", marginTop: "2rem" }}>
                 <a
-                  href="https://www.youtube.com/@isaiahmbuga9628"
+                  href="https://www.youtube.com/channel/UC8YCTJBNTxHVdSi7QROeedQ"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-black"
