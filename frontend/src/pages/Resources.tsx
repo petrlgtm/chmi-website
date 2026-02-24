@@ -88,7 +88,7 @@ export default function Resources() {
   const { resources: sanityResources, mediaChannels: sanityMedia } = useSanityResources();
   const { songs, loading: songsLoading, error: songsError, loadMore: loadMoreSongs, hasMore: songsApiHasMore, loadingMore: songsLoadingMore } = useYouTubeSongs();
   const songsRef = useScrollAnimation<HTMLDivElement>(0.15, !songsLoading && !songsError);
-  const { currentSong, play } = usePlayer();
+  const { currentItem, play } = usePlayer();
 
   const [songsSearch, setSongsSearch] = useState("");
   const [visibleSongs, setVisibleSongs] = useState(SONGS_PAGE_SIZE);
@@ -274,7 +274,7 @@ export default function Resources() {
               ) : (
                 <div className="songs-grid">
                   {displayedSongs.map((song) => {
-                    const isPlaying = currentSong?.id === song.id;
+                    const isPlaying = currentItem?.id === song.id;
 
                     return (
                       <div
@@ -284,12 +284,12 @@ export default function Resources() {
                         {/* Thumbnail */}
                         <div
                           className="song-thumb-wrap"
-                          onClick={() => song.videoId && play(song)}
+                          onClick={() => song.videoId && play({ ...song, subtitle: song.artist })}
                           role="button"
                           tabIndex={0}
                           aria-label={isPlaying ? `Now playing: ${song.title}` : `Play: ${song.title}`}
                           onKeyDown={(e) =>
-                            e.key === "Enter" && song.videoId && play(song)
+                            e.key === "Enter" && song.videoId && play({ ...song, subtitle: song.artist })
                           }
                         >
                           <img

@@ -2,18 +2,18 @@ import { ChevronUp, ChevronDown, X } from "lucide-react";
 import { usePlayer } from "../hooks/usePlayer";
 
 export default function MiniPlayer() {
-  const { currentSong, isExpanded, stop, toggleExpanded } = usePlayer();
+  const { currentItem, isExpanded, stop, toggleExpanded } = usePlayer();
 
-  if (!currentSong) return null;
+  if (!currentItem) return null;
 
   return (
-    <div className="mini-player" role="region" aria-label="Music player">
+    <div className="mini-player" role="region" aria-label="Media player">
       {/* Expandable video */}
       <div className={`mini-player-video${isExpanded ? " mini-player-video--open" : ""}`}>
         <iframe
-          key={currentSong.videoId}
-          src={`https://www.youtube.com/embed/${currentSong.videoId}?autoplay=1`}
-          title={currentSong.title}
+          key={currentItem.videoId}
+          src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
+          title={currentItem.title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
@@ -23,14 +23,14 @@ export default function MiniPlayer() {
       <div className="mini-player-bar">
         <img
           className="mini-player-thumb"
-          src={currentSong.thumbnail}
+          src={currentItem.thumbnail}
           alt=""
           width={40}
           height={40}
         />
         <div className="mini-player-info">
-          <span className="mini-player-title">{currentSong.title}</span>
-          <span className="mini-player-artist">{currentSong.artist}</span>
+          <span className="mini-player-title">{currentItem.title}</span>
+          <span className="mini-player-artist">{currentItem.subtitle}</span>
         </div>
         <div className="mini-player-controls">
           <button

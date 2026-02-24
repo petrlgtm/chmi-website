@@ -60,3 +60,13 @@ export interface Song {
   thumbnail: string;
   thumbnailHigh?: string;
 }
+
+/** Common shape for anything the persistent player can play */
+export interface PlayableItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  videoId: string;
+  thumbnail: string;
+  thumbnailHigh?: string;
+}

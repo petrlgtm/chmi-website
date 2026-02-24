@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
-import type { Song } from "../types";
+import type { PlayableItem } from "../types";
 
 export interface PlayerContextValue {
-  currentSong: Song | null;
+  currentItem: PlayableItem | null;
   isExpanded: boolean;
-  play: (song: Song) => void;
+  play: (item: PlayableItem) => void;
   stop: () => void;
   toggleExpanded: () => void;
 }
@@ -14,19 +14,19 @@ export interface PlayerContextValue {
 export const PlayerContext = createContext<PlayerContextValue | null>(null);
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [currentItem, setCurrentItem] = useState<PlayableItem | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const play = useCallback((song: Song) => {
-    setCurrentSong((prev) => {
-      if (prev?.id === song.id) return prev;
-      return song;
+  const play = useCallback((item: PlayableItem) => {
+    setCurrentItem((prev) => {
+      if (prev?.id === item.id) return prev;
+      return item;
     });
     setIsExpanded(false);
   }, []);
 
   const stop = useCallback(() => {
-    setCurrentSong(null);
+    setCurrentItem(null);
     setIsExpanded(false);
   }, []);
 
@@ -35,7 +35,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (currentSong) {
+    if (currentItem) {
       document.body.classList.add("has-mini-player");
     } else {
       document.body.classList.remove("has-mini-player");
@@ -43,11 +43,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     return () => {
       document.body.classList.remove("has-mini-player");
     };
-  }, [currentSong]);
+  }, [currentItem]);
 
   return (
     <PlayerContext.Provider
-      value={{ currentSong, isExpanded, play, stop, toggleExpanded }}
+      value={{ currentItem, isExpanded, play, stop, toggleExpanded }}
     >
       {children}
     </PlayerContext.Provider>
