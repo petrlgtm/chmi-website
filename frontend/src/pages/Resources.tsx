@@ -8,8 +8,7 @@ import { useYouTubeSongs } from "../hooks/useYouTubeSongs";
 import { usePlayer } from "../hooks/usePlayer";
 import type { ResourceItem, MediaChannel } from "../hooks/useSanityResources";
 
-const DEFAULT_ORDER_URL =
-  "https://wa.me/256392177825?text=Hello%2C%20I%20would%20like%20to%20order%20a%20book%20by%20Apostle%20Isaiah%20Mbuga.";
+const CHURCH_EMAIL = "info@christsheart.org";
 
 const SONGS_PAGE_SIZE = 8;
 
@@ -108,8 +107,12 @@ export default function Resources() {
   const formatPrice = (price: number) =>
     `UGX ${price.toLocaleString()}`;
 
-  const handleOrder = (orderUrl?: string) => {
-    window.open(orderUrl || DEFAULT_ORDER_URL, "_blank");
+  const handleOrder = (title: string) => {
+    const subject = encodeURIComponent(`Book Order: ${title}`);
+    const body = encodeURIComponent(
+      `Hello,\n\nI would like to order the book "${title}" by Apostle Isaiah Mbuga.\n\nPlease let me know the available options for payment and delivery.\n\nThank you.`
+    );
+    window.location.href = `mailto:${CHURCH_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -158,7 +161,7 @@ export default function Resources() {
                     {res.description.slice(0, 150)}{res.description.length > 150 ? "\u2026" : ""}
                   </p>
                   <p className="resource-card-price">{formatPrice(res.price)}</p>
-                  <button onClick={() => handleOrder(res.orderUrl)} className="btn btn-primary resource-download-btn">
+                  <button onClick={() => handleOrder(res.title)} className="btn btn-primary resource-download-btn">
                     <BookOpen size={14} /> Order Now
                   </button>
                 </div>
