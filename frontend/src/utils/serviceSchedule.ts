@@ -103,10 +103,10 @@ export const SERVICES: Service[] = [
     endHour: 19, endMinute: 30,
     location: "All Locations",
   },
-  // ── Night Service — Apostle live online (Weekdays) ────────────────
+  // ── Night Service — Apostle live online (Mon, Tue, Thu) ────────────
   {
     name: "Apostle Live — Night Service",
-    days: [1, 2, 3, 4, 5],
+    days: [1, 2, 4],
     startHour: 21, startMinute: 0,
     endHour: 22, endMinute: 30,
     location: "ChristHeartTV & TikTok",

@@ -213,15 +213,15 @@ export const services: ServiceInfo[] = [
   {
     id: "night-services",
     title: "Night Services",
-    shortDesc: "Live online evening worship with Apostle Isaiah Mbuga every weeknight.",
+    shortDesc: "Live online evening worship with Apostle Isaiah Mbuga on Monday, Tuesday & Thursday.",
     heroImage: img(8),
     description: [
-      "Night Services are live online gatherings hosted by Apostle Isaiah Mbuga every weeknight. These evening sessions carry a unique atmosphere — intimate, intense, and deeply prophetic — as the Apostle ministers the Word and leads believers into the presence of God from wherever they are.",
+      "Night Services are live online gatherings hosted by Apostle Isaiah Mbuga on Monday, Tuesday, and Thursday evenings. These sessions carry a unique atmosphere — intimate, intense, and deeply prophetic — as the Apostle ministers the Word and leads believers into the presence of God from wherever they are.",
       "Streamed live on ChristHeartTV (YouTube) and TikTok, Night Services bring the anointing directly to your home. Many believers across Uganda and beyond have experienced life-changing encounters during these broadcasts, including healings, deliverances, and profound spiritual revelations.",
       "Whether you are winding down after a long day or seeking a fresh encounter with God, Night Services are an open door to the supernatural. Tune in, engage in the chat, and let the Holy Spirit minister to you.",
     ],
     schedule: [
-      { day: "Monday – Friday", time: "9:00 PM – 10:30 PM", details: "Apostle Live — Night Service with Apostle Isaiah Mbuga" },
+      { day: "Monday, Tuesday & Thursday", time: "9:00 PM – 10:30 PM", details: "Apostle Live — Night Service with Apostle Isaiah Mbuga" },
     ],
     branchSchedules: [],
     isOnline: true,
@@ -233,7 +233,7 @@ export const services: ServiceInfo[] = [
       ],
     },
     highlights: [
-      { title: "Apostle Isaiah Mbuga Live", text: "Personal ministry from the Apostle every weeknight — teaching, prophecy, and prayer." },
+      { title: "Apostle Isaiah Mbuga Live", text: "Personal ministry from the Apostle on Monday, Tuesday & Thursday — teaching, prophecy, and prayer." },
       { title: "Watch from Anywhere", text: "Stream live on YouTube and TikTok from the comfort of your home, no matter where you are." },
       { title: "Interactive Chat", text: "Share prayer requests and engage in real-time through the live chat during the broadcast." },
       { title: "Replay Available", text: "Missed a session? Watch the replay on ChristHeartTV at any time." },
