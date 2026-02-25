@@ -55,7 +55,7 @@ export default function EventDetail() {
     await submitWeb3Form("eventReg", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
+      whatsapp: formData.get("whatsapp") as string,
       branch: formData.get("branch") as string,
       guests: formData.get("guests") as string,
       event: event?.name ?? "",
@@ -186,8 +186,8 @@ export default function EventDetail() {
                 </div>
                 <div className="form-row" style={{ marginBottom: "1rem" }}>
                   <div className="form-group">
-                    <label htmlFor="reg-phone">Phone Number</label>
-                    <input id="reg-phone" name="phone" type="tel" placeholder="+256 700 000 000" required />
+                    <label htmlFor="reg-whatsapp">WhatsApp Number</label>
+                    <input id="reg-whatsapp" name="whatsapp" type="tel" placeholder="+256 700 000 000" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="reg-branch">Branch</label>

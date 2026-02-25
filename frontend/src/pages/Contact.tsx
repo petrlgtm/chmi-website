@@ -21,6 +21,7 @@ export default function Contact() {
     await submitWeb3Form("contact", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
+      whatsapp: formData.get("whatsapp") as string,
       subject: formData.get("subject") as string,
       message: formData.get("message") as string,
     });
@@ -78,9 +79,15 @@ export default function Contact() {
                         <input id="contact-email" name="email" type="email" placeholder="your@email.com" required />
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="contact-subject">Subject</label>
-                      <input id="contact-subject" name="subject" type="text" placeholder="What is this about?" required />
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label htmlFor="contact-whatsapp">WhatsApp Number</label>
+                        <input id="contact-whatsapp" name="whatsapp" type="tel" placeholder="+256 700 000 000" required />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="contact-subject">Subject</label>
+                        <input id="contact-subject" name="subject" type="text" placeholder="What is this about?" required />
+                      </div>
                     </div>
                     <div className="form-group">
                       <label htmlFor="contact-message">Message</label>
