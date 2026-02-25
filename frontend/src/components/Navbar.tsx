@@ -48,6 +48,8 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   const [eventsExpanded, setEventsExpanded] = useState(false);
+  const [aboutExpanded, setAboutExpanded] = useState(false);
+  const [resourcesExpanded, setResourcesExpanded] = useState(false);
   const isActive = (path: string) => location.pathname === path;
   const nearbyEvents = getUpcomingEvents(events).slice(0, 4);
 
@@ -55,9 +57,9 @@ export default function Navbar() {
     { path: "/", label: "Home", icon: Home },
     { path: "/branches", label: "Branches", icon: MapPin },
     { path: "/events", label: "Events", icon: Calendar, hasChildren: true },
-    { path: "/about", label: "About", icon: Users },
+    { path: "/about", label: "About", icon: Users, hasChildren: true },
     { path: "/sermons", label: "Sermons", icon: BookOpen },
-    { path: "/resources", label: "Resources", icon: Library },
+    { path: "/resources", label: "Resources", icon: Library, hasChildren: true },
     { path: "/blog", label: "Blog", icon: Rss },
     { path: "/contact", label: "Contact", icon: Mail },
   ];
@@ -88,9 +90,27 @@ export default function Navbar() {
                   <Link to="/events" className="dropdown-view-all">View All Events</Link>
                 </div>
               </div>
-              <Link to="/about" className={isActive("/about") ? "active" : ""}>About</Link>
+              <div className="events-dropdown">
+                <Link to="/about" className={location.pathname.startsWith("/about") ? "active" : ""}>
+                  About <ChevronDown size={14} />
+                </Link>
+                <div className="dropdown-menu">
+                  <Link to="/about#mission-vision">Mission &amp; Vision</Link>
+                  <Link to="/about#statement-of-faith">Statement of Faith</Link>
+                  <Link to="/about" className="dropdown-view-all">Full About Page</Link>
+                </div>
+              </div>
               <Link to="/sermons" className={isActive("/sermons") ? "active" : ""}>Sermons</Link>
-              <Link to="/resources" className={isActive("/resources") ? "active" : ""}>Resources</Link>
+              <div className="events-dropdown">
+                <Link to="/resources" className={location.pathname.startsWith("/resources") ? "active" : ""}>
+                  Resources <ChevronDown size={14} />
+                </Link>
+                <div className="dropdown-menu">
+                  <Link to="/resources#books">Books</Link>
+                  <Link to="/resources#songs">Songs</Link>
+                  <Link to="/resources#media">Media</Link>
+                </div>
+              </div>
               <Link to="/blog" className={isActive("/blog") ? "active" : ""}>Blog</Link>
               <Link to="/contact" className={isActive("/contact") ? "active" : ""}>Contact</Link>
             </div>
@@ -190,7 +210,7 @@ export default function Navbar() {
 
               return (
                 <div key={item.path} className="mobile-nav-item" style={{ animationDelay: `${index * 0.04}s` }}>
-                  {item.hasChildren ? (
+                  {item.hasChildren && item.path === "/events" ? (
                     <>
                       <button
                         className={`mobile-nav-link mobile-nav-expandable ${active ? "active" : ""}`}
@@ -209,6 +229,38 @@ export default function Navbar() {
                         <Link to={item.path} className="mobile-subnav-link mobile-subnav-viewall">
                           View All Events
                         </Link>
+                      </div>
+                    </>
+                  ) : item.hasChildren && item.path === "/about" ? (
+                    <>
+                      <button
+                        className={`mobile-nav-link mobile-nav-expandable ${active ? "active" : ""}`}
+                        onClick={() => setAboutExpanded(!aboutExpanded)}
+                      >
+                        <Icon size={18} className="mobile-nav-icon" />
+                        <span>{item.label}</span>
+                        <ChevronRight size={16} className={`mobile-expand-arrow ${aboutExpanded ? "expanded" : ""}`} />
+                      </button>
+                      <div className={`mobile-subnav ${aboutExpanded ? "open" : ""}`}>
+                        <Link to="/about#mission-vision" className="mobile-subnav-link">Mission &amp; Vision</Link>
+                        <Link to="/about#statement-of-faith" className="mobile-subnav-link">Statement of Faith</Link>
+                        <Link to="/about" className="mobile-subnav-link mobile-subnav-viewall">Full About Page</Link>
+                      </div>
+                    </>
+                  ) : item.hasChildren && item.path === "/resources" ? (
+                    <>
+                      <button
+                        className={`mobile-nav-link mobile-nav-expandable ${active ? "active" : ""}`}
+                        onClick={() => setResourcesExpanded(!resourcesExpanded)}
+                      >
+                        <Icon size={18} className="mobile-nav-icon" />
+                        <span>{item.label}</span>
+                        <ChevronRight size={16} className={`mobile-expand-arrow ${resourcesExpanded ? "expanded" : ""}`} />
+                      </button>
+                      <div className={`mobile-subnav ${resourcesExpanded ? "open" : ""}`}>
+                        <Link to="/resources#books" className="mobile-subnav-link">Books</Link>
+                        <Link to="/resources#songs" className="mobile-subnav-link">Songs</Link>
+                        <Link to="/resources#media" className="mobile-subnav-link">Media</Link>
                       </div>
                     </>
                   ) : (

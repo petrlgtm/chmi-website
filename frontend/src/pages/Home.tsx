@@ -180,6 +180,9 @@ export default function Home() {
               <Link to="/resources#songs" className="btn btn-white">
                 <Headphones size={18} /> Songs
               </Link>
+              <Link to="/services/home-cells" className="btn btn-outline-white">
+                <Users size={18} /> Find a Cell
+              </Link>
             </div>
             <div className="hero-animate hero-animate-delay-4 mt-4">
               <CountdownTimer events={events} />

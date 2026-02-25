@@ -121,8 +121,8 @@ export default function ServiceDetail() {
             </div>
           </div>
 
-          {/* Online Service or Branch-Specific Schedules */}
-          {service.isOnline && service.onlineDetails ? (
+          {/* Online Service or Branch-Specific Schedules (skip if cell locations exist) */}
+          {service.cellLocations && service.cellLocations.length > 0 ? null : service.isOnline && service.onlineDetails ? (
             <div className="animate-on-scroll" ref={branchRef}>
               <div className="detail-dark-card mb-section-sm">
                 <div className="card-heading-row" style={{ marginBottom: "0.5rem" }}>

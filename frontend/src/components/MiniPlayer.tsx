@@ -67,28 +67,58 @@ export default function MiniPlayer() {
   return (
     <div
       ref={pipRef}
-      className={`mini-player mini-player--pip mini-player--pip-${corner}${dragging ? " mini-player--pip-dragging" : ""}`}
+      className={`mini-player mini-player--pip mini-player--pip-${corner}${dragging ? " mini-player--pip-dragging" : ""}${isAudio ? " mini-player--audio" : ""}`}
       role="region"
       aria-label="Media player"
       style={pipStyle}
     >
-      <div className="mini-player-pip-video">
-        <iframe
-          key={currentItem.videoId}
-          src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
-          title={currentItem.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-        {dragging && <div className="mini-player-pip-drag-shield" />}
-        <button
-          className="mini-player-pip-close"
-          onClick={stop}
-          aria-label="Close player"
-        >
-          <X size={18} />
-        </button>
-      </div>
+      {/* Video mode: show iframe */}
+      {!isAudio && (
+        <div className="mini-player-pip-video">
+          <iframe
+            key={`${currentItem.videoId}-video`}
+            src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
+            title={currentItem.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          {dragging && <div className="mini-player-pip-drag-shield" />}
+        </div>
+      )}
+
+      {/* Audio mode: thumbnail with audio bars, hidden iframe for playback */}
+      {isAudio && (
+        <>
+          <div className="mini-player-audio-visual">
+            <img
+              src={currentItem.thumbnailHigh || currentItem.thumbnail}
+              alt={currentItem.title}
+            />
+            <div className="mini-player-audio-overlay">
+              <div className="song-audio-bars">
+                <span /><span /><span /><span />
+              </div>
+            </div>
+          </div>
+          <iframe
+            key={`${currentItem.videoId}-audio`}
+            src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
+            title={currentItem.title}
+            allow="accelerometer; autoplay; encrypted-media"
+            style={{ position: "absolute", width: 0, height: 0, border: 0, overflow: "hidden" }}
+            aria-hidden
+          />
+        </>
+      )}
+
+      <button
+        className="mini-player-pip-close"
+        onClick={stop}
+        aria-label="Close player"
+      >
+        <X size={18} />
+      </button>
+
       <div
         className="mini-player-pip-info"
         onPointerDown={onPointerDown}

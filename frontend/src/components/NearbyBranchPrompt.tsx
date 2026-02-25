@@ -175,7 +175,7 @@ export default function NearbyBranchPrompt({ onDismiss }: { onDismiss?: () => vo
               <Church size={28} />
             </div>
             <h3 className="nearby-prompt-heading">Welcome to Christ's Heart!</h3>
-            <p className="nearby-prompt-desc">Which branch are you from? We'll show you services and gatherings near you.</p>
+            <p className="nearby-prompt-desc">Let's show you a Christ's Heart branch near you.</p>
             <div className="nearby-prompt-actions-col">
               <button className="btn btn-gold nearby-prompt-btn-full" onClick={() => setStep("select")}>
                 <Church size={16} /> I know my branch

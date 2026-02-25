@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LiveBanner from "./components/LiveBanner";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -34,6 +35,7 @@ function App() {
         <PlayerProvider>
           <ScrollToTop />
           <ScrollProgress />
+          <LiveBanner />
           <Navbar />
           <main id="main-content">
             <Routes>

@@ -83,28 +83,34 @@ export default function Give() {
           </div>
 
           {/* Payment Info */}
-          <div className="give-payment-grid" ref={paymentRef}>
-            <div className="give-payment-card">
-              <div className="give-payment-card-header">
-                <Users size={18} />
-                <h3>Mobile Money</h3>
+          <div className="give-payment-unified" ref={paymentRef}>
+            <h3 className="give-payment-unified-title">
+              <Heart size={18} /> How to Give
+            </h3>
+
+            <div className="give-payment-method">
+              <div className="give-payment-method-icon">
+                <Users size={20} />
               </div>
-              <p className="give-payment-card-text">
-                Send your giving via Mobile Money to:<br />
-                <strong className="give-payment-number">+256 39 2177825</strong><br />
-                Name: Christ's Heart Ministries
-              </p>
+              <div className="give-payment-method-body">
+                <h4>Mobile Money</h4>
+                <p>Send your giving via Mobile Money to:</p>
+                <span className="give-payment-number">+256 39 2177825</span>
+                <span className="give-payment-acct-name">Christ's Heart Ministries</span>
+              </div>
             </div>
-            <div className="give-payment-card">
-              <div className="give-payment-card-header">
-                <Globe size={18} />
-                <h3>Bank Transfer</h3>
+
+            <div className="give-payment-divider" />
+
+            <div className="give-payment-method">
+              <div className="give-payment-method-icon">
+                <Globe size={20} />
               </div>
-              <p className="give-payment-card-text">
-                Bank details available on request.<br />
-                Contact us at:<br />
-                <strong className="give-payment-email">info@christsheart.org</strong>
-              </p>
+              <div className="give-payment-method-body">
+                <h4>Bank Transfer</h4>
+                <p>Bank details available on request. Contact us at:</p>
+                <a href="mailto:info@christsheart.org" className="give-payment-email">info@christsheart.org</a>
+              </div>
             </div>
           </div>
 

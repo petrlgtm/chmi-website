@@ -17,6 +17,7 @@ export default function PrayerRequestModal() {
     await submitWeb3Form("prayer", {
       name: formData.get("name") as string,
       email: formData.get("email") as string,
+      whatsapp: formData.get("whatsapp") as string,
       request: formData.get("request") as string,
       isPrivate: formData.get("isPrivate") === "on",
     });
@@ -70,6 +71,10 @@ export default function PrayerRequestModal() {
                 <div className="form-group">
                   <label htmlFor="prayer-email">Email</label>
                   <input id="prayer-email" name="email" type="email" placeholder="your@email.com (optional)" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="prayer-whatsapp">WhatsApp Number</label>
+                  <input id="prayer-whatsapp" name="whatsapp" type="tel" placeholder="+256 700 000000" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="prayer-request">Prayer Request</label>

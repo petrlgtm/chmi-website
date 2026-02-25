@@ -213,7 +213,7 @@ export default function About() {
       </section>
 
       {/* Vision & Mission — Vision first */}
-      <section className="section about-purpose-section">
+      <section id="mission-vision" className="section about-purpose-section">
         <div className="container">
           <div ref={purposeRef} className="animate-on-scroll about-purpose-wrap">
             <span className="section-label">Our Purpose</span>
@@ -263,7 +263,7 @@ export default function About() {
       </section>
 
       {/* Statement of Faith */}
-      <section className="about-timeline-section">
+      <section id="statement-of-faith" className="about-timeline-section">
         <div className="container">
           <div className="section-header">
             <span className="section-label">What We Believe</span>

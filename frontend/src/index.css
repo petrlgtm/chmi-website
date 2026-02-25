@@ -565,6 +565,11 @@ section[id] { scroll-margin-top: 5.5rem; }
 .btn-outline:hover { background: var(--gray-100); border-color: var(--gray-400); color: var(--gray-900); transform: translateY(-2px); }
 html.dark .btn-outline { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
 html.dark .btn-outline:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.38); color: #fff; }
+.btn-outline-white {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff; font-weight: 600;
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.8); transform: translateY(-2px); }
 
 /* Focus styles */
 .btn:focus-visible,
@@ -1872,6 +1877,30 @@ html.dark .song-card-date { color: rgba(255,255,255,0.6); }
 html.dark .songs-search-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: #f0f0f0; }
 html.dark .song-close-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
 html.dark .songs-count { color: rgba(255,255,255,0.6); }
+
+/* Streaming platform links */
+.music-streaming-links {
+  text-align: center; margin-top: 2.5rem;
+}
+.music-streaming-label {
+  font-size: 0.82rem; color: var(--text-light); margin-bottom: 1rem; font-weight: 500;
+}
+.music-streaming-row {
+  display: flex; justify-content: center; gap: 0.65rem; flex-wrap: wrap;
+}
+.music-streaming-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding: 0.55rem 1.2rem; border-radius: var(--radius-full);
+  font-size: 0.82rem; font-weight: 600; text-decoration: none;
+  border: 1.5px solid var(--gray-200); background: #fff; color: var(--gray-700);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+.music-streaming-btn:hover { transform: translateY(-2px); }
+.music-streaming-btn--spotify:hover { background: #1db954; color: #fff; border-color: #1db954; }
+.music-streaming-btn--apple:hover   { background: #fc3c44; color: #fff; border-color: #fc3c44; }
+.music-streaming-btn--ytmusic:hover  { background: #ff0000; color: #fff; border-color: #ff0000; }
+html.dark .music-streaming-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+html.dark .music-streaming-label { color: rgba(255,255,255,0.5); }
 
 /* ===================== */
 /* GIVING LIST           */
@@ -4697,7 +4726,7 @@ html.dark .branch-city-btn.active .branch-city-count { background: rgba(168,62,2
   .branch-stat-divider { display: none; }
 
   /* (Consolidated from 600px) Give page — compact */
-  .give-payment-grid { grid-template-columns: 1fr; }
+  .give-payment-unified { padding: 1.5rem 1.25rem; }
   .give-scripture-card { padding: 2.5rem 1.5rem; }
   .give-scripture-text { font-size: 1.1rem; }
   .give-payment-hint { font-size: 0.78rem; flex-direction: column; text-align: center; }
@@ -6488,36 +6517,54 @@ html.dark .nearby-backdrop { background: rgba(0,0,0,0.65); }
   font-family: var(--font-mono); font-size: 0.85rem;
 }
 
-/* ── Payment cards ── */
-.give-payment-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem; max-width: 700px; margin: 3rem auto 0;
-}
-.give-payment-card {
+/* ── Unified payment card ── */
+.give-payment-unified {
+  max-width: 540px; margin: 3rem auto 0;
   background: var(--white); border-radius: var(--radius-2xl);
-  padding: 2rem; border: 1px solid var(--border);
-  transition: var(--transition);
+  padding: 2rem 2.25rem; border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow-md);
 }
-.give-payment-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(99,16,154,0.1);
-  border-color: var(--purple-200);
-}
-.give-payment-card-header {
+.give-payment-unified-title {
   display: flex; align-items: center; gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.2rem; font-weight: 800; margin: 0 0 1.75rem;
+  color: var(--gray-900);
 }
-.give-payment-card-header svg { color: var(--primary); }
-.give-payment-card-header h3 { margin: 0; font-size: 1.15rem; }
-.give-payment-card-text {
-  color: var(--gray-600); line-height: 1.7; font-size: 0.95rem;
+.give-payment-unified-title svg { color: var(--primary); }
+
+.give-payment-method {
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.give-payment-method-icon {
+  width: 42px; height: 42px; border-radius: var(--radius-lg);
+  background: var(--purple-50); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.give-payment-method-body h4 {
+  margin: 0 0 0.25rem; font-size: 1rem; font-weight: 700;
+  color: var(--gray-900);
+}
+.give-payment-method-body p {
+  margin: 0 0 0.35rem; font-size: 0.88rem; color: var(--gray-500);
+  line-height: 1.5;
 }
 .give-payment-number {
-  color: var(--primary); font-family: var(--font-mono);
-  font-size: 1.05rem;
+  display: block; color: var(--primary); font-family: var(--font-mono);
+  font-size: 1.1rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.give-payment-acct-name {
+  display: block; font-size: 0.82rem; color: var(--gray-500);
+  margin-top: 0.15rem;
 }
 .give-payment-email {
-  color: var(--primary); font-size: 0.95rem;
+  color: var(--primary); font-size: 0.95rem; font-weight: 600;
+  text-decoration: none;
+}
+.give-payment-email:hover { text-decoration: underline; }
+
+.give-payment-divider {
+  height: 1px; background: var(--gray-200);
+  margin: 1.5rem 0;
 }
 
 /* ── Payment hint ── */
@@ -6540,18 +6587,19 @@ html.dark .give-scripture-card {
 html.dark .give-scripture-text { color: var(--purple-300); }
 html.dark .give-scripture-ref { color: rgba(255,255,255,0.5); }
 
-html.dark .give-payment-card {
+html.dark .give-payment-unified {
   background: #1a1a1a; border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
-html.dark .give-payment-card:hover {
-  border-color: rgba(168,62,245,0.3);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-}
-html.dark .give-payment-card-header h3 { color: #f0f0f0; }
-html.dark .give-payment-card-header svg { color: var(--purple-400); }
-html.dark .give-payment-card-text { color: var(--text-light); }
+html.dark .give-payment-unified-title { color: #f0f0f0; }
+html.dark .give-payment-unified-title svg { color: var(--purple-400); }
+html.dark .give-payment-method-icon { background: rgba(168,62,245,0.12); color: var(--purple-400); }
+html.dark .give-payment-method-body h4 { color: #f0f0f0; }
+html.dark .give-payment-method-body p { color: var(--text-light); }
 html.dark .give-payment-number { color: var(--gold-400); }
+html.dark .give-payment-acct-name { color: var(--text-light); }
 html.dark .give-payment-email { color: var(--purple-300); }
+html.dark .give-payment-divider { background: rgba(255,255,255,0.08); }
 
 html.dark .give-payment-hint {
   background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.12);
@@ -6885,6 +6933,24 @@ html.dark .about-core-pill {
   font-size: 0.7rem;
 }
 
+/* Audio-mode mini player */
+.mini-player-audio-visual {
+  position: relative;
+  background: #000;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+.mini-player-audio-visual img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  filter: brightness(0.45);
+}
+.mini-player-audio-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.mini-player--audio .mini-player-pip-close { opacity: 1; }
+
 @keyframes miniPlayerPipIn {
   from { transform: translateY(24px) scale(0.92); opacity: 0; }
   to   { transform: translateY(0) scale(1); opacity: 1; }
@@ -7040,4 +7106,100 @@ html.dark .ptv-card--skeleton .ptv-card-thumb { background: rgba(255,255,255,0.0
   .mini-player--pip { animation: none !important; }
   .mini-player-video { transition: none !important; }
   .song-audio-bars span { animation: none !important; transform: scaleY(0.7); }
+}
+
+/* ===================== */
+/* LIVE SERVICE BANNER   */
+/* ===================== */
+.live-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
+  height: 44px; overflow: hidden;
+  background: linear-gradient(90deg, #1a0a2e 0%, #2d1150 50%, #1a0a2e 100%);
+  border-bottom: 1px solid rgba(168,62,245,0.3);
+  transform: translateY(-100%);
+  transition: transform 0.4s var(--ease-spring);
+}
+.live-banner--visible { transform: translateY(0); }
+
+.live-banner-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--container-max); margin: 0 auto;
+  padding: 0 1.5rem; height: 100%;
+}
+
+.live-banner-left {
+  display: flex; align-items: center; gap: 0.6rem;
+  min-width: 0; /* allow text truncation */
+}
+
+.live-banner-pulse {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  background: #ef4444;
+  box-shadow: 0 0 8px rgba(239,68,68,0.8);
+  animation: live-banner-blink 1.2s ease-in-out infinite;
+}
+@keyframes live-banner-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.live-banner-badge {
+  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #ef4444; background: rgba(239,68,68,0.15);
+  padding: 0.15rem 0.55rem; border-radius: var(--radius-full);
+  flex-shrink: 0; line-height: 1.4;
+}
+
+.live-banner-name {
+  font-size: 0.82rem; font-weight: 600; color: #f0f0f0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.live-banner-right {
+  display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0;
+}
+
+.live-banner-cta {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.75rem; font-weight: 700; text-decoration: none;
+  color: #fff; background: var(--purple-600);
+  padding: 0.3rem 0.85rem; border-radius: var(--radius-full);
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.live-banner-cta:hover { background: var(--purple-500); transform: scale(1.04); }
+
+.live-banner-close {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: var(--radius-full);
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.5); transition: var(--transition-fast);
+}
+.live-banner-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+/* Push navbar down when banner is visible */
+body.has-live-banner .navbar { top: 44px; }
+
+/* ── Dark mode ── */
+html.dark .live-banner {
+  background: linear-gradient(90deg, #0d0514 0%, #1a0a2e 50%, #0d0514 100%);
+  border-bottom-color: rgba(168,62,245,0.2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .live-banner { height: 40px; }
+  .live-banner-inner { padding: 0 0.75rem; }
+  .live-banner-badge { font-size: 0.58rem; padding: 0.12rem 0.4rem; }
+  .live-banner-name { font-size: 0.72rem; }
+  .live-banner-cta { font-size: 0.68rem; padding: 0.25rem 0.65rem; }
+  body.has-live-banner .navbar { top: 40px; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .live-banner { transition: none !important; }
+  .live-banner-pulse { animation: none !important; }
+  .live-banner-cta { transition: none !important; transform: none !important; }
 }
