@@ -3,7 +3,7 @@ import { Search, Play, X, ChevronDown, Tv, Calendar } from "lucide-react";
 import { usePromiseTVVideos } from "../hooks/usePromiseTVVideos";
 import type { TVEpisode } from "../types";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 15;
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
