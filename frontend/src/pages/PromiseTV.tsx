@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Play, X, ChevronDown, Tv, Calendar } from "lucide-react";
 import { usePromiseTVVideos } from "../hooks/usePromiseTVVideos";
+import { usePlayer } from "../hooks/usePlayer";
 import type { TVEpisode } from "../types";
 
 const PAGE_SIZE = 15;
@@ -15,6 +16,7 @@ function formatDate(dateStr: string) {
 
 export default function PromiseTV() {
   const { episodes, loading, loadMore, hasMore: apiHasMore, loadingMore } = usePromiseTVVideos();
+  const { play, stop, setInlineActive } = usePlayer();
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [inlineVideoId, setInlineVideoId] = useState<string | null>(null);
@@ -33,7 +35,26 @@ export default function PromiseTV() {
 
   function playEpisode(ep: TVEpisode) {
     setInlineVideoId(ep.videoId);
+    play({
+      id: ep.id,
+      title: ep.title,
+      subtitle: "The Vicar's Wife",
+      videoId: ep.videoId,
+      thumbnail: ep.thumbnail,
+      thumbnailHigh: ep.thumbnailHigh,
+      mode: "video",
+    });
   }
+
+  // Sync inlineActive flag with inline video state
+  useEffect(() => {
+    setInlineActive(inlineVideoId !== null);
+  }, [inlineVideoId, setInlineActive]);
+
+  // On unmount: clear inlineActive so MiniPlayer takes over
+  useEffect(() => {
+    return () => setInlineActive(false);
+  }, [setInlineActive]);
 
   return (
     <>
@@ -77,7 +98,7 @@ export default function PromiseTV() {
                     />
                     <button
                       className="sermon-inline-close"
-                      onClick={() => setInlineVideoId(null)}
+                      onClick={() => { setInlineVideoId(null); stop(); }}
                       aria-label="Close video"
                     >
                       <X size={16} />
@@ -197,7 +218,7 @@ export default function PromiseTV() {
                             />
                             <button
                               className="sermon-inline-close"
-                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); }}
+                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); stop(); }}
                               aria-label="Close video"
                             >
                               <X size={16} />

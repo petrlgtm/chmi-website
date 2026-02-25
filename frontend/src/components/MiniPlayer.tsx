@@ -1,27 +1,72 @@
+import { useEffect } from "react";
 import { ChevronUp, ChevronDown, X, Video, Headphones } from "lucide-react";
 import { usePlayer } from "../hooks/usePlayer";
 
 export default function MiniPlayer() {
-  const { currentItem, isExpanded, stop, toggleExpanded } = usePlayer();
+  const { currentItem, isExpanded, inlineActive, stop, toggleExpanded } = usePlayer();
+
+  const showPip = currentItem?.mode === "video" && !inlineActive;
+
+  useEffect(() => {
+    if (showPip) {
+      document.body.classList.add("has-mini-player--pip");
+    } else {
+      document.body.classList.remove("has-mini-player--pip");
+    }
+    return () => document.body.classList.remove("has-mini-player--pip");
+  }, [showPip]);
 
   if (!currentItem) return null;
 
+  // YouTube-style floating PiP for video mode
+  if (showPip) {
+    return (
+      <div className="mini-player mini-player--pip" role="region" aria-label="Media player">
+        <div className="mini-player-pip-video">
+          <iframe
+            key={currentItem.videoId}
+            src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
+            title={currentItem.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          <button
+            className="mini-player-pip-close"
+            onClick={stop}
+            aria-label="Close player"
+          >
+            <X size={18} />
+          </button>
+        </div>
+        <div className="mini-player-pip-info">
+          <div className="mini-player-info">
+            <span className="mini-player-title">{currentItem.title}</span>
+            <span className="mini-player-artist">
+              <Video size={11} /> {currentItem.subtitle}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Full-width bottom bar for audio or when inline video is active on-page
   const isAudio = currentItem.mode === "audio";
 
   return (
     <div className="mini-player" role="region" aria-label="Media player">
-      {/* Expandable video */}
-      <div className={`mini-player-video${isExpanded ? " mini-player-video--open" : ""}`}>
-        <iframe
-          key={currentItem.videoId}
-          src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
-          title={currentItem.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
+      {!inlineActive && (
+        <div className={`mini-player-video${isExpanded ? " mini-player-video--open" : ""}`}>
+          <iframe
+            key={currentItem.videoId}
+            src={`https://www.youtube.com/embed/${currentItem.videoId}?autoplay=1`}
+            title={currentItem.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      )}
 
-      {/* Bottom bar */}
       <div className="mini-player-bar">
         <img
           className="mini-player-thumb"

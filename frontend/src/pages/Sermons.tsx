@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Play, X, ExternalLink, ChevronDown, Headphones, Video, Mic } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
 import { useHeroStyle } from "../context/SiteImagesContext";
@@ -38,7 +38,7 @@ function formatDate(dateStr: string) {
 export default function Sermons() {
   const heroStyle = useHeroStyle("heroSermons");
   const { sermons, loading, error, loadMore, hasMore: apiHasMore, loadingMore } = useYouTubeVideos();
-  const { currentItem, play } = usePlayer();
+  const { currentItem, play, stop, setInlineActive } = usePlayer();
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [mediaMode, setMediaMode] = useState<"video" | "audio">("video");
@@ -80,6 +80,15 @@ export default function Sermons() {
     const m = mode ?? mediaMode;
     if (m === "video") {
       setInlineVideoId(sermon.videoId);
+      play({
+        id: sermon.id,
+        title: sermon.title,
+        subtitle: sermon.preacher,
+        videoId: sermon.videoId,
+        thumbnail: sermon.thumbnail,
+        thumbnailHigh: sermon.thumbnailHigh,
+        mode: "video",
+      });
       return;
     }
     setInlineVideoId(null);
@@ -93,6 +102,16 @@ export default function Sermons() {
       mode: "audio",
     });
   }
+
+  // Sync inlineActive flag with inline video state
+  useEffect(() => {
+    setInlineActive(inlineVideoId !== null);
+  }, [inlineVideoId, setInlineActive]);
+
+  // On unmount: clear inlineActive so MiniPlayer takes over
+  useEffect(() => {
+    return () => setInlineActive(false);
+  }, [setInlineActive]);
 
   function resetFilters() {
     setSearch("");
@@ -143,7 +162,7 @@ export default function Sermons() {
                     />
                     <button
                       className="sermon-inline-close"
-                      onClick={() => setInlineVideoId(null)}
+                      onClick={() => { setInlineVideoId(null); stop(); }}
                       aria-label="Close video"
                     >
                       <X size={16} />
@@ -357,7 +376,7 @@ export default function Sermons() {
                             />
                             <button
                               className="sermon-inline-close"
-                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); }}
+                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); stop(); }}
                               aria-label="Close video"
                             >
                               <X size={16} />
