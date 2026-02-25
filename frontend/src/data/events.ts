@@ -11,32 +11,6 @@ const fb = (category: string) => {
 export const events: ChurchEvent[] = [
   // ── JANUARY ──────────────────────────────────────────────────────
   {
-    id: "teens-ministry-anniversary",
-    name: "Teens Ministry Anniversary",
-    date: "11th January 2026",
-    time: "9:00 AM – 4:00 PM",
-    location: "Christ's Heart Kampala",
-    description:
-      "A vibrant celebration honouring the Teens Ministry of Christ's Heart Ministries International. Young people from all branches come together for an electrifying day of worship, dance, spoken word, and testimonies. Featuring guest youth speakers, mentorship sessions, and powerful ministry time dedicated to raising a generation bold in faith and purpose.",
-    image: fb("Youth"),
-    tagline: "Raising a Generation Bold in Faith.",
-    category: "Youth",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-uk",
-    name: "Anniversary CHMI UK",
-    date: "18th January 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart UK",
-    description:
-      "Celebrating the faithfulness of God over the UK branch of Christ's Heart Ministries International. A special anniversary service featuring worship, testimonies, and a powerful word from the leadership. Members and friends gather to mark another year of God's grace in the diaspora.",
-    image: fb("Branch Anniversary"),
-    tagline: "God's Grace Across the Nations.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "mukono-overnight-jan",
     name: "Mukono Overnight",
     date: "31st January 2026",
@@ -52,19 +26,6 @@ export const events: ChurchEvent[] = [
 
   // ── FEBRUARY ─────────────────────────────────────────────────────
   {
-    id: "anniversary-chmi-lugazi-kira",
-    name: "Anniversary CHMI Lugazi & Kira",
-    date: "8th February 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Lugazi & Kira",
-    description:
-      "A joint celebration of the Lugazi and Kira branches as they mark another year of God's faithfulness. Special services at both locations with worship, testimonies, and preaching. A day to celebrate what God has done and decree what He is about to do in these communities.",
-    image: fb("Branch Anniversary"),
-    tagline: "Two Branches, One God, One Celebration.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "breaking-the-fast",
     name: "Breaking the Fast",
     date: "10th February 2026",
@@ -75,19 +36,6 @@ export const events: ChurchEvent[] = [
     image: fb("Special Service"),
     tagline: "The Fast Is Over. The Breakthrough Is Here.",
     category: "Special Service",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-mayuge",
-    name: "Anniversary CHMI Mayuge",
-    date: "15th February 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Mayuge",
-    description:
-      "Celebrating the Mayuge branch of Christ's Heart Ministries as they commemorate another year of growth, miracles, and kingdom advancement. A day of worship, thanksgiving, and prophetic declarations over the Mayuge community.",
-    image: fb("Branch Anniversary"),
-    tagline: "Mayuge Celebrates God's Faithfulness.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -114,19 +62,6 @@ export const events: ChurchEvent[] = [
     image: fb("Guest Speaker"),
     tagline: "A Word From Heaven. A Shift in Your Season.",
     category: "Guest Speaker",
-    isMajor: true,
-  },
-  {
-    id: "anniversary-chmi-mityana-kagoma",
-    name: "Anniversary CHMI Mityana & Kagoma",
-    date: "22nd February 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Mityana & Kagoma",
-    description:
-      "A joyous joint anniversary celebration for the Mityana and Kagoma branches. Believers from both communities gather to give God praise for His sustaining grace and to look ahead with faith. Featuring worship, shared testimonies, and an anointed word from leadership.",
-    image: fb("Branch Anniversary"),
-    tagline: "Together in Faith, Together in Celebration.",
-    category: "Branch Anniversary",
     isMajor: true,
   },
   {
@@ -171,19 +106,6 @@ export const events: ChurchEvent[] = [
 
   // ── MARCH ────────────────────────────────────────────────────────
   {
-    id: "anniversary-chmi-soroti",
-    name: "Anniversary CHMI Soroti",
-    date: "3rd March 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Soroti",
-    description:
-      "Celebrating the Soroti branch as it marks another year of gospel impact in the Teso region. A day filled with worship, powerful testimonies, and a celebratory message from leadership. The Soroti community comes together to honour God for His faithfulness.",
-    image: fb("Branch Anniversary"),
-    tagline: "Soroti Rises in Praise.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-kyebando-mar",
     name: "Interbranch Overnight Kyebando",
     date: "13th March 2026",
@@ -210,45 +132,6 @@ export const events: ChurchEvent[] = [
     isMajor: true,
   },
   {
-    id: "anniversary-chmi-entebbe",
-    name: "Anniversary CHMI Entebbe",
-    date: "15th March 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Entebbe",
-    description:
-      "The Entebbe branch celebrates another year of God's goodness. A special anniversary service with worship, testimonies of transformation, and a powerful word to set the tone for the year ahead. The lakeside community gathers to glorify God for every victory.",
-    image: fb("Branch Anniversary"),
-    tagline: "Entebbe Celebrates God's Goodness.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-mubende",
-    name: "Anniversary CHMI Mubende",
-    date: "22nd March 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Mubende",
-    description:
-      "Celebrating the Mubende branch's growth and impact in the community. A day of worship, thanksgiving, and prophetic declarations as the church honours God's faithfulness and looks ahead with expectation.",
-    image: fb("Branch Anniversary"),
-    tagline: "Mubende Stands in Faith.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-hoima",
-    name: "Anniversary CHMI Hoima",
-    date: "26th March 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Hoima",
-    description:
-      "The Hoima branch marks another year of God's grace with a powerful anniversary service. Believers gather to celebrate testimonies of healing, provision, and spiritual growth. A day of gratitude and fresh vision for the Hoima community.",
-    image: fb("Branch Anniversary"),
-    tagline: "Hoima Honours God's Grace.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "virtuous-woman-run",
     name: "Virtuous Woman Run",
     date: "28th March 2026",
@@ -260,19 +143,6 @@ export const events: ChurchEvent[] = [
     tagline: "Run With Purpose. Walk in Strength.",
     category: "Women's Ministry",
     isMajor: true,
-  },
-  {
-    id: "anniversary-chmi-mbale",
-    name: "Anniversary CHMI Mbale",
-    date: "29th March 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Mbale",
-    description:
-      "The Mbale branch celebrates God's faithfulness with a special anniversary service. Worship, testimonies, and a powerful word mark this joyous occasion as the eastern Uganda community gives God all the glory.",
-    image: fb("Branch Anniversary"),
-    tagline: "Mbale Declares God's Faithfulness.",
-    category: "Branch Anniversary",
-    isMajor: false,
   },
   {
     id: "mukono-overnight-mar",
@@ -289,19 +159,6 @@ export const events: ChurchEvent[] = [
   },
 
   // ── APRIL ────────────────────────────────────────────────────────
-  {
-    id: "anniversary-chmi-butaleja",
-    name: "Anniversary CHMI Butaleja",
-    date: "2nd April 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Butaleja",
-    description:
-      "Celebrating the Butaleja branch as it marks another year of gospel impact. A special anniversary service filled with worship, heartfelt testimonies, and a word from leadership. The Butaleja community gathers to honour God's sustaining grace.",
-    image: fb("Branch Anniversary"),
-    tagline: "Butaleja Celebrates Another Year.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
   {
     id: "easter-celebration",
     name: "Easter Celebration",
@@ -326,19 +183,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "United in Prayer Through the Night.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kabale",
-    name: "Anniversary CHMI Kabale",
-    date: "26th April 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kabale",
-    description:
-      "The Kabale branch celebrates another milestone year with a special anniversary service. Nestled in the hills of south-western Uganda, this community gathers to worship, testify, and receive a fresh word from God for the season ahead.",
-    image: fb("Branch Anniversary"),
-    tagline: "Kabale Rises in Worship.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -396,19 +240,6 @@ export const events: ChurchEvent[] = [
     isMajor: false,
   },
   {
-    id: "anniversary-chmi-nansana",
-    name: "Anniversary CHMI Nansana",
-    date: "17th May 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Nansana",
-    description:
-      "The Nansana branch celebrates its anniversary with a day of praise, thanksgiving, and powerful ministry. A growing community that has seen God's hand at work — this celebration honours every testimony and every victory experienced in this branch.",
-    image: fb("Branch Anniversary"),
-    tagline: "Nansana Celebrates God's Hand at Work.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "mukono-overnight-may",
     name: "Mukono Overnight",
     date: "30th May 2026",
@@ -423,32 +254,6 @@ export const events: ChurchEvent[] = [
   },
 
   // ── JUNE ─────────────────────────────────────────────────────────
-  {
-    id: "anniversary-chmi-bweyale",
-    name: "Anniversary CHMI Bweyale",
-    date: "1st June 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Bweyale",
-    description:
-      "Celebrating the Bweyale branch's anniversary with a special service of worship, testimonies, and a powerful word. The Bweyale community comes together to honour God for every breakthrough and every soul added to the kingdom through this branch.",
-    image: fb("Branch Anniversary"),
-    tagline: "Bweyale Glorifies God.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "chmi-anniversary",
-    name: "CHMI 19th Anniversary & Gerenge Prayer Camp",
-    date: "5th–7th June 2026",
-    time: "All Day",
-    location: "Gerenge, Uganda",
-    description:
-      "A landmark three-day celebration marking 19 years of Christ's Heart Ministries International. Combined with our powerful Gerenge Prayer Camp, this gathering unites believers from all branches in worship, thanksgiving, and intercession. Expect powerful testimonies, prophetic ministry, and a fresh outpouring as we celebrate God's faithfulness.",
-    image: fb("Anniversary"),
-    tagline: "19 Years of Apostolic Grace. The Best Is Yet to Come.",
-    category: "Anniversary",
-    isMajor: true,
-  },
   {
     id: "pastor-team-build",
     name: "Pastor Team Build",
@@ -476,19 +281,6 @@ export const events: ChurchEvent[] = [
     isMajor: false,
   },
   {
-    id: "anniversary-chmi-iganga",
-    name: "Anniversary CHMI Iganga",
-    date: "28th June 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Iganga",
-    description:
-      "The Iganga branch celebrates its anniversary with praise, worship, and a powerful word. A day to reflect on God's goodness in the Iganga community and to declare His purposes for the season ahead.",
-    image: fb("Branch Anniversary"),
-    tagline: "Iganga Declares God's Purposes.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "mukono-overnight-jun",
     name: "Mukono Overnight",
     date: "27th June 2026",
@@ -504,32 +296,6 @@ export const events: ChurchEvent[] = [
 
   // ── JULY ─────────────────────────────────────────────────────────
   {
-    id: "anniversary-chmi-mbarara",
-    name: "Anniversary CHMI Mbarara",
-    date: "4th July 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Mbarara",
-    description:
-      "Celebrating the Mbarara branch as it marks another year of kingdom expansion in western Uganda. A day of worship, testimonies of God's power, and a fresh prophetic word for the Mbarara community.",
-    image: fb("Branch Anniversary"),
-    tagline: "Mbarara Celebrates Kingdom Expansion.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kampala",
-    name: "Anniversary CHMI Kampala",
-    date: "5th July 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kampala",
-    description:
-      "The headquarters branch — Christ's Heart Kampala — celebrates its anniversary with a grand service of worship, powerful testimonies, and a prophetic word for the flagship community. As the mother church, this celebration carries a special weight and draws believers from across the network.",
-    image: fb("Branch Anniversary"),
-    tagline: "The Mother Church Celebrates.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-nansana-jul",
     name: "Interbranch Overnight Nansana",
     date: "10th July 2026",
@@ -540,19 +306,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "United in Prayer Through the Night.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-zambia",
-    name: "Anniversary CHMI Zambia",
-    date: "14th July 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Zambia",
-    description:
-      "Celebrating the Zambia branch of Christ's Heart Ministries International. A cross-border celebration of God's faithfulness as the Zambian community marks another year of growth, ministry, and kingdom impact in southern Africa.",
-    image: fb("Branch Anniversary"),
-    tagline: "Beyond Borders. God's Grace in Zambia.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -597,19 +350,6 @@ export const events: ChurchEvent[] = [
     isMajor: true,
   },
   {
-    id: "anniversary-chmi-luweero",
-    name: "Anniversary CHMI Luweero",
-    date: "2nd August 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Luweero",
-    description:
-      "The Luweero branch celebrates its anniversary with a special service of praise and thanksgiving. A community known for resilience and faith gathers to honour God's sustaining grace and to prophesy into the next chapter of their journey.",
-    image: fb("Branch Anniversary"),
-    tagline: "Luweero Stands Strong in Grace.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-kisaasi-aug",
     name: "Interbranch Overnight Kisaasi",
     date: "14th August 2026",
@@ -620,32 +360,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "Branches Unite. Heaven Responds.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kyetume",
-    name: "Anniversary CHMI Kyetume",
-    date: "23rd August 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kyetume",
-    description:
-      "Celebrating the Kyetume branch's anniversary with a powerful day of worship, testimonies, and prophetic declarations. The community gathers to celebrate God's faithfulness and to receive fresh vision for the season ahead.",
-    image: fb("Branch Anniversary"),
-    tagline: "Kyetume Celebrates in Faith.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-lira-biso",
-    name: "Anniversary CHMI Lira & Biso",
-    date: "29th August 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Lira & Biso",
-    description:
-      "A joint anniversary celebration for the Lira and Biso branches in northern Uganda. Two communities united in purpose gather to celebrate another year of God's grace, share testimonies, and receive a prophetic word for the next season.",
-    image: fb("Branch Anniversary"),
-    tagline: "Northern Uganda Celebrates God's Grace.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -677,19 +391,6 @@ export const events: ChurchEvent[] = [
     isMajor: true,
   },
   {
-    id: "anniversary-chmi-kyebando",
-    name: "Anniversary CHMI Kyebando",
-    date: "6th September 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kyebando",
-    description:
-      "The Kyebando branch celebrates its anniversary — one of the key branches in the Kampala network. A day of vibrant worship, powerful testimonies, and a prophetic word as this thriving community marks another year of God's faithfulness.",
-    image: fb("Branch Anniversary"),
-    tagline: "Kyebando Thrives in God's Faithfulness.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-kyebando-sep",
     name: "Interbranch Overnight Kyebando",
     date: "11th September 2026",
@@ -700,32 +401,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "Many Branches. One Fire.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-canada",
-    name: "Anniversary CHMI Canada",
-    date: "18th September 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Canada",
-    description:
-      "Celebrating the Canada branch of Christ's Heart Ministries International. A cross-continental celebration of God's faithfulness as the Canadian community marks another year of growth, ministry, and kingdom impact in North America.",
-    image: fb("Branch Anniversary"),
-    tagline: "From Africa to the Americas. God's Grace Knows No Border.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kalagi",
-    name: "Anniversary CHMI Kalagi",
-    date: "20th September 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kalagi",
-    description:
-      "The Kalagi branch celebrates its anniversary with worship, testimonies, and a powerful word. A growing community that continues to see God move in remarkable ways gathers to celebrate and prophesy into the future.",
-    image: fb("Branch Anniversary"),
-    tagline: "Kalagi Grows in God's Purpose.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -740,19 +415,6 @@ export const events: ChurchEvent[] = [
     tagline: "Honouring Those Who Shepherd Us.",
     category: "Leadership",
     isMajor: true,
-  },
-  {
-    id: "anniversary-chmi-banda",
-    name: "Anniversary CHMI Banda",
-    date: "29th September 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Banda",
-    description:
-      "Celebrating the Banda branch as it marks another year of gospel impact in the Banda community. A day filled with worship, heartfelt testimonies, and a celebratory message from leadership.",
-    image: fb("Branch Anniversary"),
-    tagline: "Banda Celebrates God's Impact.",
-    category: "Branch Anniversary",
-    isMajor: false,
   },
   {
     id: "mukono-overnight-sep",
@@ -770,19 +432,6 @@ export const events: ChurchEvent[] = [
 
   // ── OCTOBER ──────────────────────────────────────────────────────
   {
-    id: "anniversary-chmi-makerere",
-    name: "Anniversary CHMI Makerere",
-    date: "4th October 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Makerere",
-    description:
-      "The Makerere branch — located at Uganda's flagship university — celebrates its anniversary. A vibrant gathering of students and community members worshipping, testifying, and receiving a word of direction for the academic and spiritual season.",
-    image: fb("Branch Anniversary"),
-    tagline: "The Campus Church Celebrates.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-makerere-oct",
     name: "Interbranch Overnight Makerere",
     date: "9th October 2026",
@@ -793,58 +442,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "The Campus Burns With Prayer.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-jinja",
-    name: "Anniversary CHMI Jinja",
-    date: "11th October 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Jinja",
-    description:
-      "Celebrating the Jinja branch at the source of the Nile. A special anniversary service with worship, testimonies, and a prophetic word. The Jinja community gathers to honour God for the mighty things He has done in this city.",
-    image: fb("Branch Anniversary"),
-    tagline: "Jinja Flows With God's Power.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kisoro",
-    name: "Anniversary CHMI Kisoro",
-    date: "17th October 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kisoro",
-    description:
-      "The Kisoro branch in the far south-west of Uganda celebrates its anniversary. Nestled near the borders of Congo and Rwanda, this community is a testament to the gospel reaching the furthest corners. A day of worship, celebration, and prophetic vision.",
-    image: fb("Branch Anniversary"),
-    tagline: "To the Ends of the Earth. Kisoro Praises.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-bugolobi",
-    name: "Anniversary CHMI Bugolobi",
-    date: "25th October 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Bugolobi",
-    description:
-      "Celebrating the Bugolobi branch in the heart of Kampala. A special anniversary service filled with worship, powerful testimonies, and a word from leadership. The Bugolobi community is known for its vibrant worship and strong fellowship.",
-    image: fb("Branch Anniversary"),
-    tagline: "Bugolobi Worships With Passion.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-ishaka",
-    name: "Anniversary CHMI Ishaka",
-    date: "28th October 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Ishaka",
-    description:
-      "The Ishaka branch celebrates its anniversary with a powerful service of worship and thanksgiving. A community in western Uganda that continues to grow and impact lives through the gospel of Jesus Christ.",
-    image: fb("Branch Anniversary"),
-    tagline: "Ishaka Grows in Grace.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {
@@ -862,32 +459,6 @@ export const events: ChurchEvent[] = [
   },
 
   // ── NOVEMBER ─────────────────────────────────────────────────────
-  {
-    id: "anniversary-chmi-nairobi",
-    name: "Anniversary CHMI Nairobi",
-    date: "1st November 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Nairobi, Kenya",
-    description:
-      "Celebrating the Nairobi branch of Christ's Heart Ministries in Kenya. A cross-border celebration of God's faithfulness as the Kenyan community marks another year of growth, ministry, and kingdom impact in East Africa's capital city.",
-    image: fb("Branch Anniversary"),
-    tagline: "Nairobi Stands Strong for the Gospel.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-kisaasi",
-    name: "Anniversary CHMI Kisaasi",
-    date: "8th November 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Kisaasi",
-    description:
-      "The Kisaasi branch celebrates its anniversary with a vibrant service of worship, testimonies, and a prophetic word. One of the key branches in the greater Kampala area, Kisaasi continues to be a centre of spiritual transformation.",
-    image: fb("Branch Anniversary"),
-    tagline: "Kisaasi Shines for Christ.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
   {
     id: "november-blessing",
     name: "November Blessing",
@@ -917,19 +488,6 @@ export const events: ChurchEvent[] = [
 
   // ── DECEMBER ─────────────────────────────────────────────────────
   {
-    id: "anniversary-chmi-buloba-fortportal",
-    name: "Anniversary CHMI Buloba & Fort Portal",
-    date: "6th December 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Buloba & Fort Portal",
-    description:
-      "A joint anniversary celebration for the Buloba and Fort Portal branches. Two communities — one in greater Kampala and one in the western mountains — united in faith, celebrating God's faithfulness with worship, testimonies, and a powerful word.",
-    image: fb("Branch Anniversary"),
-    tagline: "Two Branches, One Celebration of Grace.",
-    category: "Branch Anniversary",
-    isMajor: false,
-  },
-  {
     id: "interbranch-overnight-kyebando-dec",
     name: "Interbranch Overnight Kyebando",
     date: "11th December 2026",
@@ -940,19 +498,6 @@ export const events: ChurchEvent[] = [
     image: fb("Interbranch Overnight"),
     tagline: "Ending the Year in Prayer.",
     category: "Interbranch Overnight",
-    isMajor: false,
-  },
-  {
-    id: "anniversary-chmi-gulu",
-    name: "Anniversary CHMI Gulu",
-    date: "13th December 2026",
-    time: "10:00 AM – 3:00 PM",
-    location: "Christ's Heart Gulu",
-    description:
-      "The Gulu branch in northern Uganda celebrates its anniversary. A community that has risen from the ashes of conflict to become a beacon of hope and faith. This anniversary is a powerful testament to God's redemptive power.",
-    image: fb("Branch Anniversary"),
-    tagline: "Gulu Rises. Hope Prevails.",
-    category: "Branch Anniversary",
     isMajor: false,
   },
   {

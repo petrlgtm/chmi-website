@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Clock, MapPin, ArrowRight, Calendar, Sparkles, Tag, Download, Star, Filter } from "lucide-react";
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useHeroStyle } from "../context/SiteImagesContext";
+import { useNow } from "../hooks/useNow";
 import { getUpcomingEvents, getCountdownText, parseEventDate } from "../utils/eventDate";
 import { ALL_IMAGES } from "../utils/imageFallbacks";
 import type { ChurchEvent } from "../types";
@@ -15,7 +16,6 @@ const MONTHS = [
 const CATEGORIES = [
   "All Categories",
   "Major Events",
-  "Branch Anniversary",
   "Interbranch Overnight",
   "Prayer Night",
   "Conference",
@@ -29,7 +29,6 @@ const CATEGORIES = [
   "Leadership",
   "Special Service",
   "Celebration",
-  "Anniversary",
 ];
 
 function formatICSDate(d: Date): string {
@@ -87,7 +86,9 @@ function downloadCalendar(events: ChurchEvent[]) {
 
 export default function Events() {
   const { data: events } = useSanityEvents();
-  const allUpcoming = useMemo(() => getUpcomingEvents(events), [events]);
+  const now = useNow(); // ticks every 60 s so elapsed events disappear
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `now` triggers periodic re-evaluation
+  const allUpcoming = useMemo(() => getUpcomingEvents(events), [events, now]);
   const [selectedMonth, setSelectedMonth] = useState("All Months");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const heroStyle = useHeroStyle("heroEvents");

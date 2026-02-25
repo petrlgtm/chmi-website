@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MapPin, Users, BookOpen, Clock, Headphones,
@@ -9,6 +9,7 @@ import { usePromiseTVVideos } from "../hooks/usePromiseTVVideos";
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useSanityLeadership } from "../hooks/useSanityLeadership";
 import { getUpcomingEvents, getCountdownText } from "../utils/eventDate";
+import { useNow } from "../hooks/useNow";
 import { IMAGES, ALL_IMAGES } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useCursorGlow } from "../hooks/useCursorGlow";
@@ -138,7 +139,9 @@ export default function Home() {
     return () => { document.head.removeChild(link); };
   }, [heroHomeBg]);
 
-  const upcomingEvents = getUpcomingEvents(events);
+  const now = useNow(); // ticks every 60 s so elapsed events disappear
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- `now` triggers periodic re-evaluation
+  const upcomingEvents = useMemo(() => getUpcomingEvents(events), [events, now]);
 
   return (
     <>

@@ -11,7 +11,6 @@ const client = createClient({
 // Category name → Sanity _id mapping
 const CATEGORY_MAP = {
   "Youth": "eventCategory-youth",
-  "Branch Anniversary": "eventCategory-branch-anniversary",
   "Prayer Night": "eventCategory-prayer-night",
   "Special Service": "eventCategory-special-service",
   "Marriage & Family": "eventCategory-marriage-and-family",
@@ -21,7 +20,6 @@ const CATEGORY_MAP = {
   "Women's Conference": "eventCategory-womens-conference",
   "Conference": "eventCategory-conference",
   "Family": "eventCategory-family",
-  "Anniversary": "eventCategory-anniversary",
   "Leadership": "eventCategory-leadership",
   "Celebration": "eventCategory-celebration",
   "Men's Conference": "eventCategory-mens-conference",

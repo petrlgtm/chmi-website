@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, ExternalLink, Play, X, Music, ChevronDown, Search, Video, Headphones } from "lucide-react";
+import { BookOpen, ExternalLink, Play, X, Music, ChevronDown, Search, Video, Headphones, ShoppingCart, Sparkles } from "lucide-react";
 import { ALL_IMAGES, APOSTLE_ISAIAH } from "../utils/imageFallbacks";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { useHeroStyle } from "../context/SiteImagesContext";
@@ -166,24 +166,38 @@ export default function Resources() {
           </div>
 
           <div className="resource-grid animate-on-scroll" ref={booksRef}>
-            {resources.map((res) => (
-              <div key={res.id} className="resource-card">
+            {resources.map((res, idx) => (
+              <div key={res.id} className={`resource-card${idx === 0 ? " resource-card--featured" : ""}`}>
                 <div className="resource-card-image">
-                  <img src={res.image} alt={res.title} loading="lazy" />
+                  <div className="resource-book-cover">
+                    <img src={res.image} alt={res.title} loading="lazy" />
+                    <div className="resource-book-spine" aria-hidden="true" />
+                  </div>
                   <div className="resource-type-badge resource-type-badge--book">
-                    <BookOpen size={10} /> Book
+                    <Sparkles size={9} /> Limited Edition
                   </div>
                 </div>
                 <div className="resource-card-body">
+                  <div className="resource-card-eyebrow">
+                    <BookOpen size={11} />
+                    <span>Book</span>
+                  </div>
                   <h3 className="resource-card-title">{res.title}</h3>
                   <p className="resource-card-author">{res.author}</p>
                   <p className="resource-card-desc">
-                    {res.description.slice(0, 150)}{res.description.length > 150 ? "\u2026" : ""}
+                    {res.description.slice(0, idx === 0 ? 220 : 130)}{res.description.length > (idx === 0 ? 220 : 130) ? "\u2026" : ""}
                   </p>
-                  <p className="resource-card-price">{formatPrice(res.price)}</p>
-                  <button onClick={() => handleOrder(res.title)} className="btn btn-primary resource-download-btn">
-                    <BookOpen size={14} /> Order Now
-                  </button>
+                  <div className="resource-card-footer">
+                    <p className="resource-card-price">{formatPrice(res.price)}</p>
+                    <button
+                      onClick={() => handleOrder(res.title)}
+                      className="resource-order-btn"
+                      aria-label={`Order ${res.title}`}
+                    >
+                      <ShoppingCart size={15} />
+                      <span>Order Now</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

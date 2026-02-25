@@ -49,7 +49,7 @@ export function parseEventEndDate(dateStr: string): Date | null {
 
   // Match range pattern: "8th–10th", "8th-10th", "8–10", "28th May – 2nd June"
   const rangeMatch = dateStr.match(
-    /\b\d{1,2}(?:st|nd|rd|th)?\s*(?:\w+\s+)?\s*[–\-]\s*(\d{1,2})(?:st|nd|rd|th)?\s*(.*)/i,
+    /\b\d{1,2}(?:st|nd|rd|th)?\s*(?:\w+\s+)?\s*[–-]\s*(\d{1,2})(?:st|nd|rd|th)?\s*(.*)/i,
   );
 
   if (rangeMatch) {
@@ -109,7 +109,7 @@ function parseEventEndTime(
 ): { hour: number; minute: number } | null {
   // Match second time after a separator (–, -, to)
   const match = timeStr.match(
-    /\d{1,2}:\d{2}\s*(?:AM|PM)?\s*[–\-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)?/i,
+    /\d{1,2}:\d{2}\s*(?:AM|PM)?\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)?/i,
   );
   if (!match) return null;
 
@@ -123,16 +123,20 @@ function parseEventEndTime(
   return { hour, minute };
 }
 
-/** Check if event date is in the future (including the event's last day). */
+/** Check if event is still upcoming (uses end time for precision). */
 export function isUpcoming(event: ChurchEvent): boolean {
   const endDate = parseEventEndDate(event.date);
   if (!endDate) return false; // unparseable dates are excluded
-  // Event stays visible through end-of-day on its last day
+
+  // Use the event's actual end time if available, otherwise end-of-day
+  const endTime = parseEventEndTime(event.time);
   const eventEnd = new Date(
     endDate.getFullYear(),
     endDate.getMonth(),
     endDate.getDate(),
-    23, 59, 59,
+    endTime?.hour ?? 23,
+    endTime?.minute ?? 59,
+    endTime ? 0 : 59,
   );
   return eventEnd >= new Date();
 }

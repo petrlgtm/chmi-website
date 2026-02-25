@@ -40,7 +40,6 @@ export const IMAGES = {
   events: [
     ALL_IMAGES[1],   // 3.webp  — Marriage Flair
     ALL_IMAGES[3],   // 5.webp  — Virtuous Woman Conference
-    ALL_IMAGES[6],   // 8.webp  — CHMI 19th Anniversary
     ALL_IMAGES[7],   // 9.webp  — The Blend
     ALL_IMAGES[10],  // 12.webp — Babies Conference
     ALL_IMAGES[2],   // 4.webp  — Men of Action
@@ -167,8 +166,6 @@ export const UNSPLASH_EVENTS: Record<string, string[]> = {
 
 // Map event category strings → UNSPLASH_EVENTS keys
 const CATEGORY_KEY_MAP: Record<string, string> = {
-  "Branch Anniversary": "worship",
-  "Anniversary": "worship",
   "Special Service": "worship",
   "Prayer Night": "prayer",
   "Interbranch Overnight": "prayer",
