@@ -6864,13 +6864,32 @@ html.dark .about-core-pill {
 
 /* ── YouTube-style Picture-in-Picture floating player ── */
 .mini-player--pip {
-  bottom: 24px; right: 24px; left: auto;
+  left: auto; right: auto; top: auto; bottom: auto;
   width: 360px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.3);
   animation: miniPlayerPipIn 0.4s cubic-bezier(0.16,1,0.3,1);
+  transition: top 0.35s cubic-bezier(0.16,1,0.3,1),
+              bottom 0.35s cubic-bezier(0.16,1,0.3,1),
+              left 0.35s cubic-bezier(0.16,1,0.3,1),
+              right 0.35s cubic-bezier(0.16,1,0.3,1);
 }
+
+/* Corner positioning */
+.mini-player--pip-bottom-right { bottom: 24px; right: 24px; }
+.mini-player--pip-bottom-left  { bottom: 24px; left: 24px; }
+.mini-player--pip-top-right    { top: 24px; right: 24px; }
+.mini-player--pip-top-left     { top: 24px; left: 24px; }
+
+/* While dragging: free-position, no transitions */
+.mini-player--pip-dragging {
+  transition: none !important;
+  animation: none !important;
+  opacity: 0.9;
+  cursor: grabbing;
+}
+
 .mini-player-pip-video {
   position: relative;
   background: #000;
@@ -6879,6 +6898,12 @@ html.dark .about-core-pill {
   width: 100%; aspect-ratio: 16/9;
   border: none; display: block;
 }
+
+/* Transparent shield over iframe during drag to keep pointer events flowing */
+.mini-player-pip-drag-shield {
+  position: absolute; inset: 0; z-index: 3;
+}
+
 .mini-player-pip-close {
   position: absolute; top: 8px; right: 8px;
   width: 32px; height: 32px; border-radius: 50%;
@@ -6886,7 +6911,7 @@ html.dark .about-core-pill {
   display: flex; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.6); color: #fff;
   backdrop-filter: blur(4px);
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.2s, opacity 0.2s;
   z-index: 2;
   opacity: 0;
 }
@@ -6896,7 +6921,11 @@ html.dark .about-core-pill {
 
 .mini-player-pip-info {
   padding: 10px 14px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
 }
+.mini-player--pip-dragging .mini-player-pip-info { cursor: grabbing; }
 .mini-player-pip-info .mini-player-title {
   font-size: 0.82rem;
   display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
@@ -6964,8 +6993,12 @@ body.has-mini-player:not(.has-mini-player--pip) #main-content { padding-bottom: 
   body.has-mini-player:not(.has-mini-player--pip) .prayer-fab { transform: translateY(-56px); }
   body.has-mini-player:not(.has-mini-player--pip) .back-to-top { transform: translateY(-56px); }
 
-  /* PiP: smaller on mobile, anchored to bottom-right with safe margin */
-  .mini-player--pip { width: 260px; bottom: 16px; right: 12px; border-radius: 10px; }
+  /* PiP: smaller on mobile */
+  .mini-player--pip { width: 260px; border-radius: 10px; }
+  .mini-player--pip-bottom-right { bottom: 16px; right: 12px; }
+  .mini-player--pip-bottom-left  { bottom: 16px; left: 12px; }
+  .mini-player--pip-top-right    { top: 16px; right: 12px; }
+  .mini-player--pip-top-left     { top: 16px; left: 12px; }
   .mini-player-pip-close { opacity: 1; }
   .mini-player-pip-info { padding: 8px 10px; }
   .mini-player-pip-info .mini-player-title { font-size: 0.75rem; }
