@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Search, Play, X, ExternalLink, ChevronDown, Headphones, Video, Mic } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
 import { useHeroStyle } from "../context/SiteImagesContext";
@@ -38,7 +38,7 @@ function formatDate(dateStr: string) {
 export default function Sermons() {
   const heroStyle = useHeroStyle("heroSermons");
   const { sermons, loading, error, loadMore, hasMore: apiHasMore, loadingMore } = useYouTubeVideos();
-  const { currentItem, play, stop, setInlineActive } = usePlayer();
+  const { currentItem, play } = usePlayer();
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [mediaMode, setMediaMode] = useState<"video" | "audio">("video");
@@ -74,24 +74,8 @@ export default function Sermons() {
   const hasMore = visibleCount < filtered.length || apiHasMore;
   const featured = sermons[0];
 
-  const [inlineVideoId, setInlineVideoId] = useState<string | null>(null);
-
   function playSermon(sermon: Sermon, mode?: "video" | "audio") {
     const m = mode ?? mediaMode;
-    if (m === "video") {
-      setInlineVideoId(sermon.videoId);
-      play({
-        id: sermon.id,
-        title: sermon.title,
-        subtitle: sermon.preacher,
-        videoId: sermon.videoId,
-        thumbnail: sermon.thumbnail,
-        thumbnailHigh: sermon.thumbnailHigh,
-        mode: "video",
-      });
-      return;
-    }
-    setInlineVideoId(null);
     play({
       id: sermon.id,
       title: sermon.title,
@@ -99,19 +83,9 @@ export default function Sermons() {
       videoId: sermon.videoId,
       thumbnail: sermon.thumbnail,
       thumbnailHigh: sermon.thumbnailHigh,
-      mode: "audio",
+      mode: m,
     });
   }
-
-  // Sync inlineActive flag with inline video state
-  useEffect(() => {
-    setInlineActive(inlineVideoId !== null);
-  }, [inlineVideoId, setInlineActive]);
-
-  // On unmount: clear inlineActive so MiniPlayer takes over
-  useEffect(() => {
-    return () => setInlineActive(false);
-  }, [setInlineActive]);
 
   function resetFilters() {
     setSearch("");
@@ -151,43 +125,22 @@ export default function Sermons() {
             </div>
             <div className="sermon-featured">
               <div className="sermon-featured-visual">
-                {inlineVideoId === featured.videoId ? (
-                  <>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${featured.videoId}?autoplay=1`}
-                      title={featured.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none", borderRadius: "inherit" }}
-                    />
-                    <button
-                      className="sermon-inline-close"
-                      onClick={() => { setInlineVideoId(null); stop(); }}
-                      aria-label="Close video"
-                    >
-                      <X size={16} />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {currentItem?.id === featured.id && currentItem.mode === "audio" ? (
-                      <div className="song-now-playing-overlay" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
-                        <div className="song-audio-bars">
-                          <span /><span /><span /><span />
-                        </div>
-                        <span className="song-now-playing-label">Now Playing</span>
-                      </div>
-                    ) : null}
-                    <img src={featured.thumbnailHigh || featured.thumbnail} alt={featured.title} width={480} height={360} />
-                    <button
-                      className="sermon-featured-play"
-                      onClick={() => playSermon(featured)}
-                      aria-label="Play sermon"
-                    >
-                      <Play size={32} />
-                    </button>
-                  </>
-                )}
+                {currentItem?.id === featured.id && currentItem.mode === "audio" ? (
+                  <div className="song-now-playing-overlay" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
+                    <div className="song-audio-bars">
+                      <span /><span /><span /><span />
+                    </div>
+                    <span className="song-now-playing-label">Now Playing</span>
+                  </div>
+                ) : null}
+                <img src={featured.thumbnailHigh || featured.thumbnail} alt={featured.title} width={480} height={360} />
+                <button
+                  className="sermon-featured-play"
+                  onClick={() => playSermon(featured)}
+                  aria-label="Play sermon"
+                >
+                  <Play size={32} />
+                </button>
               </div>
               <div className="sermon-featured-content">
                 <span className="badge badge-gold">Latest</span>
@@ -203,7 +156,7 @@ export default function Sermons() {
                     style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem", width: "fit-content" }}
                     onClick={() => playSermon(featured, "video")}
                   >
-                    {inlineVideoId === featured.videoId ? (
+                    {currentItem?.id === featured.id && currentItem.mode === "video" ? (
                       <><Video size={16} /> Playing Video</>
                     ) : (
                       <><Video size={16} /> Watch Now</>
@@ -355,72 +308,52 @@ export default function Sermons() {
               ) : (
                 <div className="sermons-grid">
                   {displayedSermons.map((sermon) => {
-                    const isAudioPlaying = currentItem?.id === sermon.id && currentItem.mode === "audio";
-                    const isVideoInline = inlineVideoId === sermon.videoId;
+                    const isPlaying = currentItem?.id === sermon.id;
+                    const isAudioPlaying = isPlaying && currentItem?.mode === "audio";
                     const duration = (sermon as unknown as Record<string, unknown>).duration as string | undefined;
 
                     return (
                       <div
                         key={sermon.id}
-                        className={`sermon-card${isAudioPlaying ? " sermon-card--playing" : ""}${isVideoInline ? " sermon-card--playing" : ""}`}
+                        className={`sermon-card${isPlaying ? " sermon-card--playing" : ""}`}
                       >
-                        {/* Thumbnail / inline video */}
-                        {isVideoInline ? (
-                          <div className="sermon-thumb-wrap">
-                            <iframe
-                              src={`https://www.youtube.com/embed/${sermon.videoId}?autoplay=1`}
-                              title={sermon.title}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-                            />
-                            <button
-                              className="sermon-inline-close"
-                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); stop(); }}
-                              aria-label="Close video"
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ) : (
-                          <div
-                            className="sermon-thumb-wrap"
-                            onClick={() => playSermon(sermon)}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={isAudioPlaying ? `Now playing: ${sermon.title}` : `Play: ${sermon.title}`}
-                            onKeyDown={(e) => e.key === "Enter" && playSermon(sermon)}
-                          >
-                            <img
-                              src={sermon.thumbnail}
-                              alt={sermon.title}
-                              loading="lazy"
-                              width={320}
-                              height={180}
-                              decoding="async"
-                            />
-                            {duration && !isAudioPlaying && (
-                              <span className="sermon-duration">&#9201; {duration}</span>
-                            )}
-                            {isAudioPlaying ? (
-                              <div className="song-now-playing-overlay">
-                                <div className="song-audio-bars">
-                                  <span /><span /><span /><span />
-                                </div>
-                                <span className="song-now-playing-label">Now Playing</span>
+                        <div
+                          className="sermon-thumb-wrap"
+                          onClick={() => playSermon(sermon)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={isPlaying ? `Now playing: ${sermon.title}` : `Play: ${sermon.title}`}
+                          onKeyDown={(e) => e.key === "Enter" && playSermon(sermon)}
+                        >
+                          <img
+                            src={sermon.thumbnail}
+                            alt={sermon.title}
+                            loading="lazy"
+                            width={320}
+                            height={180}
+                            decoding="async"
+                          />
+                          {duration && !isAudioPlaying && (
+                            <span className="sermon-duration">&#9201; {duration}</span>
+                          )}
+                          {isAudioPlaying ? (
+                            <div className="song-now-playing-overlay">
+                              <div className="song-audio-bars">
+                                <span /><span /><span /><span />
                               </div>
-                            ) : (
-                              <div className="sermon-hover-overlay">
-                                <div className="sermon-play-circle">
-                                  {mediaMode === "audio" ? <Headphones size={20} /> : <Play size={20} />}
-                                </div>
-                                <span className="sermon-watch-label">
-                                  {mediaMode === "audio" ? "Listen Now" : "Watch Now"}
-                                </span>
+                              <span className="song-now-playing-label">Now Playing</span>
+                            </div>
+                          ) : (
+                            <div className="sermon-hover-overlay">
+                              <div className="sermon-play-circle">
+                                {mediaMode === "audio" ? <Headphones size={20} /> : <Play size={20} />}
                               </div>
-                            )}
-                          </div>
-                        )}
+                              <span className="sermon-watch-label">
+                                {mediaMode === "audio" ? "Listen Now" : "Watch Now"}
+                              </span>
+                            </div>
+                          )}
+                        </div>
 
                         {/* Card metadata */}
                         <div className="sermon-card-meta">

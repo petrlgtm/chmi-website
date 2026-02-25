@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Search, Play, X, ChevronDown, Tv, Calendar } from "lucide-react";
 import { usePromiseTVVideos } from "../hooks/usePromiseTVVideos";
 import { usePlayer } from "../hooks/usePlayer";
@@ -16,10 +16,9 @@ function formatDate(dateStr: string) {
 
 export default function PromiseTV() {
   const { episodes, loading, loadMore, hasMore: apiHasMore, loadingMore } = usePromiseTVVideos();
-  const { play, stop, setInlineActive } = usePlayer();
+  const { currentItem, play } = usePlayer();
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const [inlineVideoId, setInlineVideoId] = useState<string | null>(null);
 
   const featured = episodes[0];
 
@@ -34,7 +33,6 @@ export default function PromiseTV() {
   const hasMore = visibleCount < filtered.length || apiHasMore;
 
   function playEpisode(ep: TVEpisode) {
-    setInlineVideoId(ep.videoId);
     play({
       id: ep.id,
       title: ep.title,
@@ -45,16 +43,6 @@ export default function PromiseTV() {
       mode: "video",
     });
   }
-
-  // Sync inlineActive flag with inline video state
-  useEffect(() => {
-    setInlineActive(inlineVideoId !== null);
-  }, [inlineVideoId, setInlineActive]);
-
-  // On unmount: clear inlineActive so MiniPlayer takes over
-  useEffect(() => {
-    return () => setInlineActive(false);
-  }, [setInlineActive]);
 
   return (
     <>
@@ -87,35 +75,14 @@ export default function PromiseTV() {
             </div>
             <div className="sermon-featured">
               <div className="sermon-featured-visual">
-                {inlineVideoId === featured.videoId ? (
-                  <>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${featured.videoId}?autoplay=1`}
-                      title={featured.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none", borderRadius: "inherit" }}
-                    />
-                    <button
-                      className="sermon-inline-close"
-                      onClick={() => { setInlineVideoId(null); stop(); }}
-                      aria-label="Close video"
-                    >
-                      <X size={16} />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <img src={featured.thumbnailHigh || featured.thumbnail} alt={featured.title} width={480} height={360} />
-                    <button
-                      className="sermon-featured-play"
-                      onClick={() => playEpisode(featured)}
-                      aria-label="Play episode"
-                    >
-                      <Play size={32} />
-                    </button>
-                  </>
-                )}
+                <img src={featured.thumbnailHigh || featured.thumbnail} alt={featured.title} width={480} height={360} />
+                <button
+                  className="sermon-featured-play"
+                  onClick={() => playEpisode(featured)}
+                  aria-label="Play episode"
+                >
+                  <Play size={32} />
+                </button>
               </div>
               <div className="sermon-featured-content">
                 <span className="badge badge-gold">Latest</span>
@@ -130,7 +97,7 @@ export default function PromiseTV() {
                   style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem", width: "fit-content" }}
                   onClick={() => playEpisode(featured)}
                 >
-                  {inlineVideoId === featured.videoId ? (
+                  {currentItem?.id === featured.id ? (
                     <><Play size={16} /> Playing</>
                   ) : (
                     <><Play size={16} /> Watch Now</>
@@ -200,55 +167,36 @@ export default function PromiseTV() {
               ) : (
                 <div className="sermons-grid">
                   {displayed.map((ep) => {
-                    const isVideoInline = inlineVideoId === ep.videoId;
+                    const isPlaying = currentItem?.id === ep.id;
 
                     return (
                       <div
                         key={ep.id}
-                        className={`sermon-card${isVideoInline ? " sermon-card--playing" : ""}`}
+                        className={`sermon-card${isPlaying ? " sermon-card--playing" : ""}`}
                       >
-                        {isVideoInline ? (
-                          <div className="sermon-thumb-wrap">
-                            <iframe
-                              src={`https://www.youtube.com/embed/${ep.videoId}?autoplay=1`}
-                              title={ep.title}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-                            />
-                            <button
-                              className="sermon-inline-close"
-                              onClick={(e) => { e.stopPropagation(); setInlineVideoId(null); stop(); }}
-                              aria-label="Close video"
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ) : (
-                          <div
-                            className="sermon-thumb-wrap"
-                            onClick={() => playEpisode(ep)}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Play: ${ep.title}`}
-                            onKeyDown={(e) => e.key === "Enter" && playEpisode(ep)}
-                          >
-                            <img
-                              src={ep.thumbnail}
-                              alt={ep.title}
-                              loading="lazy"
-                              width={320}
-                              height={180}
-                              decoding="async"
-                            />
-                            <div className="sermon-hover-overlay">
-                              <div className="sermon-play-circle">
-                                <Play size={20} />
-                              </div>
-                              <span className="sermon-watch-label">Watch Now</span>
+                        <div
+                          className="sermon-thumb-wrap"
+                          onClick={() => playEpisode(ep)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={isPlaying ? `Now playing: ${ep.title}` : `Play: ${ep.title}`}
+                          onKeyDown={(e) => e.key === "Enter" && playEpisode(ep)}
+                        >
+                          <img
+                            src={ep.thumbnail}
+                            alt={ep.title}
+                            loading="lazy"
+                            width={320}
+                            height={180}
+                            decoding="async"
+                          />
+                          <div className="sermon-hover-overlay">
+                            <div className="sermon-play-circle">
+                              <Play size={20} />
                             </div>
+                            <span className="sermon-watch-label">Watch Now</span>
                           </div>
-                        )}
+                        </div>
 
                         <div className="sermon-card-meta">
                           <h3 className="sermon-card-title">{ep.title}</h3>

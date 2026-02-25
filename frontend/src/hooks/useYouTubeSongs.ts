@@ -28,6 +28,13 @@ interface YouTubeResponse {
   error?: { message: string };
 }
 
+/** Merge fallback songs that the API didn't return (Topic channel, collabs, etc.) */
+function mergeExtras(apiSongs: Song[]): Song[] {
+  const seen = new Set(apiSongs.map((s) => s.id));
+  const extras = fallbackSongs.filter((s) => !seen.has(s.id));
+  return extras.length ? [...apiSongs, ...extras] : apiSongs;
+}
+
 function mapItem(item: YouTubeItem): Song | null {
   const title = item.snippet.title;
   if (title === "Private video" || title === "Deleted video") return null;
@@ -90,7 +97,8 @@ export function useYouTubeSongs() {
         nextPageToken.current = data.nextPageToken || null;
         hasMore.current = !!data.nextPageToken;
 
-        setSongs(videos);
+        // If no more pages, merge fallback extras now; otherwise wait for all pages
+        setSongs(hasMore.current ? videos : mergeExtras(videos));
         setLoading(false);
       } catch (err) {
         if (cancelled) return;
@@ -120,7 +128,11 @@ export function useYouTubeSongs() {
       nextPageToken.current = data.nextPageToken || null;
       hasMore.current = !!data.nextPageToken;
 
-      setSongs((prev) => [...prev, ...batch]);
+      setSongs((prev) => {
+        const combined = [...prev, ...batch];
+        // Once all API pages are loaded, merge in fallback extras
+        return hasMore.current ? combined : mergeExtras(combined);
+      });
     } catch {
       hasMore.current = false;
     } finally {

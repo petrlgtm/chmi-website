@@ -18,11 +18,10 @@ export default function ScrollToTop() {
       // Element may not be in DOM yet after navigation — retry briefly
       if (!tryScroll()) {
         let attempts = 0;
-        const raf = () => {
-          if (tryScroll() || ++attempts > 20) return;
-          requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
+        const iv = setInterval(() => {
+          if (tryScroll() || ++attempts > 30) clearInterval(iv);
+        }, 60);
+        return () => clearInterval(iv);
       }
       return;
     }
