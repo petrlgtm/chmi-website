@@ -95,7 +95,7 @@ export const SERVICES: Service[] = [
       { label: "ChristHeartTV", url: "https://www.youtube.com/@ChristsHeart" },
     ],
   },
-  // ── Home Cells (Monday only) ──────────────────────────────────────
+  // ── Home Cells (Monday only, 5pm–7:30pm) ─────────────────────────
   {
     name: "Home Cell Meeting",
     days: [1],

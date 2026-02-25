@@ -217,7 +217,7 @@ export default function Home() {
                 <div className="service-icon"><BookOpen size={18} /></div>
                 <div>
                   <h4>Discipleship Class & Home Cells</h4>
-                  <p>Mid-week fellowship groups</p>
+                  <p>Mondays 5:00 – 7:30 PM</p>
                 </div>
               </div>
             </div>
