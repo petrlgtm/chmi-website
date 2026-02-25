@@ -19,8 +19,10 @@ export default function PromiseTV() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [inlineVideoId, setInlineVideoId] = useState<string | null>(null);
 
+  const featured = episodes[0];
+
   const filtered = useMemo(() =>
-    episodes.filter((ep) => {
+    episodes.slice(1).filter((ep) => {
       if (!search) return true;
       return ep.title.toLowerCase().includes(search.toLowerCase()) ||
         ep.description.toLowerCase().includes(search.toLowerCase());
@@ -28,7 +30,6 @@ export default function PromiseTV() {
 
   const displayed = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length || apiHasMore;
-  const featured = episodes[0];
 
   function playEpisode(ep: TVEpisode) {
     setInlineVideoId(ep.videoId);
@@ -126,7 +127,7 @@ export default function PromiseTV() {
           <div className="section-header">
             <span className="section-label">Library</span>
             <h2>All Episodes</h2>
-            {!loading && <p>{episodes.length} episodes from Promise TV</p>}
+            {!loading && <p>{episodes.length - 1} more episodes from Promise TV</p>}
           </div>
 
           {/* Search bar */}
