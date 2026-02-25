@@ -39,14 +39,7 @@ function findNearest(lat: number, lng: number, count = 3): { branch: Branch; dis
 function getServicesForBranch(branchId: string) {
   const matched: { id: string; title: string; times: string }[] = [];
   for (const svc of services) {
-    // Night Services is online-only — always show it for every branch
-    if (svc.isOnline) {
-      const time = svc.schedule[0]
-        ? `${svc.schedule[0].day}: ${svc.schedule[0].time}`
-        : svc.shortDesc;
-      matched.push({ id: svc.id, title: svc.title, times: time });
-      continue;
-    }
+    // Only show services that physically happen at this branch
     const entry = svc.branchSchedules.find((bs) => bs.branchId === branchId);
     if (entry) {
       matched.push({ id: svc.id, title: svc.title, times: entry.times });
@@ -286,12 +279,12 @@ export default function NearbyBranchPrompt({ onDismiss }: { onDismiss?: () => vo
               </a>
             </div>
 
-            {branchServices.length > 0 && (
-              <div className="nearby-prompt-services">
-                <div className="nearby-prompt-services-label">
-                  <Clock size={13} /> Services & Gatherings
-                </div>
-                {branchServices.map((svc) => {
+            <div className="nearby-prompt-services">
+              <div className="nearby-prompt-services-label">
+                <Clock size={13} /> Services & Gatherings
+              </div>
+              {branchServices.length > 0 ? (
+                branchServices.map((svc) => {
                   const Icon = SERVICE_ICONS[svc.id] || Clock;
                   return (
                     <Link
@@ -307,14 +300,13 @@ export default function NearbyBranchPrompt({ onDismiss }: { onDismiss?: () => vo
                       </div>
                     </Link>
                   );
-                })}
-                {branchServices.every((svc) => svc.id === "night-services") && (
-                  <p style={{ fontSize: "0.78rem", color: "var(--text-light)", margin: "0.5rem 0 0", lineHeight: 1.5 }}>
-                    Contact your branch for specific in-person service times.
-                  </p>
-                )}
-              </div>
-            )}
+                })
+              ) : (
+                <p style={{ fontSize: "0.78rem", color: "var(--text-light)", margin: "0.5rem 0 0", lineHeight: 1.5 }}>
+                  Contact your branch for specific in-person service times.
+                </p>
+              )}
+            </div>
 
             <div className="nearby-prompt-actions">
               <Link to={`/branches/${selectedBranch.id}`} className="btn btn-gold nearby-prompt-btn" onClick={dismiss}>
