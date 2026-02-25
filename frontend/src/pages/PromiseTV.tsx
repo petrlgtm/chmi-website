@@ -127,7 +127,7 @@ export default function PromiseTV() {
           <div className="section-header">
             <span className="section-label">Library</span>
             <h2>All Episodes</h2>
-            {!loading && <p>{episodes.length - 1} more episodes from Promise TV</p>}
+            {!loading && <p>{filtered.length} more episodes from Promise TV</p>}
           </div>
 
           {/* Search bar */}
@@ -248,7 +248,7 @@ export default function PromiseTV() {
               {filtered.length > 0 && (
                 <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
                   <p style={{ fontSize: "0.82rem", color: "var(--text-light)", marginBottom: "1rem" }}>
-                    Showing {displayed.length} of {filtered.length}{apiHasMore ? "+" : ""} episodes
+                    Showing {displayed.length} of {filtered.length} episodes
                   </p>
                   {hasMore && (
                     <button
