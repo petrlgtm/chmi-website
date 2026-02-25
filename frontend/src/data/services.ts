@@ -175,22 +175,15 @@ export const services: ServiceInfo[] = [
     shortDesc: "Small group fellowships in homes for deeper connection and spiritual growth.",
     heroImage: img(7),
     description: [
-      "Home Cells are the backbone of community at Christ's Heart Ministries. These small group fellowships meet in homes throughout the week, providing an intimate environment for deeper connection, accountability, and spiritual growth.",
-      "Each Home Cell is led by a trained cell leader who facilitates Bible discussion, prayer, and fellowship. It's in these smaller gatherings that lasting friendships are formed, spiritual gifts are developed, and practical support is given.",
-      "Whether you're new to the faith or a seasoned believer, Home Cells offer a space where you can be known, loved, and grow at your own pace. Many members consider their Home Cell family to be their closest spiritual community.",
+      "Home Cells are the backbone of community at Christ's Heart Ministries. These small group fellowships meet in homes across various locations every Monday evening, providing an intimate environment for deeper connection, accountability, and spiritual growth.",
+      "Each Home Cell is led by a trained cell leader who facilitates Bible discussion, prayer, and fellowship in their home. It's in these smaller gatherings that lasting friendships are formed, spiritual gifts are developed, and practical support is given.",
+      "Whether you're new to the faith or a seasoned believer, Home Cells offer a space where you can be known, loved, and grow at your own pace. Find a cell near you and join a family that meets right in your neighbourhood.",
     ],
     schedule: [
-      { day: "Monday", time: "5:00 PM – 7:30 PM", details: "Weekly Home Cell meetings across all branches" },
+      { day: "Monday", time: "5:00 PM – 7:30 PM", details: "Weekly Home Cell meetings in homes across various locations" },
       { day: "Monthly", time: "Saturday 3:00 PM", details: "Combined Cell Rally — All cells in a zone come together for a larger celebration" },
     ],
-    branchSchedules: [
-      { branchId: "kampala", branchName: "Christ's Heart Kampala", city: "Kampala", times: "Monday 5:00 – 7:30 PM: Various locations across Kampala zones" },
-      { branchId: "mukono", branchName: "Christ's Heart Mukono", city: "Mukono", times: "Monday 5:00 – 7:30 PM: Mukono Town & surrounding areas" },
-      { branchId: "jinja", branchName: "Christ's Heart Jinja", city: "Jinja", times: "Monday 5:00 – 7:30 PM: Buwenda & surrounding areas" },
-      { branchId: "mbale", branchName: "Christ's Heart Mbale", city: "Mbale", times: "Monday 5:00 – 7:30 PM: Half London & surrounding areas" },
-      { branchId: "mbarara", branchName: "Christ's Heart Mbarara", city: "Mbarara", times: "Monday 5:00 – 7:30 PM: Multiple cells across Mbarara town" },
-      { branchId: "gulu", branchName: "Christ's Heart Gulu", city: "Gulu", times: "Monday 5:00 – 7:30 PM: Market Street & surrounding" },
-    ],
+    branchSchedules: [],
     cellLocations: [
       { area: "Kampala Central", city: "Kampala", day: "Monday", time: "5:00 PM – 7:30 PM", leader: "Bro. Kenneth Ssemanda", contact: "+256 704 320 100" },
       { area: "Ntinda / Kisaasi", city: "Kampala", day: "Monday", time: "5:00 PM – 7:30 PM", leader: "Sis. Judith Nambi", contact: "+256 774 550 230" },
