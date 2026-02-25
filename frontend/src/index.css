@@ -3624,6 +3624,22 @@ section.cta-section {
   .event-card-lg-image { height: auto; }
 }
 
+/* ----------- EVENTS DOWNLOAD BUTTON ----------- */
+.section-header--with-action { position: relative; }
+.events-download-btn {
+  position: absolute; right: 0; top: 0;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.85rem; padding: 0.6rem 1.2rem;
+}
+@media (max-width: 768px) {
+  .events-download-btn {
+    position: static;
+    display: flex;
+    width: fit-content;
+    margin: 1rem auto 0;
+  }
+}
+
 /* ----------- EVENTS FILTERS ----------- */
 .events-filters {
   display: flex; flex-direction: column; gap: 0.75rem;

@@ -173,18 +173,13 @@ export default function Events() {
 
       <section className="section">
         <div className="container">
-          <div className="section-header" style={{ position: "relative" }}>
+          <div className="section-header section-header--with-action">
             <span className="section-label">Upcoming Events</span>
             <h2>CHMI Calendar 2026</h2>
             <p>Browse all events — filter by month or category to find what you're looking for</p>
             <button
               onClick={() => downloadCalendar(events)}
-              className="btn btn-secondary"
-              style={{
-                position: "absolute", right: 0, top: 0,
-                display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                fontSize: "0.85rem", padding: "0.6rem 1.2rem"
-              }}
+              className="btn btn-secondary events-download-btn"
             >
               <Download size={15} /> Download Calendar (.ics)
             </button>
