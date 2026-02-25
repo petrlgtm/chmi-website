@@ -86,7 +86,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://christsheart.org/radio/"
+                href="https://www.christsheart.org/radio"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Christ's Heart Radio"
@@ -96,16 +96,14 @@ export default function Footer() {
                 <Radio size={14} style={{ marginRight: 6 }} /> ChristHeart Radio
               </a>
 
-              <a
-                href="https://www.instagram.com/promisetvug/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/promise-tv"
                 aria-label="PROMISE TV"
                 className="media-btn"
                 style={{ backgroundColor: "#FFD700", color: "#000", border: "none", padding: "0.45rem 0.75rem", borderRadius: 6, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center" }}
               >
                 <Tv size={14} style={{ marginRight: 6 }} /> Promise TV
-              </a>
+              </Link>
 
             </div>
             <div className="footer-media-item">

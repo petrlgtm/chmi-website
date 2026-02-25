@@ -61,6 +61,16 @@ export interface Song {
   thumbnailHigh?: string;
 }
 
+export interface TVEpisode {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  videoId: string;
+  thumbnail: string;
+  thumbnailHigh?: string;
+}
+
 /** Common shape for anything the persistent player can play */
 export interface PlayableItem {
   id: string;

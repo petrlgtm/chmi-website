@@ -20,6 +20,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import Resources from "./pages/Resources";
+import PromiseTV from "./pages/PromiseTV";
 import ScrollToTop from "./components/ScrollToTop";
 import { SiteImagesProvider } from "./context/SiteImagesContext";
 import { PlayerProvider } from "./context/PlayerContext";
@@ -49,6 +50,7 @@ function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/promise-tv" element={<PromiseTV />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>

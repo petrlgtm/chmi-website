@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MapPin, Users, BookOpen, Clock, Headphones,
-  Church, Star, ArrowRight, Flame, Play, Calendar
+  Church, Star, ArrowRight, Flame, Play, Calendar, Tv
 } from "lucide-react";
 import { useYouTubeVideos } from "../hooks/useYouTubeVideos";
+import { usePromiseTVVideos } from "../hooks/usePromiseTVVideos";
 import { useSanityEvents } from "../hooks/useSanityEvents";
 import { useSanityLeadership } from "../hooks/useSanityLeadership";
 import { getUpcomingEvents, getCountdownText } from "../utils/eventDate";
@@ -36,6 +37,7 @@ const sections = [
   { id: "services", label: "Services" },
   { id: "events", label: "Events" },
   { id: "latest-sermon", label: "Sermon" },
+  { id: "promise-tv", label: "TV" },
   { id: "testimonials", label: "Testimonials" },
   { id: "cta", label: "Join Us" },
 ];
@@ -108,7 +110,9 @@ export default function Home() {
   const ctaRef = useScrollAnimation<HTMLDivElement>();
   const cursorGlowRef = useCursorGlow();
   const [playing, setPlaying] = useState(false);
+  const [ptvPlaying, setPtvPlaying] = useState<string | null>(null);
   const { sermons, loading } = useYouTubeVideos();
+  const { episodes: ptvEpisodes, loading: ptvLoading } = usePromiseTVVideos();
   const latestSermon = sermons[0] ?? null;
   const { data: events } = useSanityEvents();
   const { data: leadership } = useSanityLeadership();
@@ -518,6 +522,87 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          ) : null}
+        </div>
+      </section>
+
+      {/* Promise Fellowship TV — The Vicar's Wife */}
+      <section className="ptv-section section" id="promise-tv">
+        <div className="container">
+          <AnimatedSection>
+            <div className="section-header">
+              <span className="section-label"><Tv size={14} /> Promise TV</span>
+              <h2>The Vicar's Wife</h2>
+              <p>Watch the latest episodes from our beloved TV program</p>
+            </div>
+          </AnimatedSection>
+
+          {ptvLoading ? (
+            <div className="ptv-grid">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="ptv-card ptv-card--skeleton">
+                  <div className="ptv-card-thumb" />
+                  <div className="ptv-card-body">
+                    <div className="ls-skel-line ls-skel-title" />
+                    <div className="ls-skel-line ls-skel-sub" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : ptvEpisodes.length > 0 ? (
+            <>
+              <div className="ptv-grid">
+                {ptvEpisodes.slice(0, 3).map((ep) => (
+                  <div key={ep.id} className="ptv-card">
+                    <div className="ptv-card-thumb">
+                      {ptvPlaying === ep.id && ep.videoId ? (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${ep.videoId}?autoplay=1`}
+                          title={ep.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      ) : ep.videoId ? (
+                        <button
+                          className="ptv-thumb-btn"
+                          onClick={() => setPtvPlaying(ep.id)}
+                          aria-label={`Play: ${ep.title}`}
+                        >
+                          <img
+                            src={ep.thumbnailHigh || ep.thumbnail}
+                            alt={ep.title}
+                            loading="lazy"
+                          />
+                          <div className="ptv-play-overlay">
+                            <div className="ptv-play-icon">
+                              <Play size={22} fill="currentColor" />
+                            </div>
+                          </div>
+                        </button>
+                      ) : (
+                        <div className="ptv-thumb-placeholder">
+                          <Tv size={32} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="ptv-card-body">
+                      <h3 className="ptv-card-title">{ep.title}</h3>
+                      {ep.date && (
+                        <span className="ptv-card-date">
+                          <Calendar size={12} />
+                          {formatSermonDate(ep.date)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="ptv-cta">
+                <Link to="/promise-tv" className="btn btn-outline">
+                  Watch More <ArrowRight size={15} />
+                </Link>
+              </div>
+            </>
           ) : null}
         </div>
       </section>
